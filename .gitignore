@@ -1,0 +1,41 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Frontend ---
+node_modules/
+dist/
+build/
+.vite/
+
+# --- ML artifacts ---
+artifacts/
+*.joblib
+*.pkl
+*.npz
+*.npy
+
+# --- Generated experiment output ---
+experiments/outputs/
+data/synthetic/*.jsonl
+data/synthetic/sim_users.json
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
