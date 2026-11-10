@@ -93,3 +93,14 @@ python scripts/run_experiments.py --users 200 --rounds 50 --seeds 10 --seed-base
 
 `data/synthetic/run_manifest.json` records seed, parameters and timestamp so any
 reported number can be regenerated and audited.
+
+## Organizer dataset used locally
+
+The organizer-provided PostgreSQL backup is used locally for
+data preparation and historical evaluation.
+
+The backup and its derived datasets are not committed or
+published. The tracked data/courses/courses.csv remains a
+synthetic example.
+
+Preparation workflow: docs/ml_data_preparation.md.

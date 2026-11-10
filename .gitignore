@@ -39,3 +39,11 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Organizer dataset and locally generated derivatives
+/data/raw/
+/data/interim/
+/data/processed/
+/reports/
+*.backup
+*.dump
