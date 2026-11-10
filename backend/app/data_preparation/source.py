@@ -102,3 +102,28 @@ def read_source_table(
         keep_default_na=False,
         na_values=[""],
     )
+
+
+# Дополнительные типы образовательных материалов.
+EXPORT_COLUMNS.update({
+    "Articles": (
+        "Id", "Title", "Description", "CardDescription",
+        "Duration", "StatusId", "TypeId", "IsPublic",
+        "IsClosed", "IsDeleted", "Published", "Url",
+    ),
+    "Documents": (
+        "Id", "Title", "Description", "TypeId",
+        "StatusId", "IsDeleted", "Published",
+        "Url", "Extension", "Size",
+    ),
+    "Webinars": (
+        "Id", "Title", "Description", "DescriptionExt",
+        "Duration", "StatusId", "TypeId", "IsClosed",
+        "IsDeleted", "Url", "StartsAt", "EndsAt",
+    ),
+    "Podcasts": (
+        "Id", "Title", "Description", "DescriptionExt",
+        "Duration", "Cost", "StatusId", "TypeId",
+        "IsClosed", "IsDeleted", "Published", "Url",
+    ),
+})
