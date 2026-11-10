@@ -7,25 +7,40 @@ import subprocess
 import pandas as pd
 
 
-# Выгружаем только необходимые поля.
-# Другие таблицы добавим после проверки первого экспорта.
 EXPORT_COLUMNS = {
     "Courses": (
-        "Id",
-        "Title",
-        "Description",
-        "DescriptionAdditional",
-        "Target",
-        "Duration",
-        "LessonQuantity",
-        "Cost",
-        "TypeId",
-        "StatusId",
-        "HasTrial",
-        "IsClosed",
-        "IsDeleted",
-        "Published",
-        "Url",
+        "Id", "Title", "Description", "DescriptionAdditional",
+        "Target", "Duration", "LessonQuantity", "Cost",
+        "TypeId", "StatusId", "HasTrial", "IsClosed",
+        "IsDeleted", "Published", "Url",
+    ),
+    "ContentSettings": (
+        "Id", "EntityId", "EntityTypeId", "StatusId",
+        "TypeId", "IsDeleted", "Published",
+    ),
+    "ContentSettingsTopics": (
+        "ContentSettingsId", "TopicId", "Order",
+    ),
+    "ContentSettingsTags": (
+        "ContentSettingsId", "TagId", "Order",
+    ),
+    "ContentSettingsIndustries": (
+        "ContentSettingsId", "IndustryId", "Order",
+    ),
+    "Topics": (
+        "Id", "Title", "Description", "IsDeleted", "IsPublic",
+    ),
+    "Tags": (
+        "Id", "Title", "IsDeleted",
+    ),
+    "Industries": (
+        "Id", "Title", "IsDeleted",
+    ),
+    "Statuses": (
+        "Id", "Title",
+    ),
+    "CourseTypes": (
+        "Id", "Title", "IsDeleted",
     ),
 }
 
@@ -49,7 +64,8 @@ def read_source_table(
     )
 
     query = (
-        f'COPY (SELECT {columns} FROM public."{table_name}" ORDER BY "Id") '
+        f'COPY (SELECT {columns} FROM public."{table_name}" '
+        f'ORDER BY {columns}) '
         "TO STDOUT WITH (FORMAT CSV, HEADER TRUE);"
     )
 
