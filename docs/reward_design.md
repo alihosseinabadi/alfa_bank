@@ -1,93 +1,118 @@
 # Reward Design
 
-How user behavior becomes a learning signal — and how we avoid corrupting it.
+How user behavior becomes a learning signal — and how we prevent corruption.
 
 ---
 
-## 1. Principle
+## 1. Policy (authoritative)
 
-One event, one row, one reward. The reward encodes **how strong the intent** was,
-not how many things happened.
-
-| Event | Reward | Meaning |
+| Event | Reward | Stored as |
 |---|---|---|
-| impression | 0 | shown, not an action |
-| click | +1 | opened the course |
-| inspect | +1 | examined free material |
-| purchase | +10 | paid — strongest intent |
-| no_interaction | 0 | shown and ignored |
+| Impression shown, no engagement | **0** | no interaction row; the impression row is the denominator |
+| Click | **+1** | interaction row |
+| Free-material inspection | **+1** | interaction row |
+| Purchase | **+10** | interaction row |
 
-Weights are configurable via settings so experiments can test alternatives, but the
-defaults express the product goal: **purchases matter most**, interest matters some.
+Weights are configurable (`REWARD_CLICK`, `REWARD_INSPECT`, `REWARD_PURCHASE`).
+Defaults above express the product goal: purchases matter most.
 
-## 2. Why purchases are not "clicks + inspect + purchase"
+## 2. Does a purchase replace or supplement earlier engagement?
 
-A user who buys almost always clicked first. If we awarded click and inspect rewards
-*as part of* the purchase, the same behavior would be counted three times and the
-model would chase clicks instead of revenue.
+**It supplements at the event level, and is capped per impression.**
 
-Rule: each event is logged independently and exactly once. A purchase emits a
-purchase event only. The click that happened earlier is its own row with its own
-reward. No retroactive edits.
+- Every event is its own row with its own reward. A click that happened earlier
+  keeps its +1; the purchase adds +10.
+- At most **one of each event type per impression** is allowed (unique constraint on
+  `(impression_id, event_type)`). So a single impression can contribute at most
+  `1 + 1 + 10 = 12`.
+- A purchase is **never expanded** into click/inspect rewards. It is not
+  `click + inspect + purchase`; it is exactly one purchase row valued at +10.
 
-## 3. Where the reward is computed
+Why not "replace"? Replacing would erase the click signal that taught the model the
+user was interested at all, and would make the same journey's reward history
+inconsistent depending on whether the purchase happened. Supplementing with a cap
+keeps history append-only and bounded.
+
+## 3. No double counting: the four guards
+
+1. **Unique `(impression_id, event_type)`** in the database.
+2. **Unique `(user_id, course_id, 'purchase')`** — a course is bought once per user.
+3. **Service-level idempotency**: repeated POSTs with the same idempotency key return
+   the existing row instead of inserting.
+4. **Reward computed once** by the reward engine and stored on the row; the bandit
+   consumes the stored value, never recomputes it later.
+
+## 4. Attribution of delayed purchases
+
+Purchases can happen after the recommendation. We attribute them with
+`interactions.impression_id`.
+
+```
+POST /api/interactions/purchase { user_id, course_id, impression_id? }
+```
+
+Resolution order in `interaction_service`:
+
+1. If `impression_id` is provided, use it (must belong to the same user and course).
+2. Otherwise, take the **most recent impression** for `(user_id, course_id)`.
+3. If none exists, or the impression is older than
+   `PURCHASE_ATTRIBUTION_DAYS` (default 7), reject with `409`.
+
+The bandit updates using the feature context recorded for that impression and the
+`model_version` that produced it. This avoids updating today's model with a vector
+from a different feature layout.
+
+## 5. Where the reward is computed
 
 `backend/app/ml/reward_engine.py`:
 
-```
+```python
 reward = reward_engine.compute(event_type, weights=settings)
 ```
 
 - `linucb.py` never decides what a click is worth.
-- `interaction_service.py` calls the engine, then passes the scalar to the bandit.
-- Changing weights requires no algorithm changes.
+- `interaction_service.py` calls the engine, stores the reward, then updates the bandit.
+- Changing weights requires no algorithm changes and no data migration.
 
-This separation is what lets us run the reward-ablations in `experiments/`.
+## 6. Reward scaling
 
-## 4. Reward scaling
+Rewards are bounded (`0..10`) on purpose:
 
-Rewards are on a small bounded scale (`0..10`). This matters because:
+- `α` is tuned relative to reward magnitude;
+- huge rewards make the exploration bonus negligible;
+- tiny rewards let noise dominate.
 
-- `α` (exploration) is tuned relative to reward magnitude;
-- large rewards make the bonus negligible → no exploration;
-- tiny rewards make noise dominate.
+If weights change by an order of magnitude, re-tune `α` and record it in the
+experiment manifest.
 
-If weights change by an order of magnitude, re-tune `α` and document it.
+## 7. Negative signals
 
-## 5. Delayed rewards
+No explicit negative reward in the MVP. Absence of interaction is reward 0.
+Rationale: ignoring a course may reflect position bias, timing or budget, not
+dislike. Explicit negatives need strong evidence to avoid poisoning the policy.
 
-Purchases may happen after the recommendation. Two acceptable approaches:
+`no_interaction` is therefore **not** a stored event. It is the absence of rows; the
+impression row itself still counts in the denominator.
 
-1. **Attribute to the impression** that led to the purchase (a purchase carries the
-   `user_id` + `course_id`; we attach it to the most recent impression for that pair).
-2. **Time-window attribution** — count a purchase if an impression exists within a
-   configured window (e.g. 7 days).
+## 8. Tests
 
-We use (1): simpler, auditable, and each purchase maps to exactly one prior
-impression. The chosen impression's stored context is what the bandit updates on.
+`tests/test_rewards.py` asserts:
 
-## 6. Negative signals
+- click = 1, inspect = 1, purchase = 10, unknown type raises;
+- purchase produces exactly one row and is not expanded;
+- two clicks on the same impression are rejected (unique constraint);
+- a second purchase of the same course by the same user is rejected;
+- reward equals the configured weight, not a hardcoded constant.
 
-For the first version we use **no explicit negative reward**. Absence of interaction
-is reward 0. Rationale:
+`tests/test_attribution.py` asserts:
 
-- A user ignoring a course may not dislike it (position bias, timing, budget).
-- Explicit negatives need strong evidence to avoid poisoning the policy.
+- purchase without impression → 409;
+- purchase with an impression older than the window → 409;
+- purchase with a valid impression updates the bandit with that impression's context;
+- attribution is deterministic.
 
-`no_interaction = 0` still teaches the model: it does not raise the expected reward
-for that course, so it loses against courses that earn rewards.
+## 9. Learning signal in one sentence
 
-## 7. Double-counting test
-
-`tests/test_rewards.py` must assert:
-
-- a purchase produces exactly one interaction row with reward 10;
-- no click/inspect rewards are added for the same purchase flow;
-- summing an event log equals the sum of individually computed rewards;
-- unknown event types raise rather than silently returning 0.
-
-## 8. Learning signal in one sentence
-
-> A course that gets clicked, inspected and bought accumulates a large reward in its
-> feature direction; LinUCB raises its expected score for similar users — without any
-> of those steps being counted twice.
+> A course that is clicked, inspected and bought accumulates 12 reward units in its
+> feature direction; LinUCB raises its expected score for similar users — with each
+> signal counted exactly once and capped per impression.

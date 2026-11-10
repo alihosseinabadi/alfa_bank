@@ -15,11 +15,14 @@ Cross-cutting configuration. Nothing here imports domain code.
 ```python
 class Settings(BaseSettings):
     database_url: str
-    alpha: float = 1.0            # LinUCB exploration
+    alpha: float = 1.0              # LinUCB exploration
+    linucb_ridge: float = 0.01      # keeps A positive definite
     reward_click: float = 1.0
     reward_inspect: float = 1.0
     reward_purchase: float = 10.0
+    purchase_attribution_days: int = 7
     retrieval_k: int = 50
+    feature_version: str = "v1"
     embedding_model: str = "all-MiniLM-L6-v2"
     model_dir: str = "artifacts"
     class Config: env_file = ".env"

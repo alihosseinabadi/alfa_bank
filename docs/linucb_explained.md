@@ -8,7 +8,7 @@ A line-by-line explanation of the algorithm we implement in
 ## 1. The problem it solves
 
 We must choose a course for a user, repeatedly, and learn from the reward. We have
-**context** (who the user is, what the course is, when it is shown). We want to:
+**context** (who the user is and what the course is). We want to:
 
 - exploit what we know (show courses that worked),
 - explore what we do not know (show uncertain courses to learn).
@@ -16,16 +16,22 @@ We must choose a course for a user, repeatedly, and learn from the reward. We ha
 This is a **contextual bandit**. Unlike supervised learning, we never see the reward
 of the courses we did *not* show — that is the core difficulty.
 
+Note what is **not** in the context: device, hour, session depth. We removed them
+because the prototype has no reliable source for them and no evidence they help.
+The context is user features, course features, and user×course interaction features.
+
 ## 2. Notation
 
 | Symbol | Dimension | Meaning |
 |---|---|---|
-| `x` | `d` | context vector for one (user, course, context) triple |
+| `x` | `d` | context vector for one (user, course) pair |
 | `A` | `d × d` | design matrix: accumulates `x xᵀ` per update |
 | `b` | `d` | reward-weighted sum: accumulates `r x` per update |
 | `θ` | `d` | estimated reward weights, `θ = A⁻¹ b` |
 | `α` | scalar | exploration strength (> 0) |
+| `λ` | scalar | ridge term keeping `A` positive definite |
 | `r` | scalar | observed reward for the chosen course |
+| `d` | integer | `4K + 15` (39 with `K = 6`) |
 
 ## 3. The model
 
@@ -38,16 +44,30 @@ E[r | x_a] = θᵀ x_a
 Ridge regression estimate given all past observations `(x_i, r_i)`:
 
 ```
-θ = (XᵀX + I)⁻¹ Xᵀ r
+θ = (XᵀX + λI)⁻¹ Xᵀ r
 ```
 
 Map to bandit form:
 
 ```
-A = XᵀX + I        (so A starts as identity → behaves like a ridge prior)
+A = XᵀX + λI       (starts as λI → a ridge prior, never singular)
 b = Xᵀ r
 θ = A⁻¹ b
 ```
+
+### Where personalization comes from
+
+One shared model is trained for all users. `x` contains an interaction block
+
+```
+interest_x_category[k] = interest[k] * course_onehot[k]
+```
+
+so the *same* `θ` produces different scores for different users: a marketing-heavy
+user has a large `interest_x_category[marketing]` component and therefore a large
+`θᵀx` for marketing courses, while a finance-heavy user does not. This is why a
+shared model still personalizes. Details:
+[`feature_engineering.md`](feature_engineering.md).
 
 ## 4. The score: exploitation + exploration
 
@@ -95,11 +115,15 @@ bonus.
 
 Do **not** update `A` with unshown courses. No counterfactual rewards exist.
 
+One impression can produce at most three updates (click, inspect, purchase) because
+each event type is unique per impression. A purchase does not replay the earlier
+click as a new update — each event is applied once, when it is recorded.
+
 ## 7. Numerical stability
 
 Inverting `A` directly each time is fragile. Rules we follow:
 
-1. **Ridge term**: start `A = I·λ` with `λ` small (e.g. `1e-2`) so `A` is always
+1. **Ridge term**: start `A = λI` with `λ` small (e.g. `1e-2`) so `A` is always
    positive definite.
 2. **Solve, do not invert**: compute `A⁻¹b` with `numpy.linalg.solve`, never
    `numpy.linalg.inv(A) @ b`.
@@ -137,25 +161,42 @@ x₂: exploit 0 ; bonus √1   = 1.00 ; score ≈ 1.00
 Now `x₁` is strongly preferred, but `x₂` is still explored because its bonus never
 collapsed. This is the desired behavior.
 
-## 9. What to say to a judge
+## 9. Worked interaction example
+
+Same user, two courses, simplified to the interaction block only:
+
+```
+user interests:         marketing 0.9, finance 0.1
+marketing course onehot [1, 0] → interest_x_category = [0.9, 0.0]
+finance   course onehot [0, 1] → interest_x_category = [0.0, 0.1]
+```
+
+With `θ` learned to reward `interest_x_category`, the marketing course has a much
+larger exploit term. A finance-heavy user flips the sign of the advantage without any
+change to `θ`. That is the entire personalization mechanism.
+
+## 10. What to say to a judge
 
 > "LinUCB is ridge regression plus an optimism bonus. `A` measures how much we know,
 > `b` stores reward-weighted features, `θ = A⁻¹b` is our best guess. We add
 > `α√(xᵀA⁻¹x)` to reward uncertainty. Updates are rank-1: `A += xxᵀ`, `b += rx`.
-> We solve instead of inverting and keep a ridge term so `A` stays positive definite."
+> We solve instead of inverting and keep a ridge term so `A` stays positive definite.
+> One shared model personalizes through user×course interaction features."
 
 That is the entire algorithm. Everything else is plumbing.
 
-## 10. Common mistakes
+## 11. Common mistakes
 
 - Updating the model with rewards for courses never shown (leakage / fantasy data).
 - Using raw unnormalized features → one feature dominates.
 - Forgetting the ridge term → singular `A` early on.
 - Using `inv` instead of `solve` → numerical drift.
 - Treating the exploration bonus as a bug and removing it → no learning.
-- Tuning `α` on the evaluation data → overfitting the demo.
+- Tuning `α` on the evaluation seeds → overfitting the demo.
+- Feeding hidden simulator preferences into `x` → the evaluation becomes meaningless.
 
-## 11. Persistence
+## 12. Persistence
 
-Save `A`, `b`, `alpha`, `d`, and a `model_version`. Load with a dimension check; if
-the artifact does not match the current feature layout, start fresh and log it.
+Save `A`, `b`, `alpha`, `d`, `feature_version` and the feature normalization stats.
+Load with a dimension and version check; if the artifact does not match the current
+feature layout, start fresh and log it.

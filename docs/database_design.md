@@ -1,43 +1,49 @@
 # Database Design
 
-PostgreSQL schema for Alfa-Kurs. Implemented with SQLAlchemy models and managed with
-Alembic migrations.
+PostgreSQL schema for Alfa-Kurs. Implemented with SQLAlchemy and managed with Alembic.
+
+**Key rule:** `recommendation_impressions` is the **single canonical record** of a
+course shown to a user. There is no separate impressions table.
 
 ---
 
 ## 1. Entity-relationship diagram
 
 ```
-┌─────────┐         ┌──────────────────┐         ┌─────────┐
-│  users  │1       *│  recommendations │*       1│ courses │
-└────┬────┘─────────└────────┬─────────┘─────────└────┬────┘
-     │1                      │1                       │1
-     │                       │                        │
-     │*                      │*                       │*
-┌────▼────────┐        ┌─────▼──────┐          ┌──────▼───────┐
-│ interactions│        │ impressions│          │ bandit_state │
-└─────────────┘        └────────────┘          └──────────────┘
+┌─────────┐                ┌───────────────────────────┐                ┌─────────┐
+│  users  │1              *│ recommendation_impressions│*              1│ courses │
+└────┬────┘────────────────└─────────────┬─────────────┘────────────────└────┬────┘
+     │1                                   │1                                  │1
+     │                                    │                                   │
+     │*                                   │*                                  │*
+┌────▼────────────────────────────────────▼──────────────────────────────────▼────┐
+│                                  interactions                                    │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+                        ┌──────────────┐
+                        │ bandit_state │  (global, versioned)
+                        └──────────────┘
 ```
 
-- A recommendation can produce many impressions (re-shown over time).
-- An impression can lead to at most one purchase event (enforced in service logic).
-- `bandit_state` is global and versioned, not per user.
+- One row in `recommendation_impressions` = one course shown at one position in one slate.
+- Every click/inspect/purchase references exactly one impression row.
+- `bandit_state` is global (shared model), versioned.
 
 ## 2. Tables
 
 ### users
 | Column | Type | Notes |
 |---|---|---|
-| id | UUID PK | server default `gen_random_uuid()` |
+| id | UUID PK | `gen_random_uuid()` |
 | industry | text | index |
-| business_stage | text | e.g. idea, launch, growth |
-| experience | text | e.g. none, some, experienced |
-| interests | jsonb | category → weight map |
+| business_stage | text | idea / launch / growth |
+| experience | text | none / some / experienced |
+| interests | jsonb | category → weight in [0,1] |
+| budget_sensitivity | float8 | 0..1, stated at onboarding |
 | goals | jsonb | list of goal tags |
 | created_at | timestamptz | default now |
 
-Never store simulator preferences here. Production profiles contain only what the
-user provided.
+No hidden simulator preferences here — ever.
 
 ### courses
 | Column | Type | Notes |
@@ -45,113 +51,144 @@ user provided.
 | id | UUID PK | |
 | title | text | not null |
 | description | text | not null |
+| title_ru | text | nullable |
 | category | text | index |
 | skills | jsonb | list |
 | objectives | jsonb | list |
-| difficulty | text | beginner/intermediate/advanced |
+| difficulty | text | beginner / intermediate / advanced |
 | duration_minutes | int | check > 0 |
 | price | numeric(10,2) | check >= 0 |
 | has_free_material | boolean | default false |
+| source | text | provenance, e.g. `synthetic` |
 | created_at | timestamptz | |
 
-### recommendations
+### recommendation_impressions  ← canonical
 | Column | Type | Notes |
 |---|---|---|
 | id | UUID PK | |
-| user_id | FK users | on delete cascade |
-| course_id | FK courses | on delete cascade |
-| algorithm | text | random / popular / linucb |
-| score | float8 | model score |
-| rank | int | position in returned list |
-| model_version | text | ties back to bandit_state |
-| created_at | timestamptz | |
+| user_id | FK users | not null, on delete cascade |
+| course_id | FK courses | not null, on delete cascade |
+| slate_id | UUID | groups the courses shown together |
+| position | int | 0-based rank in the slate |
+| retrieval_score | float8 | cosine similarity from retrieval |
+| bandit_score | float8 | LinUCB score (0 when no model) |
+| algorithm | text | linucb / random / popular |
+| model_version | text | ties to bandit_state |
+| shown_at | timestamptz | default now, index |
 
-### impressions
-| Column | Type | Notes |
-|---|---|---|
-| id | UUID PK | |
-| user_id | FK users | index |
-| course_id | FK courses | index |
-| recommendation_id | FK recommendations | index |
-| created_at | timestamptz | |
+Constraints:
+- `position >= 0`
+- unique `(slate_id, position)` — no two courses claim the same slot
+- unique `(slate_id, course_id)` — a course appears once per slate
 
 ### interactions
 | Column | Type | Notes |
 |---|---|---|
 | id | UUID PK | |
-| user_id | FK users | index |
-| course_id | FK courses | index |
-| event_type | text | impression/click/inspect/purchase/no_interaction |
+| impression_id | FK recommendation_impressions | not null for user actions |
+| user_id | FK users | denormalized for simple queries |
+| course_id | FK courses | denormalized for simple queries |
+| event_type | text | click / inspect / purchase |
 | reward | float8 | computed by reward engine |
 | created_at | timestamptz | index |
+
+Constraints:
+- `event_type in ('click','inspect','purchase')`
+- `reward >= 0`
+- **unique `(impression_id, event_type)`** — at most one click, one inspect, one
+  purchase per impression. This is the duplicate guard.
+- **unique `(user_id, course_id, event_type)` for `purchase`** — a course is bought
+  once per user.
+
+`impression_id` is the attribution key: it ties the action to the exact slate,
+position and model version that produced it.
 
 ### bandit_state
 | Column | Type | Notes |
 |---|---|---|
 | id | UUID PK | |
 | model_version | text | unique |
-| parameters | jsonb | A and b serialized, or artifact path |
+| feature_version | text | must match `FEATURE_VERSION` |
+| parameters | jsonb | serialized `A`, `b`, stats, or artifact path |
 | alpha | float8 | exploration strength |
 | updated_at | timestamptz | |
 
-## 3. Indexes
+If `feature_version` differs from the running code, the model is discarded and a
+fresh one is initialized (dimension mismatch is fatal otherwise).
+
+## 3. Why one table instead of two
+
+The old design had `recommendations` plus `impressions` storing `user_id` and
+`course_id` again. That duplicated the display record and made "which ranking
+produced this click?" ambiguous. A single row per displayed course removes the
+ambiguity and gives every interaction an exact parent.
+
+## 4. Indexes
 
 | Index | Purpose |
 |---|---|
-| users(industry) | cohort analytics |
-| courses(category) | retrieval fallback |
-| impressions(user_id, created_at) | CTR window |
-| impressions(course_id, created_at) | popularity window |
-| interactions(user_id, created_at) | per-user history |
-| interactions(event_type, created_at) | funnel analytics |
-| recommendations(user_id, created_at) | feed reconstruction |
-
-## 4. Constraints
-
-- `price >= 0`, `duration_minutes > 0`.
-- `event_type` restricted to the known set (check or enum).
-- `interactions.reward >= 0`.
-- FK cascades on user and course deletion.
-- `bandit_state.model_version` unique.
+| `users(industry)` | cohort analytics |
+| `courses(category)` | retrieval fallback |
+| `recommendation_impressions(user_id, shown_at)` | per-user history, CTR window |
+| `recommendation_impressions(course_id, shown_at)` | popularity window |
+| `recommendation_impressions(slate_id)` | reconstruct a slate |
+| `interactions(user_id, created_at)` | per-user funnel |
+| `interactions(event_type, created_at)` | funnel analytics |
+| `interactions(impression_id)` | attribution joins |
 
 ## 5. Correct denominators
 
-CTR and conversion are only valid if impressions are recorded at display time:
+```
+CTR                      = clicks / impressions
+free-material inspection rate = inspect events / impressions
+purchase conversion      = purchases / impressions
+```
+
+All three require impressions to be written **when the slate is displayed**, not
+reconstructed later. The recommendation service writes the whole slate in one
+transaction.
+
+## 6. Attribution
+
+A purchase is attributed to the impression it references:
 
 ```
-CTR         = clicks / impressions
-conversion  = purchases / impressions
+purchase.impression_id -> recommendation_impressions.id -> (slate, position, model_version)
 ```
 
-If impressions are missing, both ratios inflate. The recommendation service must
-write impression rows in the same transaction as the recommendation rows.
+The bandit updates using the feature vector that was actually scored for that
+impression. This is why `recommendation_impressions` must store enough to rebuild
+`x` (user and course are still available; `feature_version` guards the layout).
 
-## 6. Popularity baseline query (no leakage)
+Attribution window: a purchase may reference an impression up to
+`PURCHASE_ATTRIBUTION_DAYS` (default 7) old. Older matches are rejected with `409`.
+This prevents a months-old impression from claiming a new purchase.
 
-Popularity for the evaluation window must use **only data before that window**:
+## 7. Popularity baseline query (no leakage)
 
 ```sql
 SELECT course_id, COUNT(*) AS clicks
 FROM interactions
 WHERE event_type = 'click'
-  AND created_at < :window_start
+  AND created_at < :window_start      -- strictly past
 GROUP BY course_id
 ORDER BY clicks DESC
 LIMIT 50;
 ```
 
-Never use the full table: that leaks the future into the baseline and makes the
-comparison meaningless.
+Using `<= :window_end` or the full table leaks the future and invalidates the
+comparison. Covered by `tests/test_leakage.py`.
 
-## 7. Migrations
+## 8. Migrations
 
-- Alembic from day one.
-- One migration per logical schema change.
-- Never edit an applied migration; add a new one.
-- Seed data is a separate script, never a migration.
+- Alembic from the first schema commit.
+- One migration per logical change; never edit an applied migration.
+- Seed data is a script (`scripts/seed_database.py`), never a migration.
+- Destructive changes require a data-migration plan.
 
-## 8. Retention and privacy
+## 9. Retention and privacy
 
-- No names, emails or payment data in this schema; it is a behavioral store only.
-- Simulator preferences live in `experiments/`, never in `users`.
-- Production deployment would add anonymization and retention policies (out of scope).
+- No names, emails, payment data.
+- No hidden preferences.
+- Anonymous ids only.
+- Production would add anonymization and retention windows (out of scope).

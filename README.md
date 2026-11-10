@@ -41,21 +41,29 @@ Profile  ->  Retrieval (top-50)  ->  LinUCB ranking  ->  Recommendations
                                                       inspections / purchases
 ```
 
-Every recommendation is logged as an *impression*. Every user action is logged as
-an *interaction* with a reward. The bandit updates from those rewards, so the feed
+Every displayed course is logged as a row in `recommendation_impressions` (the
+canonical impression record, with `slate_id`, `position`, both scores and the model
+version). Every user action is logged as an *interaction* that references that
+impression and carries a reward. The bandit updates from those rewards, so the feed
 improves with use.
 
 ## 3. Algorithm in one paragraph
 
-For a user, we build a **context vector** `x` from user features (industry, stage,
-experience, interests, goals), course features (category, difficulty, price,
-duration, free material) and context features (hour, device, session depth).
-Candidate courses come from **content-based retrieval** (TF-IDF or sentence
-embeddings, cosine similarity, top 50). A **LinUCB contextual bandit** scores each
-candidate as `score = theta^T x + alpha * sqrt(x^T A^-1 x)`. The first term is
-exploitation (what we believe works), the second is exploration (where we are
-uncertain). After the user acts, the model updates `A` and `b`. This is documented
-in depth in [`docs/linucb_explained.md`](docs/linucb_explained.md).
+For a user, we build a **context vector** `x = [user_block | course_block |
+interaction_block]`. The interaction block contains `interest[c] × course_category[c]`,
+a cosine interest match, an experience–difficulty fit, a goal–skill overlap, and
+free-material/price interactions. Candidate courses come from **content-based
+retrieval** (TF-IDF or sentence embeddings, cosine similarity, top 50). A **LinUCB
+contextual bandit** scores each candidate as
+`score = theta^T x + alpha * sqrt(x^T A^-1 x)`. The first term is exploitation, the
+second is exploration. After the user acts, the model updates `A` and `b`. One shared
+model serves all users; personalization comes from the interaction features, not from
+per-user parameters. Full math in [`docs/linucb_explained.md`](docs/linucb_explained.md),
+feature contract in [`docs/feature_engineering.md`](docs/feature_engineering.md).
+
+We removed device, hour and session-depth features: there is no reliable data source
+for them in this prototype and no measured benefit. The MVP uses observable user and
+course features only.
 
 ## 4. Technology stack
 
@@ -69,7 +77,8 @@ in depth in [`docs/linucb_explained.md`](docs/linucb_explained.md).
 | Frontend | React, TypeScript, Vite, Tailwind, Recharts | Fast UI, readable analytics |
 | Local infra | Docker Compose | One command to run DB + API + UI |
 
-No LLM in the core loop. No microservices. No FAISS at this dataset size.
+No LLM in the core loop. No RAG, no multi-agent, no Telegram bot, no FAISS, no deep
+RL, no microservices, no Kafka, no Kubernetes.
 
 ## 5. Repository map
 
@@ -98,7 +107,8 @@ learn to understand it.
 
 This repository currently contains the **architecture, documentation and
 scaffolding** layer. Source implementations are added phase by phase following
-[`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md). Nothing here pretends to be finished.
+[`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md). Nothing here pretends to be finished:
+no Python module is described as working until code and tests exist.
 
 Planned phases:
 
@@ -107,7 +117,7 @@ Planned phases:
 | 0 | Architecture + docs (this commit) |
 | 1 | Repository foundation, config, Docker |
 | 2 | ML foundation: data, simulator, retrieval, LinUCB, rewards |
-| 3 | Experiments + baselines + metrics + plots |
+| 3 | Experiments + baselines + metrics + plots (≥10 seeds) |
 | 4 | Backend: database, API, service integration |
 | 5 | Frontend: onboarding, feed, analytics |
 | 6 | Integration, tests, demo, presentation |
@@ -116,17 +126,19 @@ Planned phases:
 
 1. Judge fills an onboarding form as an entrepreneur.
 2. The feed returns personalized courses, each with a visible reason.
-3. Judge clicks / inspects / buys a course; the UI records interactions.
-4. Open the analytics screen: LinUCB vs Random vs Top Popular over N simulated
-   users — cumulative reward, regret, CTR, conversion, NDCG@K.
+3. Judge clicks / inspects / buys a course; the UI records interactions against the
+   impression that showed the course.
+4. Open the analytics screen: LinUCB vs Random vs Top Popular over ≥10 simulated
+   seeds — cumulative reward, regret, CTR, free-material inspection rate, purchase
+   conversion, NDCG@K, all with confidence intervals.
 
 ## 8. Honesty statement
 
 All conversion and reward numbers shown in the experiment environment are from a
- **synthetic user simulator**, not from real Alfa-Kurs traffic. We report them as
-simulated results and never present them as production outcomes. The simulator
-exists so the algorithm can be tested reproducibly and compared fairly against
-baselines.
+**synthetic user simulator**, not from real Alfa-Kurs traffic. The course catalogue
+itself is **synthetic/illustrative** — see
+[`docs/data_provenance.md`](docs/data_provenance.md). We report simulated results as
+simulated and never present them as production outcomes.
 
 ## 9. Documentation index
 
@@ -135,17 +147,20 @@ baselines.
 - [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) — phases, risks, priorities
 - [docs/system_design.md](docs/system_design.md) — end-to-end system design
 - [docs/ml_architecture.md](docs/ml_architecture.md) — retrieval, bandit, rewards
+- [docs/feature_engineering.md](docs/feature_engineering.md) — context vector contract
 - [docs/linucb_explained.md](docs/linucb_explained.md) — the math, line by line
-- [docs/reward_design.md](docs/reward_design.md) — two-level reward model
+- [docs/reward_design.md](docs/reward_design.md) — reward policy and attribution
 - [docs/database_design.md](docs/database_design.md) — tables, indexes, ERD
 - [docs/api_documentation.md](docs/api_documentation.md) — every endpoint
 - [docs/evaluation_methodology.md](docs/evaluation_methodology.md) — metrics and fairness
+- [docs/data_provenance.md](docs/data_provenance.md) — what data is real vs synthetic
 - [docs/presentation_guide.md](docs/presentation_guide.md) — demo script for judges
 
 ## 10. What you will learn building this
 
 - How a recommender is actually assembled: retrieval, ranking, feedback loop.
 - How contextual bandits differ from classic supervised learning.
+- How to design features that let one shared model personalize.
 - How to design rewards that do not corrupt the learning signal.
-- How to evaluate a recommender honestly with baselines and confidence intervals.
+- How to evaluate a recommender honestly with baselines, seeds and confidence intervals.
 - How to ship an ML system as a typed API with a real database and a UI.

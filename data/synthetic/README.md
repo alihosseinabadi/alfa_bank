@@ -20,7 +20,7 @@ Artifacts produced by the simulator. Regenerable; not the source of truth.
 ## Regenerate
 
 ```bash
-python scripts/run_experiments.py --users 200 --rounds 50 --seeds 5 --seed-base 42
+python scripts/run_experiments.py --users 200 --rounds 50 --seeds 10 --seed-base 42
 ```
 
 ## Why keep them

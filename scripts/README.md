@@ -15,7 +15,7 @@ Executable entry points. Thin CLI wrappers over the library code.
 
 ```bash
 python scripts/run_experiments.py \
-  --users 200 --rounds 50 --seeds 5 --seed-base 42 \
+  --users 200 --rounds 50 --seeds 10 --seed-base 42 \
   --output experiments/outputs
 ```
 

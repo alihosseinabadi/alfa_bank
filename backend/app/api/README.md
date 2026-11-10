@@ -19,6 +19,7 @@ HTTP layer. Thin wrappers: validate input, call a service, return a schema.
 - Raise `HTTPException` with a correct status; never return an error inside 200.
 - No SQL, no NumPy, no business rules here.
 - Reuse a shared dependency for the DB session.
+- Interaction endpoints accept `impression_id`; recommendations return one per item.
 
 ## Typical route shape
 
