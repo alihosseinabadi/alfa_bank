@@ -1,14 +1,16 @@
 from datetime import datetime
 from decimal import Decimal
 from typing import Literal
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 EventType = Literal["click", "inspect", "purchase"]
 
+
 class InteractionCreate(BaseModel):
     """Payload for recording a user action on an impression."""
-    impression_id: int
+    impression_id: int = Field(gt=0)
     event_type: EventType
+
 
 class InteractionResponse(BaseModel):
     """Result of recording an interaction."""
