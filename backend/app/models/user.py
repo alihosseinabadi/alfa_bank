@@ -32,6 +32,7 @@ class User(Base):
     business_sphere = Column(String(100), nullable=True)
     current_goal = Column(String(100), nullable=False, index=True)
     budget_sensitivity = Column(String(20), nullable=True)
+    experience = Column(String(50), nullable=True)
 
     # --- Service fields ---
     created_at = Column(
