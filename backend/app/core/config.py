@@ -37,11 +37,14 @@ class Settings(BaseSettings):
     embedding_model: str = "all-MiniLM-L6-v2"
     model_dir: str = "artifacts"
 
+    # --- MongoDB (for ML communication) ---
+    mongo_url: str = "mongodb://localhost:27017"
+    mongo_db_name: str = "alfakurs_ml"
+
     class Config:
         env_file = str(ENV_FILE)
         env_file_encoding = "utf-8"
         extra = "ignore"
-
 
 @lru_cache
 def get_settings() -> Settings:

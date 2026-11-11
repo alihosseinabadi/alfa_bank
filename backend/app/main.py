@@ -12,6 +12,8 @@ from app.database import engine
 
 from app.api import users, courses, interactions # add interactions
 
+from app.api import users, courses, interactions, recommendations # add recommendations
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -30,6 +32,7 @@ def create_app() -> FastAPI:
     app.include_router(users.router, prefix="/api/v1")
     app.include_router(courses.router, prefix="/api/v1")
     app.include_router(interactions.router, prefix="/api/v1")
+    app.include_router(recommendations.router, prefix="/api/v1")
 
     @app.get("/health", tags=["infra"])
     def health() -> dict[str, str]:
