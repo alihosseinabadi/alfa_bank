@@ -10,6 +10,8 @@ from sqlalchemy import text
 
 from app.database import engine
 
+from app.api import users, courses, interactions # add interactions
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -25,7 +27,9 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # Routers will be mounted here in Phase 4.
+    app.include_router(users.router, prefix="/api/v1")
+    app.include_router(courses.router, prefix="/api/v1")
+    app.include_router(interactions.router, prefix="/api/v1")
 
     @app.get("/health", tags=["infra"])
     def health() -> dict[str, str]:
