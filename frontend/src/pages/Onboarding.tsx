@@ -101,6 +101,7 @@ export default function Onboarding() {
                 <option value="Услуги">Услуги</option>
                 <option value="Торговля">Торговля</option>
                 <option value="Производство">Производство</option>
+                <option value="IT">IT</option>
                 <option value="Другая">Другая</option>
               </select>
             </label>
@@ -109,9 +110,9 @@ export default function Onboarding() {
               Стадия бизнеса
               <select value={stage} onChange={(event) => setStage(event.target.value)}>
                 <option value="">Выберите стадию</option>
-                <option value="Планирую запуск">Планирую запуск</option>
                 <option value="Запускаю бизнес">Запускаю бизнес</option>
-                <option value="Развиваю бизнес">Развиваю бизнес</option>
+                <option value="Действующий бизнес">Действующий бизнес</option>
+                <option value="Масштабируюсь">Масштабируюсь</option>
               </select>
             </label>
 
@@ -119,9 +120,8 @@ export default function Onboarding() {
               Опыт
               <select value={experience} onChange={(event) => setExperience(event.target.value)}>
                 <option value="">Выберите опыт</option>
-                <option value="Начинаю">Начинаю</option>
+                <option value="Нет опыта">Нет опыта</option>
                 <option value="Есть опыт">Есть опыт</option>
-                <option value="Опытный предприниматель">Опытный предприниматель</option>
               </select>
             </label>
           </div>
