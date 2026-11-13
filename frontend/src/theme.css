@@ -1,0 +1,104 @@
+/* Единая палитра интерфейса: тёплая нейтральная основа и красный акцент. */
+:root {
+  --ui-bg: #f7f5f2;
+  --ui-surface: #ffffff;
+  --ui-soft: #fffaf8;
+  --ui-blush: #fff1ed;
+  --ui-ink: #222126;
+  --ui-muted: #5c5760;
+  --ui-red: #a62d24;
+  --ui-red-strong: #93251d;
+  --ui-border: #ded2cd;
+  --ui-shadow: 0 8px 28px rgba(52, 33, 28, .045);
+  color: var(--ui-ink);
+  background: var(--ui-bg);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.topbar, .panel { background: var(--ui-surface); box-shadow: var(--ui-shadow); }
+.app-shell { max-width: 1280px; }
+.topbar { border: 1px solid var(--ui-border); }
+.brand { color: var(--ui-ink); letter-spacing: -.025em; }
+.brand-icon { background: var(--ui-red); }
+.navigation { background: #f5f1ef; }
+.navigation a { color: #504b50; }
+.navigation a.active { background: var(--ui-ink); color: #fff; }
+.navigation a:not(.active):hover { background: #eae3e0; color: var(--ui-ink); }
+.profile-link { background: var(--ui-blush); color: var(--ui-red); }
+
+.onboarding-panel, .cabinet-recommendations {
+  background: var(--ui-soft);
+  color: var(--ui-ink);
+  border: 1px solid var(--ui-border);
+  box-shadow: var(--ui-shadow);
+}
+.light-heading, .light-heading p { color: var(--ui-ink); }
+.light-heading .eyebrow, .cabinet-hero-label { color: var(--ui-red); }
+.light-heading p, .cabinet-hero-head p { color: var(--ui-muted); }
+.heading-symbol, .cabinet-sparkle { color: var(--ui-red); }
+.section-heading h1, .cabinet-hero-head h1, .personal-heading h1 { letter-spacing: -.035em; }
+.section-heading h1, .cabinet-hero-head h1, .personal-heading h1 { font-weight: 750; }
+.goal-fieldset legend, .form-intro h2, .cabinet-section-head h2,
+.profile-card h2, .cabinet-profile-top h2, .recommendation-empty h2 { font-weight: 700; }
+.eyebrow, .guide-kicker, .cabinet-label, .cabinet-hero-label, .card-kicker { font-size: 12px; }
+.form-card { margin-top: 24px; border: 1px solid var(--ui-border); box-shadow: 0 4px 18px rgba(52, 33, 28, .035); }
+.form-card > * { max-width: 760px; }
+.dashboard-grid > .profile-card { align-self: start; }
+.navigation a, .goal-button, .button, .text-button { font-size: 14px; }
+.form-intro p, .goal-help, .profile-card > p, .journey-list small { color: var(--ui-muted); }
+.goal-button { background: #faf8f7; border-color: #ded5d2; color: #393437; }
+.goal-button:hover { background: var(--ui-blush); border-color: var(--ui-red); }
+.goal-button.selected { background: var(--ui-blush); border-color: var(--ui-red); color: var(--ui-red-strong); }
+#custom-goal { border-color: #b8aead; background: #fff; }
+#custom-goal::placeholder { color: #6e696b; }
+.button-primary, .cabinet-action, .account-primary { background: var(--ui-red-strong); color: #fff; }
+.button-primary:hover, .cabinet-action:hover, .account-primary:hover { background: #731a15; }
+.text-button, .optional-details summary span { color: var(--ui-muted); }
+.guide-kicker, .cabinet-text-link, .cabinet-analytics-link, .account-kicker,
+.dark-eyebrow, .card-kicker, .course-reason, .inline-link { color: var(--ui-red-strong); }
+.profile-card, .cabinet-profile, .personal-card { border: 1px solid var(--ui-border); }
+.journey-list li > span { background: var(--ui-blush); color: var(--ui-red-strong); }
+.cabinet-goal, .personal-empty { background: #f7f1ed; }
+.cabinet-bottom-single { grid-template-columns: minmax(0, 1fr); }
+.cabinet-profile-top { align-items: flex-start; text-align: left; }
+.cabinet-profile-top .profile-badge { margin-left: 8px; }
+.cabinet-activity { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--ui-border); }
+.activity-empty { border: 0; padding: 12px 0 0; }
+.cabinet-symbol-lilac, .cabinet-symbol-peach, .cabinet-symbol-yellow { background: #f8ebe6; color: var(--ui-red-strong); }
+.cabinet-label, .guide-kicker, .account-kicker, .cabinet-hero-label { letter-spacing: .045em; }
+.profile-badge { background: var(--ui-red-strong); }
+.profile-avatar { color: var(--ui-red); }
+
+.demo-notice { background: #f9eae4; color: #632820; border: 1px solid #efd5cb; }
+.current-goal { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; margin: 20px 0 0; color: var(--ui-muted); font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.current-goal strong { color: var(--ui-ink); font-weight: 700; min-width: 0; }
+.current-goal a { color: var(--ui-red-strong); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.demo-caption { color: var(--ui-muted); }
+.results-heading { color: var(--ui-ink); }
+.results-heading span { color: var(--ui-muted); }
+.recommendation-empty, .material-grid .course-card { border: 1px solid var(--ui-border); box-shadow: 0 4px 18px rgba(52, 33, 28, .04); }
+.material-grid .course-card { padding: 22px; }
+.material-grid .course-card h3 { color: var(--ui-ink); font-size: 17px; font-weight: 700; line-height: 1.3; letter-spacing: -.015em; }
+.material-grid .course-card p { color: var(--ui-muted); }
+.material-grid .course-label, .course-link { color: var(--ui-red-strong); }
+.course-label { background: var(--ui-blush); }
+.course-footer { margin-top: 16px; padding-top: 14px; border-top: 1px solid #f1e9e6; }
+.account-secondary { border: 1px solid var(--ui-border); }
+.account-intro { background: #fbece6; }
+.analytics-intro, .analytics-card { border: 1px solid var(--ui-border); box-shadow: var(--ui-shadow); }
+.analytics-intro p, .muted-note { color: var(--ui-muted); }
+
+@media (max-width: 650px) {
+  .topbar { border-radius: 20px; }
+  .onboarding-panel, .cabinet-recommendations { border-radius: 20px; }
+  .form-card { margin-top: 20px; }
+  .navigation a { min-height: 44px; display: grid; place-items: center; }
+  .onboarding-panel { padding: 18px 14px; }
+  .form-card { padding: 16px; }
+  .goal-options { gap: 8px; }
+  .custom-goal { margin-top: 14px; }
+  .optional-details { margin-top: 16px; padding-top: 14px; }
+  .form-actions { margin-top: 12px; gap: 8px; }
+  .form-actions .button-primary { width: 100%; }
+  .cabinet-sparkle, .heading-symbol { font-size: 28px; }
+}

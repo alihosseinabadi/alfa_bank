@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import type { PageContext } from '../components/Layout'
@@ -17,47 +17,35 @@ export default function Onboarding() {
   const [industry, setIndustry] = useState(profile?.industry ?? '')
   const [stage, setStage] = useState(profile?.stage ?? '')
   const [experience, setExperience] = useState(profile?.experience ?? '')
+  const [detailsOpen, setDetailsOpen] = useState(!!(profile?.industry || profile?.stage || profile?.experience))
   const [error, setError] = useState('')
+  const goalInput = useRef<HTMLTextAreaElement>(null)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!goal) {
-      setError('Выберите задачу, чтобы продолжить.')
+    if (goal.trim().length < 5) {
+      setError('Выберите готовую задачу или опишите свою хотя бы в 5 символах.')
+      goalInput.current?.focus()
       return
     }
 
-    setProfile({ goal, industry, stage, experience })
+    setProfile({ goal: goal.trim(), industry, stage, experience })
     navigate('/feed')
   }
 
   function handleSkip() {
-    setProfile(null)
     navigate('/feed')
   }
 
   return (
     <div className="dashboard-grid">
-      <aside className="profile-card panel">
-        <span className="profile-avatar" aria-hidden="true">А</span>
-        <span className="profile-badge">Добро пожаловать</span>
-        <h2>Рады знакомству!</h2>
-        <p>
-          Расскажите немного о себе, и мы поможем найти подходящие материалы.
-        </p>
-
-        <div className="profile-tip">
-          <span aria-hidden="true">✦</span>
-          <p>Начать можно с одной задачи. Остальное заполнять необязательно.</p>
-        </div>
-      </aside>
-
       <section className="onboarding-panel">
         <div className="section-heading light-heading">
           <div>
             <span className="eyebrow">ВАШ ПЕРВЫЙ ШАГ</span>
             <h1>Подбор под вашу задачу</h1>
-            <p>Выберите, чему хотите научиться в первую очередь.</p>
+            <p>Выберите готовый вариант или расскажите своими словами.</p>
           </div>
           <span className="heading-symbol" aria-hidden="true">✳</span>
         </div>
@@ -83,14 +71,18 @@ export default function Onboarding() {
               ))}
             </div>
 
-            {error && <p className="form-error" role="alert">{error}</p>}
+            <label className="custom-goal" htmlFor="custom-goal">Или опишите свою задачу</label>
+            <textarea ref={goalInput} id="custom-goal" rows={3} maxLength={300} value={goals.includes(goal) ? '' : goal} placeholder="Например, хочу найти клиентов для интернет-магазина" aria-invalid={!!error} aria-describedby={error ? 'goal-error' : 'goal-help'} onChange={(event) => { setGoal(event.target.value); setError('') }} />
+            <p id="goal-help" className="goal-help">От 5 до 300 символов. Можно выбрать готовый вариант выше.</p>
+            {goal.trim().length >= 5 && <p className="goal-confirmation" role="status"><span aria-hidden="true">✓</span> Задача указана. Можно перейти к материалам.</p>}
+
+            {error && <p id="goal-error" className="form-error" role="alert">{error}</p>}
           </fieldset>
 
-          <div className="form-divider" />
-
+          <details className="optional-details" open={detailsOpen} onToggle={(event) => setDetailsOpen(event.currentTarget.open)}>
+          <summary>Немного о вас <span>Необязательно</span></summary>
           <div className="form-intro">
-            <h2>Немного о вас</h2>
-            <p>Эти поля помогут сделать подборку точнее.</p>
+            <p>Необязательно. Пока эти сведения не влияют на демонстрационные материалы.</p>
           </div>
 
           <div className="form-fields">
@@ -125,6 +117,7 @@ export default function Onboarding() {
               </select>
             </label>
           </div>
+          </details>
 
           <div className="form-actions">
             <button className="button button-primary" type="submit">
@@ -135,8 +128,21 @@ export default function Onboarding() {
               Пропустить анкету
             </button>
           </div>
+          <p className="goal-help">Анкета хранится только до обновления страницы.</p>
         </form>
       </section>
+      <aside className="profile-card panel">
+        <div className="guide-art" aria-hidden="true">
+          <svg viewBox="0 0 180 132" fill="none"><rect x="18" y="32" width="100" height="72" rx="14" fill="#F8EAE4"/><rect x="30" y="20" width="100" height="72" rx="14" fill="#EFCFC5"/><rect x="42" y="8" width="100" height="72" rx="14" fill="#A62D24"/><path d="M62 31h59M62 43h45M62 55h34" stroke="white" strokeWidth="5" strokeLinecap="round"/><circle cx="132" cy="91" r="25" fill="#EEDCC9"/><path d="m122 91 7 7 14-16" stroke="#674237" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </div>
+        <span className="guide-kicker">НАЙДЁМ ОТВЕТ ВМЕСТЕ</span>
+        <h2>Одна задача — первый шаг</h2>
+        <p>Выберите тему, которая сейчас важна для вашего бизнеса.</p>
+        <ol className="journey-list" aria-label="Как это работает">
+          <li><span>01</span><div><strong>Расскажите о задаче</strong><small>Выберите вариант или напишите свой</small></div></li>
+          <li><span>02</span><div><strong>Посмотрите материалы</strong><small>Пока доступны примеры</small></div></li>
+        </ol>
+      </aside>
     </div>
   )
 }

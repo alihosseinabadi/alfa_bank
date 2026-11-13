@@ -10,7 +10,7 @@ export default function ProfilePage() {
         <div>
           <span className="account-kicker dark-eyebrow">АЛЬФА-КУРС</span>
           <h1>Личный кабинет</h1>
-          <p>Ваши цели, обучение и достижения — в одном месте.</p>
+          <p>Ваша задача и данные профиля в одном месте.</p>
         </div>
         <Link className="account-secondary" to="/feed">К рекомендациям →</Link>
       </div>
@@ -33,6 +33,7 @@ export default function ProfilePage() {
             <div><span>Опыт</span><strong>{profile?.experience || 'Не указан'}</strong></div>
           </div>
           <p className="account-note">Изменения анкеты доступны до обновления страницы.</p>
+          <Link className="cabinet-text-link" to="/onboarding">{profile ? 'Изменить задачу' : 'Выбрать задачу'} →</Link>
         </section>
         <div className="personal-content">
           <section className="personal-card panel">

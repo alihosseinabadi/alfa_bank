@@ -311,6 +311,21 @@ a {
   color: #e7473e;
 }
 
+.goal-button.selected::before { content: '✓ '; }
+.goal-button { min-height: 44px; transition: background-color .15s, border-color .15s; }
+.goal-button:hover { border-color: #b8251b; }
+.custom-goal { display: block; margin: 20px 0 8px; font-weight: 700; }
+#custom-goal { box-sizing: border-box; width: 100%; resize: vertical; padding: 12px; border: 1px solid #b7b8bd; border-radius: 12px; font: inherit; color: #202124; }
+#custom-goal:focus-visible { outline: 3px solid #b8251b; outline-offset: 2px; }
+.goal-help { font-size: 13px; line-height: 1.5; color: #555860; }
+.demo-notice { margin: 24px 0 0; padding: 14px 16px; border-radius: 12px; background: #fff2ed; color: #63251e; line-height: 1.5; font-size: 14px; }
+.demo-caption { font-size: 14px; line-height: 1.5; }
+.material-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; margin-top: 16px; }
+.material-grid .course-card { min-width: 0; color: #202124; overflow-wrap: anywhere; }
+.material-grid .course-card p { color: #555860; }
+.material-grid .course-label { color: #a52b22; }
+@media (prefers-reduced-motion: reduce) { .goal-button { transition: none; } }
+
 .form-error {
   margin: 10px 0 0;
   color: #c6332b;
@@ -1344,4 +1359,79 @@ a {
   .personal-cards {
     grid-template-columns: 1fr;
   }
+}
+
+/* Подсказки к первому шагу и обратная связь в основном сценарии. */
+.profile-card { align-items: flex-start; text-align: left; }
+.dashboard-grid { grid-template-columns: minmax(0, 1fr) 290px; }
+.dashboard-grid > .onboarding-panel { grid-column: 1; grid-row: 1; }
+.dashboard-grid > .profile-card { grid-column: 2; grid-row: 1; }
+.cabinet { --cabinet-coral: #b83228; }
+.cabinet { grid-template-columns: minmax(0, 1fr) 290px; }
+.cabinet > .cabinet-content { grid-column: 1; grid-row: 1; }
+.cabinet > .cabinet-profile { grid-column: 2; grid-row: 1; }
+.optional-details { margin-top: 24px; padding-top: 20px; border-top: 1px solid #ededf0; }
+.optional-details summary { min-height: 44px; cursor: pointer; font-size: 16px; font-weight: 800; }
+.optional-details summary span { margin-left: 8px; color: #555860; font-size: 12px; font-weight: 600; }
+.optional-details summary:focus-visible { outline: 3px solid #4a68df; outline-offset: 3px; }
+.guide-art { width: min(100%, 190px); margin: 0 auto 22px; }
+.guide-art svg { display: block; width: 100%; height: auto; }
+.guide-kicker { color: #9b2c24; font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+.profile-card h2 { margin-top: 12px; }
+.profile-card > p { color: #555860; }
+.journey-list { display: grid; gap: 20px; width: 100%; margin: 28px 0 0; padding: 22px 0 0; border-top: 1px solid #e8e8eb; list-style: none; }
+.journey-list li { display: flex; align-items: flex-start; gap: 12px; }
+.journey-list li > span { display: grid; flex: 0 0 32px; height: 32px; place-items: center; border-radius: 50%; background: #fff0ed; color: #9b2c24; font-size: 11px; font-weight: 800; }
+.journey-list strong, .journey-list small { display: block; line-height: 1.4; }
+.journey-list strong { font-size: 13px; }
+.journey-list small { margin-top: 4px; color: #555860; font-size: 12px; }
+.onboarding-panel { background: #bd342a; }
+.light-heading .eyebrow, .light-heading p { color: #fff; }
+.button-primary { background: #aa2c23; }
+.button-primary:hover { background: #852018; }
+.goal-button.selected { border-color: #a52b22; color: #8d251d; }
+.goal-confirmation { display: flex; gap: 8px; align-items: center; margin: 12px 0 0; color: #245b3d; font-size: 13px; font-weight: 700; line-height: 1.4; }
+.goal-confirmation span { display: grid; width: 22px; height: 22px; flex: 0 0 22px; place-items: center; border-radius: 50%; background: #dcf3e4; }
+.form-intro p { color: #555860; line-height: 1.5; }
+.text-button { min-height: 44px; }
+.results-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.results-heading h2 { margin: 0; font-size: 20px; }
+.results-heading span { font-size: 13px; font-weight: 700; }
+.demo-caption { margin: 8px 0 0; }
+.material-grid .course-card { border: 1px solid #f2dad6; box-shadow: 0 4px 14px #6d1d1514; }
+.course-label { display: inline-flex; align-items: center; gap: 7px; padding: 6px 10px; border-radius: 999px; background: #fff1ee; }
+.material-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.loading-mark { width: 22px; height: 22px; flex: 0 0 22px; border: 3px solid #f3d1cc; border-top-color: #a52b22; border-radius: 50%; animation: loading-turn .8s linear infinite; }
+.recommendation-empty a, .recommendation-empty button { margin-top: 14px; }
+.recommendation-empty a { display: inline-block; }
+.reason-pill { max-width: 100%; overflow-wrap: anywhere; }
+.button, .goal-button, .course-card { transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease; }
+.button:active, .goal-button:active { transform: scale(.98); }
+.material-grid .course-card { animation: card-arrive 260ms cubic-bezier(.2, 0, 0, 1) both; }
+@keyframes card-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes loading-turn { to { transform: rotate(360deg); } }
+@media (max-width: 900px) {
+  .dashboard-grid, .cabinet { grid-template-columns: 1fr; }
+  .dashboard-grid > .profile-card, .dashboard-grid > .onboarding-panel { grid-column: auto; grid-row: auto; }
+  .cabinet > .cabinet-profile, .cabinet > .cabinet-content { grid-column: auto; grid-row: auto; }
+  .profile-card { display: grid; grid-template-columns: 90px 1fr; gap: 0 18px; align-items: center; }
+  .guide-art { grid-row: 1 / span 3; margin: 0; }
+  .profile-card h2 { margin: 6px 0; }
+  .journey-list { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; margin-top: 18px; padding-top: 18px; }
+}
+@media (max-width: 650px) {
+  .profile-card { grid-template-columns: 64px minmax(0, 1fr); padding: 18px; }
+  .profile-card h2 { font-size: 18px; }
+  .profile-card > p { font-size: 13px; }
+  .journey-list { gap: 10px; }
+  .journey-list small { display: none; }
+  .journey-list strong { font-size: 12px; }
+  .cabinet-profile { gap: 14px; }
+  .cabinet-profile-top .profile-avatar { width: 64px; height: 64px; font-size: 26px; }
+  .cabinet-profile-top h2 { margin-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button, .goal-button, .course-card { transition: none; }
+  .button:active, .goal-button:active { transform: none; }
+  .material-grid .course-card, .loading-mark { animation: none; }
 }

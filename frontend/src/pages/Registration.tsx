@@ -53,6 +53,7 @@ export default function Registration() {
             <span className="account-kicker dark-eyebrow">ДОБРО ПОЖАЛОВАТЬ</span>
             <h2 id="registration-title">Создать профиль</h2>
             <p className="account-description">Укажите электронную почту, чтобы создать профиль в Альфа-Курсе.</p>
+            <p className="account-note">Собственная формулировка задачи пока не сохраняется при регистрации и доступна только до обновления страницы.</p>
             <form className="account-form" onSubmit={handleSubmit}>
               <label htmlFor="registration-email">Электронная почта</label>
               <input id="registration-email" type="email" autoComplete="email" required
