@@ -1,5 +1,9 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
+ML profile update: [stage-4 MVP profile and request context](docs/profiles_stage4.md) prepare task-first inputs for retrieval; this is not yet the search or ranking system.
+
+ML history update: [stage-3 preparation and contracts](docs/history_stage3.md) normalize archive observations and continuation state for the MVP.
+
 ML catalog update: the real organizer archive is processed locally by the stage-2 pipeline. See [catalog setup and contracts](docs/catalog_stage2.md). This prepares content for retrieval; it does not implement the recommender or online learning.
 
 Hackathon project for the **Alfa-Bank Web/AI hackathon**, track

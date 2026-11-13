@@ -79,3 +79,12 @@ pytest backend/tests/test_features.py backend/tests/test_linucb.py \
 
 TF-IDF, cosine similarity, ridge regression, the LinUCB optimism bonus, and how to
 keep an algorithm library framework-free so it is easy to test.
+
+## Implemented MVP profile component
+
+profile_contracts.py, profile_policy.py, user_profile.py and request_context.py
+implement the stage-4 profile and task-first context with capped evidence,
+explicit preferences and historical cutoff. They contain no HTTP or database code.
+Runbook: [docs/profiles_stage4.md](../../../docs/profiles_stage4.md).
+The demonstration feature/reward contracts above describe later planned modules;
+they do not override the current catalog/history/profile interfaces.
