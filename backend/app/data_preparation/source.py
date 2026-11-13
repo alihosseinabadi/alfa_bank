@@ -127,3 +127,20 @@ EXPORT_COLUMNS.update({
         "IsClosed", "IsDeleted", "Published", "Url",
     ),
 })
+
+# Stage 2 catalog and content only; no user/IP fields are exported here.
+EXPORT_COLUMNS.update({
+    "Articles": EXPORT_COLUMNS["Articles"] + ("Content",),
+    "Documents": EXPORT_COLUMNS["Documents"] + ("FileId",),
+    "Glossary": ("Id", "Title", "Description", "Duration", "Url", "StatusId", "Published", "IsDeleted"),
+    "Calculators": ("Id", "Title", "Description", "Url", "IsDeleted", "RatingGroupId"),
+    "CalculatorPages": ("Id", "Title", "Description", "Url", "StatusId", "Published", "IsDeleted", "RatingGroupId"),
+    "Lessons": ("Id", "Title", "Description", "Content", "Duration", "IsDeleted", "IsGroup", "TypeId"),
+    "CourseLessonBindings": ("Id", "CourseId", "LessonId", "Order", "IsTrial", "IsClosed", "ClosedUntil"),
+    "ArticleEmbedItems": ("Id", "ArticleId", "Type", "HtmlContent", "Params", "Order"),
+    "DocumentEmbedItems": ("Id", "DocumentId", "Type", "HtmlContent", "Params", "Order"),
+    "GlossaryEmbedItems": ("Id", "GlossaryId", "Type", "HtmlContent", "Params", "Order"),
+    "CalculatorPageEmbedItems": ("Id", "CalculatorPageId", "Type", "HtmlContent", "Params", "Order"),
+    "LessonEmbedItems": ("Id", "LessonId", "Type", "HtmlContent", "Params", "Order"),
+    "Files": ("Id", "Title", "Url", "Extension", "Size", "IsDeleted"),
+})

@@ -1,5 +1,7 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
+ML catalog update: the real organizer archive is processed locally by the stage-2 pipeline. See [catalog setup and contracts](docs/catalog_stage2.md). This prepares content for retrieval; it does not implement the recommender or online learning.
+
 Hackathon project for the **Alfa-Bank Web/AI hackathon**, track
 **"Personalization of education for entrepreneurs."**
 

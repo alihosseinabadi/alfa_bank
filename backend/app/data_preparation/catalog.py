@@ -7,7 +7,7 @@ import pandas as pd
 
 def read_raw(input_dir: Path, filename: str) -> pd.DataFrame:
     return pd.read_csv(
-        input_dir / filename,
+        (input_dir / filename) if (input_dir / filename).exists() else input_dir / _RAW_NAMES.get(filename, filename),
         dtype="string",
         keep_default_na=False,
         na_values=[""],
@@ -162,3 +162,16 @@ def build_course_catalog(input_dir: Path) -> pd.DataFrame:
         )
 
     return catalog.sort_values("Id").reset_index(drop=True)
+
+# Read the canonical stage-2 exports without breaking the original CLI filenames.
+_RAW_NAMES = {
+    "courses_raw.csv": "Courses.csv", "articles_raw.csv": "Articles.csv",
+    "documents_raw.csv": "Documents.csv", "webinars_raw.csv": "Webinars.csv",
+    "podcasts_raw.csv": "Podcasts.csv", "content_settings_raw.csv": "ContentSettings.csv",
+    "content_settings_topics_raw.csv": "ContentSettingsTopics.csv",
+    "content_settings_tags_raw.csv": "ContentSettingsTags.csv",
+    "content_settings_industries_raw.csv": "ContentSettingsIndustries.csv",
+    "topics_raw.csv": "Topics.csv", "tags_raw.csv": "Tags.csv",
+    "industries_raw.csv": "Industries.csv", "statuses_raw.csv": "Statuses.csv",
+    "course_types_raw.csv": "CourseTypes.csv",
+}

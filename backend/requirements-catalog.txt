@@ -1,0 +1,4 @@
+# Stage 2 additions. Install on top of backend/requirements.txt.
+tokenizers==0.22.2
+huggingface-hub==0.36.2
+pypdf==6.21.4

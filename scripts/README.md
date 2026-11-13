@@ -43,3 +43,14 @@ Validates the CSV before inserting; aborts on the first invalid row.
 
 Keeping CLIs thin, so the same tested functions are used by scripts, the API and
 tests.
+
+## Implemented stage-2 catalog commands
+
+- restore_catalog_source.py: restore the supplied archive into an empty isolated PostgreSQL 17 database.
+- export_catalog_sources.py: read catalog/content tables and create a hashed source manifest.
+- prepare_catalog_tokenizer.py: explicitly prepare the pinned E5 tokenizer.
+- build_catalog_bundle.py: normalize materials, resolve aliases, extract content, chunk and validate.
+- check_catalog_urls.py: record bounded URL probes separately from content processing.
+- verify_catalog_bundle.py: verify checksums, contracts, scopes and token counts.
+
+Runbook and output contracts: [docs/catalog_stage2.md](../docs/catalog_stage2.md).

@@ -1,0 +1,18 @@
+# Isolated local copy of the organizer archive; no host ports are published.
+name: alfa-catalog-source
+services:
+  db:
+    image: postgres@sha256:846a7ddaa67a4b354ae1d21087b683901aa6113a4ed626d3787cfbf6c85e3e07
+    environment:
+      POSTGRES_USER: alfa_ml
+      POSTGRES_DB: alfa_course
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ../data/raw/alfa_course_hackathon.backup:/backup/source.backup:ro
+      - catalog_source:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U alfa_ml -d alfa_course]
+      interval: 2s
+      retries: 30
+volumes:
+  catalog_source:
