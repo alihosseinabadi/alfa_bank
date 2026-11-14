@@ -1,5 +1,7 @@
 # Architecture
 
+Implemented ML path as of 14 November 2026: catalog/history → versioned profile and RequestContext → retrieval → RetrievalBatch → 45-component pair vector → deterministic prior ranking. See [stage 6 runbook](docs/prior_stage6.md) and [actual feature registry](docs/feature_engineering.md). API orchestration, exposure logging and LinUCB below remain planned.
+
 This document explains **what exists, what each part is responsible for, and how
 they communicate**. Implementation detail lives in [`docs/`](docs/).
 
