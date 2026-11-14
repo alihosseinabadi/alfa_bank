@@ -46,3 +46,17 @@ def test_bm25_rejects_weak_match_despite_full_corpus_coverage():
     words=["ндс","кадры","кредит","логистика"]
     idx=BM25Retriever().fit(materials,[chunk(str(i),str(i),word) for i,word in enumerate(words)])
     assert idx.query(context("ндс кадры кредит логистика")) == []
+def test_stem_bm25_matches_russian_inflection_and_preserves_evidence():
+    from app.ml.bm25_ru_stem import RussianStemBM25Retriever
+    from test_bm25_retrieval import material, chunk, context
+    m=material(); c=chunk(text='Клиентскому менеджеру следует заботиться о покупателях')
+    model=RussianStemBM25Retriever(min_query_coverage=.3).fit([m],[c])
+    found=model.query(context('клиентский покупатель'))
+    assert found and found[0][2].text==c.text
+
+def test_stem_bm25_rejects_unknown_and_preserves_numeric_tokens():
+    from app.ml.bm25_ru_stem import RussianStemBM25Retriever, stem_tokens
+    from test_bm25_retrieval import material, chunk, context
+    model=RussianStemBM25Retriever().fit([material()],[chunk(text='НДС и 1С для магазина')])
+    assert '1с' in stem_tokens('1C')
+    assert not model.query(context('выращивание марсианских пальм'))

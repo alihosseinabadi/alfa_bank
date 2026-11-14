@@ -253,7 +253,7 @@ def test_migration_matches_orm_and_foreign_keys_are_real(store):
     _,sessions,engine=store
     with engine.connect() as c:
         assert compare_metadata(MigrationContext.configure(c),Base.metadata)==[]
-        assert c.exec_driver_sql("SELECT version_num FROM alembic_version").scalar()=="0002_event_protocol"
+        assert c.exec_driver_sql("SELECT version_num FROM alembic_version").scalar()=="0004_slate_seed"
     with pytest.raises(IntegrityError):
         with sessions.begin() as db:
             db.add(Impression(item_id=uuid4(),visible_ms=1200,visible_fraction=.8,source="client_visibility_ack"))

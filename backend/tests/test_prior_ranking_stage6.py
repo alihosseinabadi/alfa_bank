@@ -235,3 +235,13 @@ def test_feature_schema_and_saved_artifact_are_deterministic(tmp_path):
     verify_files(first, manifest)
     assert json.loads((first/"feature_registry.json").read_text())["dimension"] == 45
     assert json.loads((first/"ranking.json").read_text()) == result.model_dump()
+
+def test_channel_distinguishes_no_eligible_from_weak_match():
+    from app.ml.ranking_inputs import from_channel
+    from app.ml.profile_contracts import ExplicitConstraints
+    _,ctx,mats,_=setup(constraints=ExplicitConstraints(formats=['podcast']))
+    result=from_channel([],ctx,method='bm25',materials=mats,**PROVENANCE)
+    assert result.status=='no_eligible'
+    _,ctx,mats,_=setup()
+    result=from_channel([],ctx,method='bm25',materials=mats,**PROVENANCE)
+    assert result.status=='needs_clarification'

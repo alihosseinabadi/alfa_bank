@@ -170,3 +170,6 @@ simulated and never present them as production outcomes.
 - How to design rewards that do not corrupt the learning signal.
 - How to evaluate a recommender honestly with baselines, seeds and confidence intervals.
 - How to ship an ML system as a typed API with a real database and a UI.
+
+
+Этап 8: shared LinUCB, журнал наград и восстановление — [docs/learning_stage8.md](docs/learning_stage8.md).

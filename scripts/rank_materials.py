@@ -24,7 +24,7 @@ def retrieve_batch(index, manifest, context, args):
     from app.ml.bm25_retriever import BM25Retriever
     lexical = BM25Retriever().fit(list(index.materials.values()), index.rows)
     if args.method == "bm25":
-        return from_channel(lexical.query(context, 50), context, method="bm25",
+        return from_channel(lexical.query(context, 50), context, method="bm25", materials=index.materials.values(),
             retrieval_policy_id=fingerprint({"method": "bm25", "k1": lexical.k1, "b": lexical.b,
                                              "coverage": lexical.min_query_coverage}),
             retrieval_parameters={"k1": lexical.k1, "b": lexical.b, "coverage": lexical.min_query_coverage}, **provenance)
@@ -52,7 +52,7 @@ def retrieve_batch(index, manifest, context, args):
         terms = set(tokenize_text(context.query_text))
         covered = terms and sum(t in lexical.postings for t in terms) / len(terms) >= lexical.min_query_coverage
         rows = [r for r in semantic.query(context, 50) if r[1] >= args.semantic_threshold] if covered else []
-        return from_channel(rows, context, method="e5", retrieval_policy_id=policy_id, **provenance)
+        return from_channel(rows, context, method="e5", materials=index.materials.values(), retrieval_policy_id=policy_id, **provenance)
     rows = HybridRetriever(semantic, lexical, semantic_threshold=args.semantic_threshold).query(context, 50)
     return from_hybrid(rows, context, retrieval_policy_id=policy_id, **provenance)
 

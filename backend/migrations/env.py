@@ -2,6 +2,7 @@ from alembic import context
 from app.database.base import Base
 from app.database.connection import events_engine
 import app.models.events
+import app.models.learning
 
 def migrate(connection):
     context.configure(connection=connection,target_metadata=Base.metadata)

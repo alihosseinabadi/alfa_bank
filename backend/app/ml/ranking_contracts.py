@@ -143,3 +143,30 @@ class RankingResult(ProfileRecord):
     excluded_counts: dict[str, int]
     continuation_candidates: list[ContinuationCandidate]
     quality_flags: list[str]
+
+class UCBRankedMaterial(RankedMaterial):
+    exploit: float
+    explore: float
+    ucb_score: float
+
+class UCBRankingResult(RankingResult):
+    version: Literal['shared-linucb-ranking-v1'] = 'shared-linucb-ranking-v1'
+    model_state_id: str
+    candidates: list[UCBRankedMaterial]
+
+class SlateRankedMaterial(UCBRankedMaterial):
+    selection_probability: float
+    diversity_penalty: float
+
+class SlateRankingResult(RankingResult):
+    version: Literal['epsilon-diverse-slate-v1','epsilon-diverse-slate-v2'] = 'epsilon-diverse-slate-v1'
+    model_state_id: str
+    candidates: list[SlateRankedMaterial]
+    eligible_candidates: list[UCBRankedMaterial]
+    seed: int
+    epsilon: float
+    diversity_weight: float
+    requested_k: int
+    relevance_gap: float
+    topics_by_key: dict[str, list[str]] | None = None
+    topic_weight: float = 0.0

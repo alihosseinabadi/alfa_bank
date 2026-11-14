@@ -22,13 +22,17 @@ def from_search_result(result, chunks_by_id, context, **provenance):
     return _batch(context, hits, method=result.algorithm, status=result.status,
                   clarification=result.clarification, **provenance)
 
-def from_channel(rows, context, *, method, **provenance):
+def from_channel(rows, context, *, method, materials=None, **provenance):
     if method not in {"bm25", "e5"}:
         raise ValueError("Unsupported single retrieval channel")
     hits = [RetrievalHit(material_key=key, retrieval_rank=rank, raw_score=score,
         evidence=[ChannelEvidence(channel=method, raw_score=score, channel_rank=rank, chunk=chunk)])
         for rank, (key, score, chunk) in enumerate(rows, 1)]
-    return _batch(context, hits, method=method, **provenance)
+    status = None
+    if not hits and materials is not None and context.query_text.strip():
+        from .tfidf_retriever import eligible_for_context
+        if not any(eligible_for_context(m, context) for m in materials): status = "no_eligible"
+    return _batch(context, hits, method=method, status=status, **provenance)
 
 def from_hybrid(rows, context, **provenance):
     hits = []

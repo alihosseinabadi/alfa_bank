@@ -2,3 +2,4 @@
 tokenizers==0.22.2
 huggingface-hub==0.36.2
 pypdf==6.21.4
+snowballstemmer==2.2.0
