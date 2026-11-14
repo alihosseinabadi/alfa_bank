@@ -1,5 +1,7 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
+Stage 7: [durable decisions, reported visibility and events](docs/events_stage7.md) are implemented as PostgreSQL services/CLI. Real HTTP/auth/frontend/payment integration and reward learning remain planned.
+
 ML stage 6: [observable pair features and deterministic prior ranking](docs/prior_stage6.md) are implemented. The current vector has 45 components including missing-value masks; [Quality audit](docs/quality_stage56.md): engineering components are usable, but robust retrieval acceptance and useful prior-ranking gains are not established.
 
 ML profile update: [stage-4 MVP profile and request context](docs/profiles_stage4.md) prepare task-first inputs for retrieval; this is not yet the search or ranking system.
@@ -52,7 +54,7 @@ Profile  ->  Retrieval (top-50)  ->  LinUCB ranking  ->  Recommendations
 The planned integration will log each genuinely displayed course as a row in `recommendation_impressions` (the
 canonical impression record, with `slate_id`, `position`, both scores and the model
 version). Every user action is logged as an *interaction* that references that
-impression and carries a reward. Exposure/event persistence and bandit updates are not implemented by the current stages 5–6; their product effect remains unmeasured.
+impression and carries a reward. Stage 7 now implements event persistence through an internal service/CLI. Real frontend acknowledgements, payment verification and bandit updates are not integrated; their product effect remains unmeasured.
 
 ## 3. Algorithm in one paragraph
 
@@ -112,7 +114,7 @@ learn to understand it.
 
 ## 6. Current status
 
-The current implementation contains organizer catalog/history preparation, versioned profiles, lexical and experimental semantic retrieval, and deterministic prior ranking. API/UI integration, exposure logging and LinUCB remain planned. The quality audit documents known retrieval failures. The roadmap below is the original target architecture. Source implementations are added phase by phase following
+The current implementation contains organizer catalog/history preparation, versioned profiles, lexical and experimental semantic retrieval, and deterministic prior ranking. API/UI integration and LinUCB remain planned; stage 7 adds internal event persistence. The quality audit documents known retrieval failures. The roadmap below is the original target architecture. Source implementations are added phase by phase following
 [`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md). Nothing here pretends to be finished:
 no Python module is described as working until code and tests exist.
 

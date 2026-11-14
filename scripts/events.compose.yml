@@ -1,0 +1,20 @@
+# Private product storage. No organizer backup or source volume is mounted.
+name: alfa-events-mvp
+services:
+  db:
+    image: postgres@sha256:846a7ddaa67a4b354ae1d21087b683901aa6113a4ed626d3787cfbf6c85e3e07
+    environment:
+      POSTGRES_USER: alfa_events
+      POSTGRES_PASSWORD: ${ALFA_EVENTS_PASSWORD:-local_events_only}
+      POSTGRES_DB: alfa_events
+    ports:
+      - "127.0.0.1:${ALFA_EVENTS_PORT:-55437}:5432"
+    volumes:
+      - events_data:/var/lib/postgresql/data
+      - ./sql/init_events.sql:/docker-entrypoint-initdb.d/01-test-database.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alfa_events -d alfa_events"]
+      interval: 2s
+      retries: 30
+volumes:
+  events_data:

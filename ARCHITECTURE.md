@@ -1,6 +1,8 @@
 # Architecture
 
-Implemented ML path as of 14 November 2026: catalog/history → versioned profile and RequestContext → retrieval → RetrievalBatch → 45-component pair vector → deterministic prior ranking. See [stage 6 runbook](docs/prior_stage6.md) and [actual feature registry](docs/feature_engineering.md). API orchestration, exposure logging and LinUCB below remain planned.
+Stage 7 adds a separate PostgreSQL EventService: issued decision/item → client visibility acknowledgement → raw action events, with exact saved features and transactional retries. [Contracts and launch](docs/events_stage7.md). No reward updates or real HTTP/auth integration yet.
+
+Implemented ML path as of 14 November 2026: catalog/history → versioned profile and RequestContext → retrieval → RetrievalBatch → 45-component pair vector → deterministic prior ranking. See [stage 6 runbook](docs/prior_stage6.md) and [actual feature registry](docs/feature_engineering.md). API/auth/UI integration and LinUCB remain planned; event persistence is implemented by stage 7 above.
 
 This document explains **what exists, what each part is responsible for, and how
 they communicate**. Implementation detail lives in [`docs/`](docs/).
