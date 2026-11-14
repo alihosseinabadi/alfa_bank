@@ -1,0 +1,639 @@
+[
+  {
+    "case_id": "dev001",
+    "split": "dev",
+    "task": "Как выбрать организационно-правовую форму для бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev002",
+    "split": "dev",
+    "task": "Какие шаги нужны, чтобы зарегистрировать ИП?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev003",
+    "split": "dev",
+    "task": "Как проверить название новой компании?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev004",
+    "split": "dev",
+    "task": "Как составить бюджет запуска небольшого магазина?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev005",
+    "split": "dev",
+    "task": "Как оценить спрос на новый продукт?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev006",
+    "split": "dev",
+    "task": "Как выбрать помещение для кафе?",
+    "behavior": null,
+    "history_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "dev007",
+    "split": "dev",
+    "task": "Как подготовить бизнес-план для инвестора?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev008",
+    "split": "dev",
+    "task": "Как открыть расчетный счет предпринимателю?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev009",
+    "split": "dev",
+    "task": "Какие документы понадобятся для регистрации ООО?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev010",
+    "split": "dev",
+    "task": "Как определить целевую аудиторию продукта?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev011",
+    "split": "dev",
+    "task": "Как исследовать конкурентов в своем городе?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev012",
+    "split": "dev",
+    "task": "Как начать продавать товары на маркетплейсе?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev013",
+    "split": "dev",
+    "task": "Как рассчитать цену товара с учетом расходов?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev014",
+    "split": "dev",
+    "task": "Как определить маржу и наценку?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev015",
+    "split": "dev",
+    "task": "Как вести доходы и расходы малого бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev016",
+    "split": "dev",
+    "task": "Как построить план движения денежных средств?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev017",
+    "split": "dev",
+    "task": "Как подготовить платежный календарь?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev018",
+    "split": "dev",
+    "task": "Как организовать бухгалтерский учет в ООО?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev019",
+    "split": "dev",
+    "task": "Какие налоги платит предприниматель на УСН?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev020",
+    "split": "dev",
+    "task": "Как рассчитать НДС по продаже товара?",
+    "behavior": null,
+    "history_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "dev021",
+    "split": "dev",
+    "task": "Как выбрать налоговый режим для самозанятого?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev022",
+    "split": "dev",
+    "task": "Когда нужно применять онлайн-кассу?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev023",
+    "split": "dev",
+    "task": "Как зарегистрировать кассу в налоговой?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev024",
+    "split": "dev",
+    "task": "Как оформить возврат товара покупателем?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev025",
+    "split": "dev",
+    "task": "Как проверить контрагента перед сделкой?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev026",
+    "split": "dev",
+    "task": "Как составить договор поставки товара?",
+    "behavior": null,
+    "formats": [
+      "document"
+    ]
+  },
+  {
+    "case_id": "dev027",
+    "split": "dev",
+    "task": "Как изменить условия договора аренды?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev028",
+    "split": "dev",
+    "task": "Как оформить доверенность представителю компании?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev029",
+    "split": "dev",
+    "task": "Как защитить товарный знак компании?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev030",
+    "split": "dev",
+    "task": "Как оформить обработку персональных данных клиентов?",
+    "behavior": null,
+    "history_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "dev031",
+    "split": "dev",
+    "task": "Как нанять первого работника?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev032",
+    "split": "dev",
+    "task": "Что должно быть в трудовом договоре?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev033",
+    "split": "dev",
+    "task": "Как оформить сотруднику отпуск?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev034",
+    "split": "dev",
+    "task": "Как рассчитать зарплату работника?",
+    "behavior": null,
+    "formats": [
+      "calculator"
+    ]
+  },
+  {
+    "case_id": "dev035",
+    "split": "dev",
+    "task": "Как определить фонд оплаты труда?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev036",
+    "split": "dev",
+    "task": "Какие страховые взносы платит работодатель?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev037",
+    "split": "dev",
+    "task": "Как обучить нового сотрудника?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev038",
+    "split": "dev",
+    "task": "Как выбрать CRM для отдела продаж?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev039",
+    "split": "dev",
+    "task": "Как выстроить воронку продаж?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev040",
+    "split": "dev",
+    "task": "Как привлечь первых покупателей через интернет?",
+    "behavior": null,
+    "budget_preference": "free_only"
+  },
+  {
+    "case_id": "dev041",
+    "split": "dev",
+    "task": "Как настроить рекламу для небольшого бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev042",
+    "split": "dev",
+    "task": "Как разработать стратегию продвижения?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev043",
+    "split": "dev",
+    "task": "Как оценить эффективность рекламной кампании?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev044",
+    "split": "dev",
+    "task": "Как оформить страницу товара на маркетплейсе?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev045",
+    "split": "dev",
+    "task": "Что нужно знать перед экспортом товаров?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev046",
+    "split": "dev",
+    "task": "Как выбрать поставщика за рубежом?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev047",
+    "split": "dev",
+    "task": "Как рассчитать стоимость доставки груза?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev048",
+    "split": "dev",
+    "task": "Как получить грант на развитие бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev049",
+    "split": "dev",
+    "task": "Какие меры поддержки есть у малого бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev050",
+    "split": "dev",
+    "task": "Как подготовиться к переговорам с инвестором?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev051",
+    "split": "dev",
+    "task": "Как рассчитать точку безубыточности?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev052",
+    "split": "dev",
+    "task": "Как провести инвентаризацию товаров?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev053",
+    "split": "dev",
+    "task": "Как организовать закупку сырья?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev054",
+    "split": "dev",
+    "task": "Как рассчитать экономику кофейни?",
+    "behavior": null
+  },
+  {
+    "case_id": "dev055",
+    "split": "dev",
+    "task": "Как снизить риски кассового разрыва?",
+    "behavior": null
+  },
+  {
+    "case_id": "test001",
+    "split": "test",
+    "task": "Как закрыть индивидуальное предпринимательство?",
+    "behavior": null
+  },
+  {
+    "case_id": "test002",
+    "split": "test",
+    "task": "Чем отличается ООО от ИП при старте дела?",
+    "behavior": null
+  },
+  {
+    "case_id": "test003",
+    "split": "test",
+    "task": "Как проверить коды деятельности ОКВЭД?",
+    "behavior": null,
+    "history_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "test004",
+    "split": "test",
+    "task": "Какие расходы учесть при открытии пекарни?",
+    "behavior": null
+  },
+  {
+    "case_id": "test005",
+    "split": "test",
+    "task": "Как выбрать нишу для онлайн-магазина?",
+    "behavior": null
+  },
+  {
+    "case_id": "test006",
+    "split": "test",
+    "task": "Какие лицензии нужны для деятельности бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "test007",
+    "split": "test",
+    "task": "Как составить финансовую модель проекта?",
+    "behavior": null
+  },
+  {
+    "case_id": "test008",
+    "split": "test",
+    "task": "Как узнать, какая у ИП система налогообложения?",
+    "behavior": null
+  },
+  {
+    "case_id": "test009",
+    "split": "test",
+    "task": "Как уменьшить налог УСН на страховые взносы?",
+    "behavior": null
+  },
+  {
+    "case_id": "test010",
+    "split": "test",
+    "task": "Как подтвердить расходы для налоговой отчетности?",
+    "behavior": null
+  },
+  {
+    "case_id": "test011",
+    "split": "test",
+    "task": "Как рассчитать налог на прибыль организации?",
+    "behavior": null
+  },
+  {
+    "case_id": "test012",
+    "split": "test",
+    "task": "Как работать с электронными счетами-фактурами?",
+    "behavior": null
+  },
+  {
+    "case_id": "test013",
+    "split": "test",
+    "task": "Как подключить онлайн-кассу к интернет-магазину?",
+    "behavior": null
+  },
+  {
+    "case_id": "test014",
+    "split": "test",
+    "task": "Как вернуть покупателю деньги за товар?",
+    "behavior": null
+  },
+  {
+    "case_id": "test015",
+    "split": "test",
+    "task": "Как взыскать долг по договору с компанией?",
+    "behavior": null,
+    "history_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "test016",
+    "split": "test",
+    "task": "Как подготовить акт сверки расчетов?",
+    "behavior": null,
+    "formats": [
+      "document"
+    ]
+  },
+  {
+    "case_id": "test017",
+    "split": "test",
+    "task": "Как заключить трудовой договор с удаленным работником?",
+    "behavior": null,
+    "formats": [
+      "document"
+    ]
+  },
+  {
+    "case_id": "test018",
+    "split": "test",
+    "task": "Как рассчитать оплату больничного сотруднику?",
+    "behavior": null
+  },
+  {
+    "case_id": "test019",
+    "split": "test",
+    "task": "Что нужно учитывать при увольнении сотрудника?",
+    "behavior": null
+  },
+  {
+    "case_id": "test020",
+    "split": "test",
+    "task": "Как оформить договор с самозанятым исполнителем?",
+    "behavior": null
+  },
+  {
+    "case_id": "test021",
+    "split": "test",
+    "task": "Как рассчитать стоимость рабочего часа специалиста?",
+    "behavior": null
+  },
+  {
+    "case_id": "test022",
+    "split": "test",
+    "task": "Как организовать графики смен в магазине?",
+    "behavior": null
+  },
+  {
+    "case_id": "test023",
+    "split": "test",
+    "task": "Как повысить повторные продажи существующим клиентам?",
+    "behavior": null
+  },
+  {
+    "case_id": "test024",
+    "split": "test",
+    "task": "Что такое юнит-экономика и как ее считать?",
+    "behavior": null
+  },
+  {
+    "case_id": "test025",
+    "split": "test",
+    "task": "Как рассчитать себестоимость поставки товара?",
+    "behavior": null
+  },
+  {
+    "case_id": "test026",
+    "split": "test",
+    "task": "Как выбрать логистическую схему маркетплейса?",
+    "behavior": null
+  },
+  {
+    "case_id": "test027",
+    "split": "test",
+    "task": "Как найти поставщика товаров для продажи?",
+    "behavior": null
+  },
+  {
+    "case_id": "test028",
+    "split": "test",
+    "task": "Как продавать услуги через социальные сети?",
+    "behavior": null
+  },
+  {
+    "case_id": "test029",
+    "split": "test",
+    "task": "Как составить контент-план для продвижения?",
+    "behavior": null
+  },
+  {
+    "case_id": "test030",
+    "split": "test",
+    "task": "Как рассчитать рентабельность проекта?",
+    "behavior": null
+  },
+  {
+    "case_id": "test031",
+    "split": "test",
+    "task": "Чем кредит отличается от лизинга для бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "test032",
+    "split": "test",
+    "task": "Как получить финансирование на развитие малого бизнеса?",
+    "behavior": null
+  },
+  {
+    "case_id": "test033",
+    "split": "test",
+    "task": "Как предпринимателю подготовиться к участию в тендере?",
+    "behavior": null
+  },
+  {
+    "case_id": "test034",
+    "split": "test",
+    "task": "Как найти франшизу и оценить ее условия?",
+    "behavior": null
+  },
+  {
+    "case_id": "test035",
+    "split": "test",
+    "task": "Как построить производственный план компании?",
+    "behavior": null,
+    "history_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "devedge01",
+    "split": "dev",
+    "task": "",
+    "behavior": "empty"
+  },
+  {
+    "case_id": "devedge02",
+    "split": "dev",
+    "task": "кваркглюонный гипердвигатель тахионный",
+    "behavior": "out_of_vocabulary"
+  },
+  {
+    "case_id": "devedge03",
+    "split": "dev",
+    "task": "",
+    "behavior": null,
+    "history_topics": [
+      "Финансы и учет"
+    ]
+  },
+  {
+    "case_id": "devedge04",
+    "split": "dev",
+    "task": "спектральная телепортация мюонов",
+    "behavior": "out_of_vocabulary"
+  },
+  {
+    "case_id": "devedge05",
+    "split": "dev",
+    "task": "",
+    "behavior": "empty"
+  },
+  {
+    "case_id": "testedge01",
+    "split": "test",
+    "task": "",
+    "behavior": "empty"
+  },
+  {
+    "case_id": "testedge02",
+    "split": "test",
+    "task": "гиперпространственный флуктуационный квазикристалл",
+    "behavior": "out_of_vocabulary"
+  },
+  {
+    "case_id": "testedge03",
+    "split": "test",
+    "task": "",
+    "behavior": null,
+    "selected_topics": [
+      "Маркетинг"
+    ]
+  },
+  {
+    "case_id": "testedge04",
+    "split": "test",
+    "task": "интергалактический фотонный крейсер",
+    "behavior": "out_of_vocabulary"
+  },
+  {
+    "case_id": "testedge05",
+    "split": "test",
+    "task": "",
+    "behavior": "empty"
+  }
+]

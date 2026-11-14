@@ -1,0 +1,6 @@
+# Experimental stage-5 semantic channel. Keep in a private local environment.
+# Install the CPU-compatible torch build for the target platform separately.
+transformers==4.57.6
+huggingface-hub==0.36.2
+tokenizers==0.22.2
+safetensors==0.8.0

@@ -77,7 +77,7 @@ def evaluate(rows,labels,index):
                 "behavior_cases":len(behavior),"all_constraints_passed":all(all(r["checks"].values()) for r in subset)}
     return {"summary":summary,"per_case":per_case,
         "limitations":["20 catalog-aware synthetic cases, not production traffic.",
-            "16 relevance cases with independent agent judgments; not organizer expert labels.",
+            "Relevance judgments are supplied locally; assessors, independence and review method must be documented separately.",
             "NDCG and recall use a pool of top10 of two methods plus frozen seed labels, not exhaustive catalog judgments.",
             "No conversion, causal lift, statistical significance or online A/B conclusion."]}
 
@@ -90,8 +90,10 @@ def main():
     index,manifest=load_index(args.index_dir)
     cases=json.loads((args.eval_dir/"cases.json").read_text())
     seeds=json.loads((args.eval_dir/"seed_judgments.json").read_text())
-    rows=collect(index,cases)
     if args.collect_only:
+        if any((args.eval_dir/name).exists() for name in ("rankings.json","blind_pool.json","config_freeze.json")):
+            raise FileExistsError("Frozen benchmark exists; use a new evaluation directory")
+        rows=collect(index,cases)
         write_json(args.eval_dir/"rankings.json",rows)
         write_json(args.eval_dir/"blind_pool.json",blind_pool(index,rows,seeds))
         write_json(args.eval_dir/"config_freeze.json",{"bundle_id":manifest["bundle_id"],"policy":index.policy.model_dump(),
@@ -100,8 +102,9 @@ def main():
         print(json.dumps({"collected_cases":len(rows),"blind_pool":str(args.eval_dir/"blind_pool.json")}))
         return
     freeze=json.loads((args.eval_dir/"config_freeze.json").read_text())
-    if freeze["policy"]!=index.policy.model_dump() or freeze["cases_sha256"]!=file_hash(args.eval_dir/"cases.json") or freeze["seeds_sha256"]!=file_hash(args.eval_dir/"seed_judgments.json"):
+    if freeze["bundle_id"]!=manifest["bundle_id"] or freeze["policy"]!=index.policy.model_dump() or freeze["cases_sha256"]!=file_hash(args.eval_dir/"cases.json") or freeze["seeds_sha256"]!=file_hash(args.eval_dir/"seed_judgments.json"):
         raise ValueError("Frozen evaluation changed")
+    rows=collect(index,cases)
     labels=seeds+json.loads((args.eval_dir/"pool_judgments.json").read_text())
     result=evaluate(rows,labels,index)
     # Warm query latency excludes disk loading, verification and fitting.
