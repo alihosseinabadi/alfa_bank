@@ -1,0 +1,20 @@
+/* Движение объясняет переход или действие и не задерживает содержимое. */
+:root { --motion-ease: cubic-bezier(.2, 0, 0, 1); --motion-fast: 150ms; --motion-enter: 240ms; }
+.main-content { animation: view-arrive var(--motion-enter) var(--motion-ease) both; }
+.goal-confirmation, .recommendation-empty { animation: state-arrive 200ms var(--motion-ease) both; }
+.material-grid .course-card { animation: state-arrive 220ms var(--motion-ease) both; }
+.goal-button, .button, .cabinet-action, .account-primary, .account-secondary, .navigation a, .profile-link {
+  transition: background-color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease), transform var(--motion-fast) var(--motion-ease);
+}
+.goal-button:active, .button:active, .cabinet-action:active, .account-primary:active { transform: scale(.985); }
+.choice-menu summary { transition: border-color var(--motion-fast) var(--motion-ease); }
+.goal-button.selected::before { display: inline-block; animation: choice-arrive 180ms var(--motion-ease) both; }
+@keyframes view-arrive { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes state-arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes choice-arrive { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .main-content, .goal-confirmation, .recommendation-empty, .material-grid .course-card, .goal-button.selected::before, .loading-mark { animation: none; }
+  .goal-button, .button, .cabinet-action, .account-primary, .account-secondary, .navigation a, .profile-link { transition: none; }
+  .choice-menu summary { transition: none; }
+  .goal-button:active, .button:active, .cabinet-action:active, .account-primary:active { transform: none; }
+}

@@ -3,10 +3,10 @@ import type { FormEvent } from 'react'
 import { Link, useNavigate, useOutletContext } from 'react-router-dom'
 import type { PageContext } from '../components/Layout'
 import { registerUser } from '../services/api'
+import learningIllustration from '../assets/learning-illustration.webp'
 
 export default function Registration() {
-  const { user, setUser, profile } = useOutletContext<PageContext>()
-  const [email, setEmail] = useState('')
+  const { user, setUser, profile, registrationEmail: email, setRegistrationEmail: setEmail } = useOutletContext<PageContext>()
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
   const navigate = useNavigate()
@@ -19,6 +19,7 @@ export default function Registration() {
     try {
       const createdUser = await registerUser(email.trim(), profile)
       setUser(createdUser)
+      setEmail('')
       navigate('/profile')
     } catch (cause) {
       setError(cause instanceof TypeError
@@ -35,6 +36,9 @@ export default function Registration() {
         <span className="account-kicker">АЛЬФА-КУРС</span>
         <h1>Знания для ваших целей</h1>
         <p>Создайте профиль, чтобы начать свой путь в обучении.</p>
+        <div className="account-art" aria-hidden="true">
+          <img src={learningIllustration} alt="" />
+        </div>
         <div className="account-intro-note">
           <span aria-hidden="true">✦</span>
           <p>Один шаг — и вы сможете рассказать о своих задачах.</p>
@@ -53,7 +57,8 @@ export default function Registration() {
             <span className="account-kicker dark-eyebrow">ДОБРО ПОЖАЛОВАТЬ</span>
             <h2 id="registration-title">Создать профиль</h2>
             <p className="account-description">Укажите электронную почту, чтобы создать профиль в Альфа-Курсе.</p>
-            <p className="account-note">Собственная формулировка задачи пока не сохраняется при регистрации и доступна только до обновления страницы.</p>
+            <p className="account-note">Для регистрации сейчас нужна одна из трёх готовых задач в анкете. Свой текст и опыт пока не сохраняются на сервере. Введённая почта сохранится при переходе к анкете до обновления страницы.</p>
+            <Link className="cabinet-text-link" to="/onboarding">Выбрать готовую задачу →</Link>
             <form className="account-form" onSubmit={handleSubmit}>
               <label htmlFor="registration-email">Электронная почта</label>
               <input id="registration-email" type="email" autoComplete="email" required

@@ -33,6 +33,7 @@ export default function ProfilePage() {
             <div><span>Опыт</span><strong>{profile?.experience || 'Не указан'}</strong></div>
           </div>
           <p className="account-note">Изменения анкеты доступны до обновления страницы.</p>
+          {user && <p className="account-note">Изменения анкеты после регистрации и опыт пока не сохраняются на сервере.</p>}
           <Link className="cabinet-text-link" to="/onboarding">{profile ? 'Изменить задачу' : 'Выбрать задачу'} →</Link>
         </section>
         <div className="personal-content">

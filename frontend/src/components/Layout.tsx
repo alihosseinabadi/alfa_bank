@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import alfaSign from '../assets/alfa-sign-red.svg'
 
 export type Profile = {
   goal: string
@@ -13,6 +14,8 @@ export type PageContext = {
   setProfile: (profile: Profile | null) => void
   user: RegisteredUser | null
   setUser: (user: RegisteredUser | null) => void
+  registrationEmail: string
+  setRegistrationEmail: (email: string) => void
 }
 
 export type RegisteredUser = {
@@ -21,15 +24,18 @@ export type RegisteredUser = {
 }
 
 export default function Layout() {
+  const { pathname } = useLocation()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [user, setUser] = useState<RegisteredUser | null>(null)
+  const [registrationEmail, setRegistrationEmail] = useState('')
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content">Перейти к содержимому</a>
       <header className="topbar">
         <NavLink className="brand" to="/onboarding">
-          <span className="brand-icon" aria-hidden="true">✦</span>
-          <span>Альфа-Курс</span>
+          <img className="brand-sign" src={alfaSign} alt="" aria-hidden="true" />
+          <span className="brand-word">Альфа-Курс</span>
         </NavLink>
 
         <nav className="navigation" aria-label="Главная навигация">
@@ -46,8 +52,8 @@ export default function Layout() {
         </NavLink>
       </header>
 
-      <main className="main-content">
-        <Outlet context={{ profile, setProfile, user, setUser }} />
+      <main key={pathname} id="main-content" className="main-content" tabIndex={-1}>
+        <Outlet context={{ profile, setProfile, user, setUser, registrationEmail, setRegistrationEmail }} />
       </main>
     </div>
   )

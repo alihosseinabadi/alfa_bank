@@ -1,10 +1,15 @@
 import type { Profile, RegisteredUser } from '../components/Layout'
 
-const baseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
+// По умолчанию используется тот же origin; Vite проксирует /api при разработке.
+const baseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
 // Локальная ветка backend принимает только эти три значения, свободный текст — нет.
 const supportedGoals = ['Найти клиентов', 'Разобраться с финансами', 'Нанять сотрудника']
 
 export async function registerUser(email: string, profile: Profile | null): Promise<RegisteredUser> {
+  // В backend текущая цель обязательна в БД, хотя в схеме запроса она nullable.
+  if (!profile?.goal || !supportedGoals.includes(profile.goal)) {
+    throw new Error('Для регистрации пока нужна одна из трёх готовых задач в анкете. Собственный текст можно использовать в деморежиме.')
+  }
   const response = await fetch(`${baseUrl}/api/v1/users/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -12,7 +17,7 @@ export async function registerUser(email: string, profile: Profile | null): Prom
       email,
       business_status: profile?.stage || null,
       business_sphere: profile?.industry || null,
-      current_goal: profile?.goal && supportedGoals.includes(profile.goal) ? profile.goal : null,
+      current_goal: profile.goal,
       experience: profile?.experience || null,
     }),
   })

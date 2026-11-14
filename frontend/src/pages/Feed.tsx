@@ -40,7 +40,7 @@ export default function Feed() {
               <h1 id="recommendations-title">Знания для ваших задач</h1>
               {recommendationMode !== 'demo' && <p>Материалы для вашей задачи.</p>}
             </div>
-            <span className="cabinet-sparkle" aria-hidden="true">✳</span>
+            <span className="cabinet-sparkle" aria-hidden="true" />
           </div>
 
           {profile && <p className="current-goal"><span>Ваша задача:</span> <strong>{profile.goal}</strong> <Link to="/onboarding">Изменить</Link></p>}
@@ -49,12 +49,12 @@ export default function Feed() {
             {status === 'initial' && <div className="recommendation-empty"><div><h2>Начните с задачи</h2><p>{recommendationMode === 'demo' ? 'Выберите или опишите задачу, чтобы увидеть примеры материалов.' : 'Выберите или опишите задачу, чтобы найти материалы.'}</p><Link className="button button-primary" to="/onboarding">Выбрать задачу →</Link></div></div>}
             {status === 'loading' && <div className="recommendation-empty"><span className="loading-mark" aria-hidden="true" />Подбираем материалы…</div>}
             {status === 'error' && <div className="recommendation-empty"><div><h2>Не удалось получить материалы</h2><p>{configurationError || 'Попробуйте ещё раз позже.'}</p>{!configurationError && <button className="button button-primary" type="button" onClick={() => setAttempt((n) => n + 1)}>Повторить попытку</button>}</div></div>}
-            {status === 'success' && result?.materials.length === 0 && <div className="recommendation-empty"><div><h2>{result.source === 'demo' ? 'Примеры не найдены' : 'Материалы не найдены'}</h2><p>{result.source === 'demo' ? 'Попробуйте уточнить задачу: например, укажите клиентов, финансы или сотрудников.' : 'Попробуйте уточнить задачу и повторить поиск.'}</p><Link className="cabinet-text-link" to="/onboarding">Уточнить задачу →</Link></div></div>}
-            {status === 'success' && !!result?.materials.length && <><div className="results-heading"><h2>{result.source === 'demo' ? 'Примеры материалов' : 'Материалы'}</h2><span>{materialCount(result.materials.length)}</span></div><div className="material-grid">{result.materials.map((material) => <CourseCard key={material.id} {...material} />)}</div></>}
+            {status === 'success' && result?.materials.length === 0 && <div className="recommendation-empty"><div><h2>{result.source === 'demo' ? 'Примеры не найдены' : 'Материалы не найдены'}</h2><p>{result.clarification || (result.source === 'demo' ? 'Попробуйте уточнить задачу: например, укажите клиентов, финансы или сотрудников.' : 'Попробуйте уточнить задачу и повторить поиск.')}</p><Link className="cabinet-text-link" to="/onboarding">Уточнить задачу →</Link></div></div>}
+            {status === 'success' && !!result?.materials.length && <>{result.clarification && <p className="goal-help">{result.clarification}</p>}<div className="results-heading"><h2>{result.source === 'demo' ? 'Примеры материалов' : result.status === 'starter' ? 'Стартовые материалы' : 'Материалы'}</h2><span>{materialCount(result.materials.length)}</span></div><div className="material-grid">{result.materials.map((material) => <CourseCard key={material.id} {...material} />)}</div></>}
           </div>
         </section>
 
-        {profile && <div className="cabinet-bottom cabinet-bottom-single">
+        {profile && status !== 'success' && <div className="cabinet-bottom cabinet-bottom-single">
           <section className="cabinet-next panel" aria-labelledby="next-title">
             <div className="cabinet-section-head">
               <div>
@@ -78,7 +78,7 @@ export default function Feed() {
       </div>
       <aside className="cabinet-profile panel" aria-labelledby="cabinet-profile-title">
         <div className="cabinet-profile-top">
-          <span className="profile-avatar" aria-hidden="true">А</span>
+          <span className="profile-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0" strokeLinecap="round"/></svg></span>
           <span className="profile-badge">Ваша анкета</span>
           <h2 id="cabinet-profile-title">Ваши ориентиры</h2>
           <p>Здесь показаны ваши ответы для текущей подборки.</p>

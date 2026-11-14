@@ -1,15 +1,6 @@
 import type { Material } from '../types/recommendations'
-
-// Для внешнего материала разрешаем только явные HTTP(S)-ссылки.
-export function safeMaterialUrl(value?: string): string | undefined {
-  if (!value) return undefined
-  try {
-    const url = new URL(value)
-    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : undefined
-  } catch {
-    return undefined
-  }
-}
+import { safeMaterialUrl } from '../utils/materialUrl'
+export { safeMaterialUrl } from '../utils/materialUrl'
 
 export default function CourseCard({
   title,
@@ -19,6 +10,8 @@ export default function CourseCard({
   type,
   price,
   duration,
+  access,
+  linkNote,
 }: Material) {
   const safeHref = safeMaterialUrl(href)
 
@@ -29,6 +22,7 @@ export default function CourseCard({
         <h3>{title}</h3>
         {description && <p>{description}</p>}
         {(price || duration) && <p>{[price, duration].filter(Boolean).join(' · ')}</p>}
+        {access && <p>{access}</p>}
       </div>
 
       <div className="course-footer">
@@ -38,6 +32,7 @@ export default function CourseCard({
             Открыть материал →
           </a>
         )}
+        {safeHref && linkNote && <span className="goal-help">{linkNote}</span>}
         {!safeHref && <span className="goal-help">Ссылка недоступна</span>}
       </div>
     </article>

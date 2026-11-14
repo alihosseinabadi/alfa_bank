@@ -9,6 +9,40 @@ const goals = [
   'Нанять сотрудника',
 ]
 
+function ChoiceField({ label, placeholder, value, options, onChange }: {
+  label: string
+  placeholder: string
+  value: string
+  options: string[]
+  onChange: (value: string) => void
+}) {
+  return (
+    <fieldset className="choice-field">
+      <legend>{label}</legend>
+      <details className="choice-menu" onKeyDown={(event) => {
+        if (event.key === 'Escape' && event.currentTarget.open) {
+          event.currentTarget.open = false
+          event.currentTarget.querySelector('summary')?.focus()
+        }
+      }}>
+        <summary aria-label={`${label}: ${value || placeholder}`}><span>{value || placeholder}</span><span className="choice-chevron" aria-hidden="true" /></summary>
+        <div className="choice-options">
+          {['', ...options].map((option) => (
+            <label className="choice-option" key={option || 'empty'}>
+              <input type="radio" name={label} value={option} checked={value === option} onChange={(event) => onChange(event.target.value)} onClick={(event) => {
+                if (event.detail === 0) return
+                const menu = event.currentTarget.closest('details')
+                if (menu) { menu.open = false; menu.querySelector('summary')?.focus() }
+              }} />
+              <span>{option || 'Не указывать'}</span>
+            </label>
+          ))}
+        </div>
+      </details>
+    </fieldset>
+  )
+}
+
 export default function Onboarding() {
   const navigate = useNavigate()
   const { profile, setProfile } = useOutletContext<PageContext>()
@@ -47,7 +81,7 @@ export default function Onboarding() {
             <h1>Подбор под вашу задачу</h1>
             <p>Выберите готовый вариант или расскажите своими словами.</p>
           </div>
-          <span className="heading-symbol" aria-hidden="true">✳</span>
+          <span className="heading-symbol" aria-hidden="true" />
         </div>
 
         <form className="form-card" onSubmit={handleSubmit}>
@@ -86,36 +120,9 @@ export default function Onboarding() {
           </div>
 
           <div className="form-fields">
-            <label>
-              Сфера бизнеса
-              <select value={industry} onChange={(event) => setIndustry(event.target.value)}>
-                <option value="">Выберите сферу</option>
-                <option value="Услуги">Услуги</option>
-                <option value="Торговля">Торговля</option>
-                <option value="Производство">Производство</option>
-                <option value="IT">IT</option>
-                <option value="Другая">Другая</option>
-              </select>
-            </label>
-
-            <label>
-              Стадия бизнеса
-              <select value={stage} onChange={(event) => setStage(event.target.value)}>
-                <option value="">Выберите стадию</option>
-                <option value="Запускаю бизнес">Запускаю бизнес</option>
-                <option value="Действующий бизнес">Действующий бизнес</option>
-                <option value="Масштабируюсь">Масштабируюсь</option>
-              </select>
-            </label>
-
-            <label>
-              Опыт
-              <select value={experience} onChange={(event) => setExperience(event.target.value)}>
-                <option value="">Выберите опыт</option>
-                <option value="Нет опыта">Нет опыта</option>
-                <option value="Есть опыт">Есть опыт</option>
-              </select>
-            </label>
+            <ChoiceField label="Сфера бизнеса" placeholder="Выберите сферу" value={industry} onChange={setIndustry} options={['Услуги', 'Торговля', 'Производство', 'IT', 'Другая']} />
+            <ChoiceField label="Стадия бизнеса" placeholder="Выберите стадию" value={stage} onChange={setStage} options={['Запускаю бизнес', 'Действующий бизнес', 'Масштабируюсь']} />
+            <ChoiceField label="Опыт" placeholder="Выберите опыт" value={experience} onChange={setExperience} options={['Нет опыта', 'Есть опыт']} />
           </div>
           </details>
 
@@ -133,7 +140,7 @@ export default function Onboarding() {
       </section>
       <aside className="profile-card panel">
         <div className="guide-art" aria-hidden="true">
-          <svg viewBox="0 0 180 132" fill="none"><rect x="18" y="32" width="100" height="72" rx="14" fill="#F8EAE4"/><rect x="30" y="20" width="100" height="72" rx="14" fill="#EFCFC5"/><rect x="42" y="8" width="100" height="72" rx="14" fill="#A62D24"/><path d="M62 31h59M62 43h45M62 55h34" stroke="white" strokeWidth="5" strokeLinecap="round"/><circle cx="132" cy="91" r="25" fill="#EEDCC9"/><path d="m122 91 7 7 14-16" stroke="#674237" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <svg viewBox="0 0 180 132" fill="none"><rect x="18" y="32" width="100" height="72" rx="14" fill="#ECEDEB"/><rect x="30" y="20" width="100" height="72" rx="14" fill="#D9D9D6"/><rect x="42" y="8" width="100" height="72" rx="14" fill="#1B1B1B"/><path d="M62 31h59M62 43h45M62 55h34" stroke="white" strokeWidth="5" strokeLinecap="round"/><circle cx="132" cy="91" r="25" fill="#EF3124"/><path d="m122 91 7 7 14-16" stroke="#171717" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
         <span className="guide-kicker">НАЙДЁМ ОТВЕТ ВМЕСТЕ</span>
         <h2>Одна задача — первый шаг</h2>
