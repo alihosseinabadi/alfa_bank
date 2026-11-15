@@ -1,0 +1,6182 @@
+{
+ "version": "light-benchmark-v1",
+ "note": "Fully synthetic Russian business catalog. No organizer or user data.",
+ "materials": [
+  {
+   "material_key": "unit_economics-ue1-a0",
+   "title": "Юнит-экономика продукта для интернет-магазина",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue1-a0",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "юнит-экономика"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue1-a1",
+   "title": "Юнит-экономика продукта для небольшого кафе",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue1-a1",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "юнит-экономика"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue1-a2",
+   "title": "Юнит-экономика продукта для онлайн-школы",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue1-a2",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "юнит-экономика"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue1-a3",
+   "title": "Юнит-экономика продукта для оптовой компании",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue1-a3",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "юнит-экономика"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue2-a0",
+   "title": "LTV и CAC для интернет-магазина",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue2-a0",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "ltv"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue2-a1",
+   "title": "LTV и CAC для небольшого кафе",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue2-a1",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "ltv"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue2-a2",
+   "title": "LTV и CAC для онлайн-школы",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue2-a2",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "ltv"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue2-a3",
+   "title": "LTV и CAC для оптовой компании",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue2-a3",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "ltv"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue3-a0",
+   "title": "Маржинальность заказа для интернет-магазина",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue3-a0",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "маржинальность"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue3-a1",
+   "title": "Маржинальность заказа для небольшого кафе",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue3-a1",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "маржинальность"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue3-a2",
+   "title": "Маржинальность заказа для онлайн-школы",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue3-a2",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "маржинальность"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "unit_economics-ue3-a3",
+   "title": "Маржинальность заказа для оптовой компании",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/unit_economics-ue3-a3",
+   "topics": [
+    "Юнит-экономика"
+   ],
+   "tags": [
+    "юнит-экономика",
+    "ltv",
+    "cac",
+    "маржа",
+    "маржинальность"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl1-a0",
+   "title": "Клиентский сервис для интернет-магазина",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/clients-cl1-a0",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "клиентский"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl1-a1",
+   "title": "Клиентский сервис для небольшого кафе",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/clients-cl1-a1",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "клиентский"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl1-a2",
+   "title": "Клиентский сервис для онлайн-школы",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/clients-cl1-a2",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "клиентский"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl1-a3",
+   "title": "Клиентский сервис для оптовой компании",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/clients-cl1-a3",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "клиентский"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl2-a0",
+   "title": "Удержание покупателей для интернет-магазина",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/clients-cl2-a0",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "удержание"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl2-a1",
+   "title": "Удержание покупателей для небольшого кафе",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/clients-cl2-a1",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "удержание"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl2-a2",
+   "title": "Удержание покупателей для онлайн-школы",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/clients-cl2-a2",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "удержание"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl2-a3",
+   "title": "Удержание покупателей для оптовой компании",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/clients-cl2-a3",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "удержание"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl3-a0",
+   "title": "Работа с жалобами для интернет-магазина",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/clients-cl3-a0",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "работа"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl3-a1",
+   "title": "Работа с жалобами для небольшого кафе",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/clients-cl3-a1",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "работа"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl3-a2",
+   "title": "Работа с жалобами для онлайн-школы",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/clients-cl3-a2",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "работа"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "clients-cl3-a3",
+   "title": "Работа с жалобами для оптовой компании",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/clients-cl3-a3",
+   "topics": [
+    "Клиентский сервис"
+   ],
+   "tags": [
+    "клиентский сервис",
+    "удержание",
+    "лояльность",
+    "покупатели",
+    "работа"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk1-a0",
+   "title": "Каналы привлечения для интернет-магазина",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/marketing-mk1-a0",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "каналы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk1-a1",
+   "title": "Каналы привлечения для небольшого кафе",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/marketing-mk1-a1",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "каналы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk1-a2",
+   "title": "Каналы привлечения для онлайн-школы",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/marketing-mk1-a2",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "каналы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk1-a3",
+   "title": "Каналы привлечения для оптовой компании",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/marketing-mk1-a3",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "каналы"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk2-a0",
+   "title": "Рекламный бюджет для интернет-магазина",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/marketing-mk2-a0",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "рекламный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk2-a1",
+   "title": "Рекламный бюджет для небольшого кафе",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/marketing-mk2-a1",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "рекламный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk2-a2",
+   "title": "Рекламный бюджет для онлайн-школы",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/marketing-mk2-a2",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "рекламный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk2-a3",
+   "title": "Рекламный бюджет для оптовой компании",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/marketing-mk2-a3",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "рекламный"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk3-a0",
+   "title": "Контент-маркетинг для интернет-магазина",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/marketing-mk3-a0",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "контент-маркетинг"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk3-a1",
+   "title": "Контент-маркетинг для небольшого кафе",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/marketing-mk3-a1",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "контент-маркетинг"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk3-a2",
+   "title": "Контент-маркетинг для онлайн-школы",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/marketing-mk3-a2",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "контент-маркетинг"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketing-mk3-a3",
+   "title": "Контент-маркетинг для оптовой компании",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/marketing-mk3-a3",
+   "topics": [
+    "Маркетинг"
+   ],
+   "tags": [
+    "маркетинг",
+    "реклама",
+    "трафик",
+    "продвижение",
+    "контент-маркетинг"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl1-a0",
+   "title": "Техника продаж для интернет-магазина",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/sales-sl1-a0",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "техника"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl1-a1",
+   "title": "Техника продаж для небольшого кафе",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/sales-sl1-a1",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "техника"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl1-a2",
+   "title": "Техника продаж для онлайн-школы",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/sales-sl1-a2",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "техника"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl1-a3",
+   "title": "Техника продаж для оптовой компании",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/sales-sl1-a3",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "техника"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl2-a0",
+   "title": "Скрипты звонков для интернет-магазина",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/sales-sl2-a0",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "скрипты"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl2-a1",
+   "title": "Скрипты звонков для небольшого кафе",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/sales-sl2-a1",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "скрипты"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl2-a2",
+   "title": "Скрипты звонков для онлайн-школы",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/sales-sl2-a2",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "скрипты"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl2-a3",
+   "title": "Скрипты звонков для оптовой компании",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/sales-sl2-a3",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "скрипты"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl3-a0",
+   "title": "Воронка продаж для интернет-магазина",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/sales-sl3-a0",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "воронка"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl3-a1",
+   "title": "Воронка продаж для небольшого кафе",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/sales-sl3-a1",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "воронка"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl3-a2",
+   "title": "Воронка продаж для онлайн-школы",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/sales-sl3-a2",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "воронка"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "sales-sl3-a3",
+   "title": "Воронка продаж для оптовой компании",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/sales-sl3-a3",
+   "topics": [
+    "Продажи"
+   ],
+   "tags": [
+    "продажи",
+    "сделки",
+    "возражения",
+    "конверсия",
+    "воронка"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn1-a0",
+   "title": "Денежный поток для интернет-магазина",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/finance-fn1-a0",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "денежный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn1-a1",
+   "title": "Денежный поток для небольшого кафе",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/finance-fn1-a1",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "денежный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn1-a2",
+   "title": "Денежный поток для онлайн-школы",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/finance-fn1-a2",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "денежный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn1-a3",
+   "title": "Денежный поток для оптовой компании",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/finance-fn1-a3",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "денежный"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn2-a0",
+   "title": "Кассовый разрыв для интернет-магазина",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/finance-fn2-a0",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "кассовый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn2-a1",
+   "title": "Кассовый разрыв для небольшого кафе",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/finance-fn2-a1",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "кассовый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn2-a2",
+   "title": "Кассовый разрыв для онлайн-школы",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/finance-fn2-a2",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "кассовый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn2-a3",
+   "title": "Кассовый разрыв для оптовой компании",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/finance-fn2-a3",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "кассовый"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn3-a0",
+   "title": "Финансовый учёт для интернет-магазина",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/finance-fn3-a0",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "финансовый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn3-a1",
+   "title": "Финансовый учёт для небольшого кафе",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/finance-fn3-a1",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "финансовый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn3-a2",
+   "title": "Финансовый учёт для онлайн-школы",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/finance-fn3-a2",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "финансовый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "finance-fn3-a3",
+   "title": "Финансовый учёт для оптовой компании",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/finance-fn3-a3",
+   "topics": [
+    "Финансы"
+   ],
+   "tags": [
+    "финансы",
+    "деньги",
+    "учёт",
+    "платежи",
+    "финансовый"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg1-a0",
+   "title": "Регистрация ИП для интернет-магазина",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/legal-lg1-a0",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "регистрация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg1-a1",
+   "title": "Регистрация ИП для небольшого кафе",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/legal-lg1-a1",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "регистрация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg1-a2",
+   "title": "Регистрация ИП для онлайн-школы",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/legal-lg1-a2",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "регистрация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg1-a3",
+   "title": "Регистрация ИП для оптовой компании",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/legal-lg1-a3",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "регистрация"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg2-a0",
+   "title": "Налоговый режим для интернет-магазина",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/legal-lg2-a0",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "налоговый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg2-a1",
+   "title": "Налоговый режим для небольшого кафе",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/legal-lg2-a1",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "налоговый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg2-a2",
+   "title": "Налоговый режим для онлайн-школы",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/legal-lg2-a2",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "налоговый"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg2-a3",
+   "title": "Налоговый режим для оптовой компании",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/legal-lg2-a3",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "налоговый"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg3-a0",
+   "title": "Договор с поставщиком для интернет-магазина",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/legal-lg3-a0",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "договор"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg3-a1",
+   "title": "Договор с поставщиком для небольшого кафе",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/legal-lg3-a1",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "договор"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg3-a2",
+   "title": "Договор с поставщиком для онлайн-школы",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/legal-lg3-a2",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "договор"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "legal-lg3-a3",
+   "title": "Договор с поставщиком для оптовой компании",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/legal-lg3-a3",
+   "topics": [
+    "Право и регистрация"
+   ],
+   "tags": [
+    "регистрация",
+    "документы",
+    "договор",
+    "ип",
+    "договор"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr1-a0",
+   "title": "Найм сотрудников для интернет-магазина",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/hiring-hr1-a0",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "найм"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr1-a1",
+   "title": "Найм сотрудников для небольшого кафе",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/hiring-hr1-a1",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "найм"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr1-a2",
+   "title": "Найм сотрудников для онлайн-школы",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/hiring-hr1-a2",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "найм"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr1-a3",
+   "title": "Найм сотрудников для оптовой компании",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/hiring-hr1-a3",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "найм"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr2-a0",
+   "title": "Собеседование для интернет-магазина",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/hiring-hr2-a0",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "собеседование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr2-a1",
+   "title": "Собеседование для небольшого кафе",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/hiring-hr2-a1",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "собеседование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr2-a2",
+   "title": "Собеседование для онлайн-школы",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/hiring-hr2-a2",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "собеседование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr2-a3",
+   "title": "Собеседование для оптовой компании",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/hiring-hr2-a3",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "собеседование"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr3-a0",
+   "title": "Адаптация новичка для интернет-магазина",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/hiring-hr3-a0",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "адаптация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr3-a1",
+   "title": "Адаптация новичка для небольшого кафе",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/hiring-hr3-a1",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "адаптация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr3-a2",
+   "title": "Адаптация новичка для онлайн-школы",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/hiring-hr3-a2",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "адаптация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "hiring-hr3-a3",
+   "title": "Адаптация новичка для оптовой компании",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/hiring-hr3-a3",
+   "topics": [
+    "Найм"
+   ],
+   "tags": [
+    "найм",
+    "команда",
+    "сотрудники",
+    "собеседование",
+    "адаптация"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx1-a0",
+   "title": "НДС для интернет-магазина",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/tax-tx1-a0",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "ндс"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx1-a1",
+   "title": "НДС для небольшого кафе",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/tax-tx1-a1",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "ндс"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx1-a2",
+   "title": "НДС для онлайн-школы",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/tax-tx1-a2",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "ндс"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx1-a3",
+   "title": "НДС для оптовой компании",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/tax-tx1-a3",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "ндс"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx2-a0",
+   "title": "Упрощённая система для интернет-магазина",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/tax-tx2-a0",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "упрощённая"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx2-a1",
+   "title": "Упрощённая система для небольшого кафе",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/tax-tx2-a1",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "упрощённая"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx2-a2",
+   "title": "Упрощённая система для онлайн-школы",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/tax-tx2-a2",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "упрощённая"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx2-a3",
+   "title": "Упрощённая система для оптовой компании",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/tax-tx2-a3",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "упрощённая"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx3-a0",
+   "title": "Страховые взносы для интернет-магазина",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/tax-tx3-a0",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "страховые"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx3-a1",
+   "title": "Страховые взносы для небольшого кафе",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/tax-tx3-a1",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "страховые"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx3-a2",
+   "title": "Страховые взносы для онлайн-школы",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/tax-tx3-a2",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "страховые"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "tax-tx3-a3",
+   "title": "Страховые взносы для оптовой компании",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/tax-tx3-a3",
+   "topics": [
+    "Налоги"
+   ],
+   "tags": [
+    "налоги",
+    "ндс",
+    "взносы",
+    "усн",
+    "страховые"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp1-a0",
+   "title": "Карточка товара для интернет-магазина",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/marketplace-mp1-a0",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "карточка"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp1-a1",
+   "title": "Карточка товара для небольшого кафе",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/marketplace-mp1-a1",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "карточка"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp1-a2",
+   "title": "Карточка товара для онлайн-школы",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/marketplace-mp1-a2",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "карточка"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp1-a3",
+   "title": "Карточка товара для оптовой компании",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/marketplace-mp1-a3",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "карточка"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp2-a0",
+   "title": "Логистика заказов для интернет-магазина",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/marketplace-mp2-a0",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "логистика"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp2-a1",
+   "title": "Логистика заказов для небольшого кафе",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/marketplace-mp2-a1",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "логистика"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp2-a2",
+   "title": "Логистика заказов для онлайн-школы",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/marketplace-mp2-a2",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "логистика"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp2-a3",
+   "title": "Логистика заказов для оптовой компании",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/marketplace-mp2-a3",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "логистика"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp3-a0",
+   "title": "Рейтинг продавца для интернет-магазина",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/marketplace-mp3-a0",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "рейтинг"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp3-a1",
+   "title": "Рейтинг продавца для небольшого кафе",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/marketplace-mp3-a1",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "рейтинг"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp3-a2",
+   "title": "Рейтинг продавца для онлайн-школы",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/marketplace-mp3-a2",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "рейтинг"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "marketplace-mp3-a3",
+   "title": "Рейтинг продавца для оптовой компании",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/marketplace-mp3-a3",
+   "topics": [
+    "Маркетплейсы"
+   ],
+   "tags": [
+    "маркетплейс",
+    "карточка товара",
+    "доставка",
+    "продавец",
+    "рейтинг"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op1-a0",
+   "title": "Бизнес-процессы для интернет-магазина",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/operations-op1-a0",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "бизнес-процессы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op1-a1",
+   "title": "Бизнес-процессы для небольшого кафе",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/operations-op1-a1",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "бизнес-процессы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op1-a2",
+   "title": "Бизнес-процессы для онлайн-школы",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/operations-op1-a2",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "бизнес-процессы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op1-a3",
+   "title": "Бизнес-процессы для оптовой компании",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/operations-op1-a3",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "бизнес-процессы"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op2-a0",
+   "title": "Автоматизация рутины для интернет-магазина",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/operations-op2-a0",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "автоматизация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op2-a1",
+   "title": "Автоматизация рутины для небольшого кафе",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/operations-op2-a1",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "автоматизация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op2-a2",
+   "title": "Автоматизация рутины для онлайн-школы",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/operations-op2-a2",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "автоматизация"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op2-a3",
+   "title": "Автоматизация рутины для оптовой компании",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/operations-op2-a3",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "автоматизация"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op3-a0",
+   "title": "Контроль качества для интернет-магазина",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/operations-op3-a0",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "контроль"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op3-a1",
+   "title": "Контроль качества для небольшого кафе",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/operations-op3-a1",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "контроль"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op3-a2",
+   "title": "Контроль качества для онлайн-школы",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/operations-op3-a2",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "контроль"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "operations-op3-a3",
+   "title": "Контроль качества для оптовой компании",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/operations-op3-a3",
+   "topics": [
+    "Операции"
+   ],
+   "tags": [
+    "процессы",
+    "автоматизация",
+    "качество",
+    "закупки",
+    "контроль"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr1-a0",
+   "title": "Исследование спроса для интернет-магазина",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/product-pr1-a0",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "исследование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr1-a1",
+   "title": "Исследование спроса для небольшого кафе",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/product-pr1-a1",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "исследование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr1-a2",
+   "title": "Исследование спроса для онлайн-школы",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/product-pr1-a2",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "исследование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr1-a3",
+   "title": "Исследование спроса для оптовой компании",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/product-pr1-a3",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "исследование"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr2-a0",
+   "title": "Ценовая стратегия для интернет-магазина",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/product-pr2-a0",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "ценовая"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr2-a1",
+   "title": "Ценовая стратегия для небольшого кафе",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/product-pr2-a1",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "ценовая"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr2-a2",
+   "title": "Ценовая стратегия для онлайн-школы",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/product-pr2-a2",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "ценовая"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr2-a3",
+   "title": "Ценовая стратегия для оптовой компании",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/product-pr2-a3",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "ценовая"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr3-a0",
+   "title": "Тестирование гипотез для интернет-магазина",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/product-pr3-a0",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "тестирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr3-a1",
+   "title": "Тестирование гипотез для небольшого кафе",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/product-pr3-a1",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "тестирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr3-a2",
+   "title": "Тестирование гипотез для онлайн-школы",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/product-pr3-a2",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "тестирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "product-pr3-a3",
+   "title": "Тестирование гипотез для оптовой компании",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/product-pr3-a3",
+   "topics": [
+    "Продукт"
+   ],
+   "tags": [
+    "продукт",
+    "спрос",
+    "цена",
+    "гипотезы",
+    "тестирование"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd1-a0",
+   "title": "Бизнес-план для инвестора для интернет-магазина",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/funding-fd1-a0",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "бизнес-план"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd1-a1",
+   "title": "Бизнес-план для инвестора для небольшого кафе",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/funding-fd1-a1",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "бизнес-план"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd1-a2",
+   "title": "Бизнес-план для инвестора для онлайн-школы",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/funding-fd1-a2",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "бизнес-план"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd1-a3",
+   "title": "Бизнес-план для инвестора для оптовой компании",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/funding-fd1-a3",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "бизнес-план"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd2-a0",
+   "title": "Кредит для бизнеса для интернет-магазина",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/funding-fd2-a0",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "кредит"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd2-a1",
+   "title": "Кредит для бизнеса для небольшого кафе",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/funding-fd2-a1",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "кредит"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd2-a2",
+   "title": "Кредит для бизнеса для онлайн-школы",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/funding-fd2-a2",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "кредит"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd2-a3",
+   "title": "Кредит для бизнеса для оптовой компании",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/funding-fd2-a3",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "кредит"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd3-a0",
+   "title": "Грант на развитие для интернет-магазина",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/funding-fd3-a0",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "грант"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd3-a1",
+   "title": "Грант на развитие для небольшого кафе",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/funding-fd3-a1",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "грант"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd3-a2",
+   "title": "Грант на развитие для онлайн-школы",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/funding-fd3-a2",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "грант"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "funding-fd3-a3",
+   "title": "Грант на развитие для оптовой компании",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/funding-fd3-a3",
+   "topics": [
+    "Финансирование"
+   ],
+   "tags": [
+    "инвестор",
+    "кредит",
+    "грант",
+    "бизнес-план",
+    "грант"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st1-a0",
+   "title": "Конкурентный анализ для интернет-магазина",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/strategy-st1-a0",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "конкурентный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st1-a1",
+   "title": "Конкурентный анализ для небольшого кафе",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/strategy-st1-a1",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "конкурентный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st1-a2",
+   "title": "Конкурентный анализ для онлайн-школы",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/strategy-st1-a2",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "конкурентный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st1-a3",
+   "title": "Конкурентный анализ для оптовой компании",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/strategy-st1-a3",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "конкурентный"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st2-a0",
+   "title": "Выход на новый рынок для интернет-магазина",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/strategy-st2-a0",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "выход"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st2-a1",
+   "title": "Выход на новый рынок для небольшого кафе",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/strategy-st2-a1",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "выход"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st2-a2",
+   "title": "Выход на новый рынок для онлайн-школы",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/strategy-st2-a2",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "выход"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st2-a3",
+   "title": "Выход на новый рынок для оптовой компании",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/strategy-st2-a3",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "выход"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st3-a0",
+   "title": "Масштабирование бизнеса для интернет-магазина",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/strategy-st3-a0",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "масштабирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st3-a1",
+   "title": "Масштабирование бизнеса для небольшого кафе",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/strategy-st3-a1",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "масштабирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st3-a2",
+   "title": "Масштабирование бизнеса для онлайн-школы",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/strategy-st3-a2",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "масштабирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "strategy-st3-a3",
+   "title": "Масштабирование бизнеса для оптовой компании",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/strategy-st3-a3",
+   "topics": [
+    "Стратегия"
+   ],
+   "tags": [
+    "стратегия",
+    "конкуренты",
+    "рынок",
+    "масштабирование",
+    "масштабирование"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br1-a0",
+   "title": "Позиционирование бренда для интернет-магазина",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/brand-br1-a0",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "позиционирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br1-a1",
+   "title": "Позиционирование бренда для небольшого кафе",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/brand-br1-a1",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "позиционирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br1-a2",
+   "title": "Позиционирование бренда для онлайн-школы",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/brand-br1-a2",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "позиционирование"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br1-a3",
+   "title": "Позиционирование бренда для оптовой компании",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/brand-br1-a3",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "позиционирование"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br2-a0",
+   "title": "Фирменный стиль для интернет-магазина",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/brand-br2-a0",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "фирменный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br2-a1",
+   "title": "Фирменный стиль для небольшого кафе",
+   "item_type": "course",
+   "url": "https://example.test/alfa-kurs/brand-br2-a1",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "фирменный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 15,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br2-a2",
+   "title": "Фирменный стиль для онлайн-школы",
+   "item_type": "article",
+   "url": "https://example.test/alfa-kurs/brand-br2-a2",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "фирменный"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 30,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br2-a3",
+   "title": "Фирменный стиль для оптовой компании",
+   "item_type": "document",
+   "url": "https://example.test/alfa-kurs/brand-br2-a3",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "фирменный"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 45,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br3-a0",
+   "title": "Отзывы клиентов для интернет-магазина",
+   "item_type": "webinar",
+   "url": "https://example.test/alfa-kurs/brand-br3-a0",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "отзывы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 60,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br3-a1",
+   "title": "Отзывы клиентов для небольшого кафе",
+   "item_type": "podcast",
+   "url": "https://example.test/alfa-kurs/brand-br3-a1",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "отзывы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 90,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br3-a2",
+   "title": "Отзывы клиентов для онлайн-школы",
+   "item_type": "glossary",
+   "url": "https://example.test/alfa-kurs/brand-br3-a2",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "отзывы"
+   ],
+   "access_type": "Открытый",
+   "listed_price": null,
+   "duration_minutes": 120,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  },
+  {
+   "material_key": "brand-br3-a3",
+   "title": "Отзывы клиентов для оптовой компании",
+   "item_type": "calculator",
+   "url": "https://example.test/alfa-kurs/brand-br3-a3",
+   "topics": [
+    "Бренд"
+   ],
+   "tags": [
+    "бренд",
+    "стиль",
+    "отзывы",
+    "репутация",
+    "отзывы"
+   ],
+   "access_type": "По подписке",
+   "listed_price": 6900,
+   "duration_minutes": 180,
+   "is_discoverable": true,
+   "url_state": "reachable"
+  }
+ ],
+ "chunks": [
+  {
+   "chunk_id": "unit_economics-ue1-a0-meta",
+   "material_key": "unit_economics-ue1-a0",
+   "text": "Юнит-экономика продукта для интернет-магазина. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue1-a0-body",
+   "material_key": "unit_economics-ue1-a0",
+   "text": "Юнит-экономика показывает, сколько прибыли приносит один клиент после вычета стоимости привлечения. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "unit_economics-ue1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue1-a1-meta",
+   "material_key": "unit_economics-ue1-a1",
+   "text": "Юнит-экономика продукта для небольшого кафе. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue1-a1-body",
+   "material_key": "unit_economics-ue1-a1",
+   "text": "Юнит-экономика показывает, сколько прибыли приносит один клиент после вычета стоимости привлечения. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "unit_economics-ue1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue1-a2-meta",
+   "material_key": "unit_economics-ue1-a2",
+   "text": "Юнит-экономика продукта для онлайн-школы. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue1-a2-body",
+   "material_key": "unit_economics-ue1-a2",
+   "text": "Юнит-экономика показывает, сколько прибыли приносит один клиент после вычета стоимости привлечения. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "unit_economics-ue1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue1-a3-meta",
+   "material_key": "unit_economics-ue1-a3",
+   "text": "Юнит-экономика продукта для оптовой компании. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a0-meta",
+   "material_key": "unit_economics-ue2-a0",
+   "text": "LTV и CAC для интернет-магазина. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a0-body",
+   "material_key": "unit_economics-ue2-a0",
+   "text": "Метрики LTV и CAC помогают понять, окупается ли привлечение покупателя. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "unit_economics-ue2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a1-meta",
+   "material_key": "unit_economics-ue2-a1",
+   "text": "LTV и CAC для небольшого кафе. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a1-body",
+   "material_key": "unit_economics-ue2-a1",
+   "text": "Метрики LTV и CAC помогают понять, окупается ли привлечение покупателя. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "unit_economics-ue2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a2-meta",
+   "material_key": "unit_economics-ue2-a2",
+   "text": "LTV и CAC для онлайн-школы. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a2-body",
+   "material_key": "unit_economics-ue2-a2",
+   "text": "Метрики LTV и CAC помогают понять, окупается ли привлечение покупателя. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "unit_economics-ue2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue2-a3-meta",
+   "material_key": "unit_economics-ue2-a3",
+   "text": "LTV и CAC для оптовой компании. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a0-meta",
+   "material_key": "unit_economics-ue3-a0",
+   "text": "Маржинальность заказа для интернет-магазина. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a0-body",
+   "material_key": "unit_economics-ue3-a0",
+   "text": "Маржинальность заказа равна выручке минус переменные расходы на его выполнение. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "unit_economics-ue3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a1-meta",
+   "material_key": "unit_economics-ue3-a1",
+   "text": "Маржинальность заказа для небольшого кафе. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a1-body",
+   "material_key": "unit_economics-ue3-a1",
+   "text": "Маржинальность заказа равна выручке минус переменные расходы на его выполнение. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "unit_economics-ue3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a2-meta",
+   "material_key": "unit_economics-ue3-a2",
+   "text": "Маржинальность заказа для онлайн-школы. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a2-body",
+   "material_key": "unit_economics-ue3-a2",
+   "text": "Маржинальность заказа равна выручке минус переменные расходы на его выполнение. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "unit_economics-ue3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "unit_economics-ue3-a3-meta",
+   "material_key": "unit_economics-ue3-a3",
+   "text": "Маржинальность заказа для оптовой компании. Тема: Юнит-экономика. Теги: юнит-экономика, ltv, cac, маржа.",
+   "source_block_ids": [
+    "unit_economics-ue3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl1-a0-meta",
+   "material_key": "clients-cl1-a0",
+   "text": "Клиентский сервис для интернет-магазина. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl1-a0-body",
+   "material_key": "clients-cl1-a0",
+   "text": "Клиентский сервис влияет на то, вернётся ли покупатель за повторной покупкой. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "clients-cl1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl1-a1-meta",
+   "material_key": "clients-cl1-a1",
+   "text": "Клиентский сервис для небольшого кафе. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl1-a1-body",
+   "material_key": "clients-cl1-a1",
+   "text": "Клиентский сервис влияет на то, вернётся ли покупатель за повторной покупкой. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "clients-cl1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl1-a2-meta",
+   "material_key": "clients-cl1-a2",
+   "text": "Клиентский сервис для онлайн-школы. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl1-a2-body",
+   "material_key": "clients-cl1-a2",
+   "text": "Клиентский сервис влияет на то, вернётся ли покупатель за повторной покупкой. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "clients-cl1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl1-a3-meta",
+   "material_key": "clients-cl1-a3",
+   "text": "Клиентский сервис для оптовой компании. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl2-a0-meta",
+   "material_key": "clients-cl2-a0",
+   "text": "Удержание покупателей для интернет-магазина. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl2-a0-body",
+   "material_key": "clients-cl2-a0",
+   "text": "Удержание покупателей дешевле, чем привлечение новых клиентов. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "clients-cl2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl2-a1-meta",
+   "material_key": "clients-cl2-a1",
+   "text": "Удержание покупателей для небольшого кафе. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl2-a1-body",
+   "material_key": "clients-cl2-a1",
+   "text": "Удержание покупателей дешевле, чем привлечение новых клиентов. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "clients-cl2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl2-a2-meta",
+   "material_key": "clients-cl2-a2",
+   "text": "Удержание покупателей для онлайн-школы. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl2-a2-body",
+   "material_key": "clients-cl2-a2",
+   "text": "Удержание покупателей дешевле, чем привлечение новых клиентов. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "clients-cl2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl2-a3-meta",
+   "material_key": "clients-cl2-a3",
+   "text": "Удержание покупателей для оптовой компании. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl3-a0-meta",
+   "material_key": "clients-cl3-a0",
+   "text": "Работа с жалобами для интернет-магазина. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl3-a0-body",
+   "material_key": "clients-cl3-a0",
+   "text": "Жалоба клиента — это возможность вернуть лояльность и исправить процесс. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "clients-cl3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl3-a1-meta",
+   "material_key": "clients-cl3-a1",
+   "text": "Работа с жалобами для небольшого кафе. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl3-a1-body",
+   "material_key": "clients-cl3-a1",
+   "text": "Жалоба клиента — это возможность вернуть лояльность и исправить процесс. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "clients-cl3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl3-a2-meta",
+   "material_key": "clients-cl3-a2",
+   "text": "Работа с жалобами для онлайн-школы. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "clients-cl3-a2-body",
+   "material_key": "clients-cl3-a2",
+   "text": "Жалоба клиента — это возможность вернуть лояльность и исправить процесс. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "clients-cl3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "clients-cl3-a3-meta",
+   "material_key": "clients-cl3-a3",
+   "text": "Работа с жалобами для оптовой компании. Тема: Клиентский сервис. Теги: клиентский сервис, удержание, лояльность, покупатели.",
+   "source_block_ids": [
+    "clients-cl3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk1-a0-meta",
+   "material_key": "marketing-mk1-a0",
+   "text": "Каналы привлечения для интернет-магазина. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk1-a0-body",
+   "material_key": "marketing-mk1-a0",
+   "text": "Каналы привлечения различаются стоимостью клика и качеством аудитории. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "marketing-mk1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk1-a1-meta",
+   "material_key": "marketing-mk1-a1",
+   "text": "Каналы привлечения для небольшого кафе. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk1-a1-body",
+   "material_key": "marketing-mk1-a1",
+   "text": "Каналы привлечения различаются стоимостью клика и качеством аудитории. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "marketing-mk1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk1-a2-meta",
+   "material_key": "marketing-mk1-a2",
+   "text": "Каналы привлечения для онлайн-школы. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk1-a2-body",
+   "material_key": "marketing-mk1-a2",
+   "text": "Каналы привлечения различаются стоимостью клика и качеством аудитории. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "marketing-mk1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk1-a3-meta",
+   "material_key": "marketing-mk1-a3",
+   "text": "Каналы привлечения для оптовой компании. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk2-a0-meta",
+   "material_key": "marketing-mk2-a0",
+   "text": "Рекламный бюджет для интернет-магазина. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk2-a0-body",
+   "material_key": "marketing-mk2-a0",
+   "text": "Рекламный бюджет стоит планировать от целевой стоимости привлечения. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "marketing-mk2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk2-a1-meta",
+   "material_key": "marketing-mk2-a1",
+   "text": "Рекламный бюджет для небольшого кафе. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk2-a1-body",
+   "material_key": "marketing-mk2-a1",
+   "text": "Рекламный бюджет стоит планировать от целевой стоимости привлечения. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "marketing-mk2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk2-a2-meta",
+   "material_key": "marketing-mk2-a2",
+   "text": "Рекламный бюджет для онлайн-школы. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk2-a2-body",
+   "material_key": "marketing-mk2-a2",
+   "text": "Рекламный бюджет стоит планировать от целевой стоимости привлечения. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "marketing-mk2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk2-a3-meta",
+   "material_key": "marketing-mk2-a3",
+   "text": "Рекламный бюджет для оптовой компании. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk3-a0-meta",
+   "material_key": "marketing-mk3-a0",
+   "text": "Контент-маркетинг для интернет-магазина. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk3-a0-body",
+   "material_key": "marketing-mk3-a0",
+   "text": "Контент-маркетинг приводит клиентов через полезные статьи и видео. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "marketing-mk3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk3-a1-meta",
+   "material_key": "marketing-mk3-a1",
+   "text": "Контент-маркетинг для небольшого кафе. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk3-a1-body",
+   "material_key": "marketing-mk3-a1",
+   "text": "Контент-маркетинг приводит клиентов через полезные статьи и видео. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "marketing-mk3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk3-a2-meta",
+   "material_key": "marketing-mk3-a2",
+   "text": "Контент-маркетинг для онлайн-школы. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketing-mk3-a2-body",
+   "material_key": "marketing-mk3-a2",
+   "text": "Контент-маркетинг приводит клиентов через полезные статьи и видео. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "marketing-mk3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketing-mk3-a3-meta",
+   "material_key": "marketing-mk3-a3",
+   "text": "Контент-маркетинг для оптовой компании. Тема: Маркетинг. Теги: маркетинг, реклама, трафик, продвижение.",
+   "source_block_ids": [
+    "marketing-mk3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl1-a0-meta",
+   "material_key": "sales-sl1-a0",
+   "text": "Техника продаж для интернет-магазина. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl1-a0-body",
+   "material_key": "sales-sl1-a0",
+   "text": "Техника продаж строится на выявлении потребности и работе с возражениями. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "sales-sl1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl1-a1-meta",
+   "material_key": "sales-sl1-a1",
+   "text": "Техника продаж для небольшого кафе. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl1-a1-body",
+   "material_key": "sales-sl1-a1",
+   "text": "Техника продаж строится на выявлении потребности и работе с возражениями. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "sales-sl1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl1-a2-meta",
+   "material_key": "sales-sl1-a2",
+   "text": "Техника продаж для онлайн-школы. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl1-a2-body",
+   "material_key": "sales-sl1-a2",
+   "text": "Техника продаж строится на выявлении потребности и работе с возражениями. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "sales-sl1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl1-a3-meta",
+   "material_key": "sales-sl1-a3",
+   "text": "Техника продаж для оптовой компании. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl2-a0-meta",
+   "material_key": "sales-sl2-a0",
+   "text": "Скрипты звонков для интернет-магазина. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl2-a0-body",
+   "material_key": "sales-sl2-a0",
+   "text": "Скрипты звонков задают структуру разговора и снижают потерю заявок. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "sales-sl2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl2-a1-meta",
+   "material_key": "sales-sl2-a1",
+   "text": "Скрипты звонков для небольшого кафе. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl2-a1-body",
+   "material_key": "sales-sl2-a1",
+   "text": "Скрипты звонков задают структуру разговора и снижают потерю заявок. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "sales-sl2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl2-a2-meta",
+   "material_key": "sales-sl2-a2",
+   "text": "Скрипты звонков для онлайн-школы. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl2-a2-body",
+   "material_key": "sales-sl2-a2",
+   "text": "Скрипты звонков задают структуру разговора и снижают потерю заявок. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "sales-sl2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl2-a3-meta",
+   "material_key": "sales-sl2-a3",
+   "text": "Скрипты звонков для оптовой компании. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl3-a0-meta",
+   "material_key": "sales-sl3-a0",
+   "text": "Воронка продаж для интернет-магазина. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl3-a0-body",
+   "material_key": "sales-sl3-a0",
+   "text": "Воронка продаж показывает, на каком этапе теряются заявки. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "sales-sl3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl3-a1-meta",
+   "material_key": "sales-sl3-a1",
+   "text": "Воронка продаж для небольшого кафе. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl3-a1-body",
+   "material_key": "sales-sl3-a1",
+   "text": "Воронка продаж показывает, на каком этапе теряются заявки. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "sales-sl3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl3-a2-meta",
+   "material_key": "sales-sl3-a2",
+   "text": "Воронка продаж для онлайн-школы. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "sales-sl3-a2-body",
+   "material_key": "sales-sl3-a2",
+   "text": "Воронка продаж показывает, на каком этапе теряются заявки. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "sales-sl3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "sales-sl3-a3-meta",
+   "material_key": "sales-sl3-a3",
+   "text": "Воронка продаж для оптовой компании. Тема: Продажи. Теги: продажи, сделки, возражения, конверсия.",
+   "source_block_ids": [
+    "sales-sl3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn1-a0-meta",
+   "material_key": "finance-fn1-a0",
+   "text": "Денежный поток для интернет-магазина. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn1-a0-body",
+   "material_key": "finance-fn1-a0",
+   "text": "Денежный поток показывает движение денег, а не бухгалтерскую прибыль. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "finance-fn1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn1-a1-meta",
+   "material_key": "finance-fn1-a1",
+   "text": "Денежный поток для небольшого кафе. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn1-a1-body",
+   "material_key": "finance-fn1-a1",
+   "text": "Денежный поток показывает движение денег, а не бухгалтерскую прибыль. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "finance-fn1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn1-a2-meta",
+   "material_key": "finance-fn1-a2",
+   "text": "Денежный поток для онлайн-школы. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn1-a2-body",
+   "material_key": "finance-fn1-a2",
+   "text": "Денежный поток показывает движение денег, а не бухгалтерскую прибыль. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "finance-fn1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn1-a3-meta",
+   "material_key": "finance-fn1-a3",
+   "text": "Денежный поток для оптовой компании. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn2-a0-meta",
+   "material_key": "finance-fn2-a0",
+   "text": "Кассовый разрыв для интернет-магазина. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn2-a0-body",
+   "material_key": "finance-fn2-a0",
+   "text": "Кассовый разрыв возникает, когда расходы опережают поступления. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "finance-fn2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn2-a1-meta",
+   "material_key": "finance-fn2-a1",
+   "text": "Кассовый разрыв для небольшого кафе. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn2-a1-body",
+   "material_key": "finance-fn2-a1",
+   "text": "Кассовый разрыв возникает, когда расходы опережают поступления. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "finance-fn2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn2-a2-meta",
+   "material_key": "finance-fn2-a2",
+   "text": "Кассовый разрыв для онлайн-школы. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn2-a2-body",
+   "material_key": "finance-fn2-a2",
+   "text": "Кассовый разрыв возникает, когда расходы опережают поступления. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "finance-fn2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn2-a3-meta",
+   "material_key": "finance-fn2-a3",
+   "text": "Кассовый разрыв для оптовой компании. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn3-a0-meta",
+   "material_key": "finance-fn3-a0",
+   "text": "Финансовый учёт для интернет-магазина. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn3-a0-body",
+   "material_key": "finance-fn3-a0",
+   "text": "Финансовый учёт даёт владельцу цифры для решений, а не отчётность для налоговой. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "finance-fn3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn3-a1-meta",
+   "material_key": "finance-fn3-a1",
+   "text": "Финансовый учёт для небольшого кафе. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn3-a1-body",
+   "material_key": "finance-fn3-a1",
+   "text": "Финансовый учёт даёт владельцу цифры для решений, а не отчётность для налоговой. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "finance-fn3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn3-a2-meta",
+   "material_key": "finance-fn3-a2",
+   "text": "Финансовый учёт для онлайн-школы. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "finance-fn3-a2-body",
+   "material_key": "finance-fn3-a2",
+   "text": "Финансовый учёт даёт владельцу цифры для решений, а не отчётность для налоговой. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "finance-fn3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "finance-fn3-a3-meta",
+   "material_key": "finance-fn3-a3",
+   "text": "Финансовый учёт для оптовой компании. Тема: Финансы. Теги: финансы, деньги, учёт, платежи.",
+   "source_block_ids": [
+    "finance-fn3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg1-a0-meta",
+   "material_key": "legal-lg1-a0",
+   "text": "Регистрация ИП для интернет-магазина. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg1-a0-body",
+   "material_key": "legal-lg1-a0",
+   "text": "Регистрация ИП занимает несколько дней и требует заявления и госпошлины. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "legal-lg1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg1-a1-meta",
+   "material_key": "legal-lg1-a1",
+   "text": "Регистрация ИП для небольшого кафе. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg1-a1-body",
+   "material_key": "legal-lg1-a1",
+   "text": "Регистрация ИП занимает несколько дней и требует заявления и госпошлины. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "legal-lg1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg1-a2-meta",
+   "material_key": "legal-lg1-a2",
+   "text": "Регистрация ИП для онлайн-школы. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg1-a2-body",
+   "material_key": "legal-lg1-a2",
+   "text": "Регистрация ИП занимает несколько дней и требует заявления и госпошлины. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "legal-lg1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg1-a3-meta",
+   "material_key": "legal-lg1-a3",
+   "text": "Регистрация ИП для оптовой компании. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg2-a0-meta",
+   "material_key": "legal-lg2-a0",
+   "text": "Налоговый режим для интернет-магазина. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg2-a0-body",
+   "material_key": "legal-lg2-a0",
+   "text": "Налоговый режим выбирают по выручке, числу сотрудников и видам деятельности. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "legal-lg2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg2-a1-meta",
+   "material_key": "legal-lg2-a1",
+   "text": "Налоговый режим для небольшого кафе. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg2-a1-body",
+   "material_key": "legal-lg2-a1",
+   "text": "Налоговый режим выбирают по выручке, числу сотрудников и видам деятельности. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "legal-lg2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg2-a2-meta",
+   "material_key": "legal-lg2-a2",
+   "text": "Налоговый режим для онлайн-школы. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg2-a2-body",
+   "material_key": "legal-lg2-a2",
+   "text": "Налоговый режим выбирают по выручке, числу сотрудников и видам деятельности. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "legal-lg2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg2-a3-meta",
+   "material_key": "legal-lg2-a3",
+   "text": "Налоговый режим для оптовой компании. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg3-a0-meta",
+   "material_key": "legal-lg3-a0",
+   "text": "Договор с поставщиком для интернет-магазина. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg3-a0-body",
+   "material_key": "legal-lg3-a0",
+   "text": "Договор с поставщиком должен фиксировать сроки, штрафы и порядок приёмки. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "legal-lg3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg3-a1-meta",
+   "material_key": "legal-lg3-a1",
+   "text": "Договор с поставщиком для небольшого кафе. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg3-a1-body",
+   "material_key": "legal-lg3-a1",
+   "text": "Договор с поставщиком должен фиксировать сроки, штрафы и порядок приёмки. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "legal-lg3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg3-a2-meta",
+   "material_key": "legal-lg3-a2",
+   "text": "Договор с поставщиком для онлайн-школы. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "legal-lg3-a2-body",
+   "material_key": "legal-lg3-a2",
+   "text": "Договор с поставщиком должен фиксировать сроки, штрафы и порядок приёмки. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "legal-lg3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "legal-lg3-a3-meta",
+   "material_key": "legal-lg3-a3",
+   "text": "Договор с поставщиком для оптовой компании. Тема: Право и регистрация. Теги: регистрация, документы, договор, ип.",
+   "source_block_ids": [
+    "legal-lg3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr1-a0-meta",
+   "material_key": "hiring-hr1-a0",
+   "text": "Найм сотрудников для интернет-магазина. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr1-a0-body",
+   "material_key": "hiring-hr1-a0",
+   "text": "Найм сотрудников начинается с описания задач и профиля кандидата. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "hiring-hr1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr1-a1-meta",
+   "material_key": "hiring-hr1-a1",
+   "text": "Найм сотрудников для небольшого кафе. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr1-a1-body",
+   "material_key": "hiring-hr1-a1",
+   "text": "Найм сотрудников начинается с описания задач и профиля кандидата. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "hiring-hr1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr1-a2-meta",
+   "material_key": "hiring-hr1-a2",
+   "text": "Найм сотрудников для онлайн-школы. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr1-a2-body",
+   "material_key": "hiring-hr1-a2",
+   "text": "Найм сотрудников начинается с описания задач и профиля кандидата. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "hiring-hr1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr1-a3-meta",
+   "material_key": "hiring-hr1-a3",
+   "text": "Найм сотрудников для оптовой компании. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr2-a0-meta",
+   "material_key": "hiring-hr2-a0",
+   "text": "Собеседование для интернет-магазина. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr2-a0-body",
+   "material_key": "hiring-hr2-a0",
+   "text": "Собеседование проверяет не только навыки, но и мотивацию кандидата. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "hiring-hr2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr2-a1-meta",
+   "material_key": "hiring-hr2-a1",
+   "text": "Собеседование для небольшого кафе. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr2-a1-body",
+   "material_key": "hiring-hr2-a1",
+   "text": "Собеседование проверяет не только навыки, но и мотивацию кандидата. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "hiring-hr2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr2-a2-meta",
+   "material_key": "hiring-hr2-a2",
+   "text": "Собеседование для онлайн-школы. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr2-a2-body",
+   "material_key": "hiring-hr2-a2",
+   "text": "Собеседование проверяет не только навыки, но и мотивацию кандидата. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "hiring-hr2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr2-a3-meta",
+   "material_key": "hiring-hr2-a3",
+   "text": "Собеседование для оптовой компании. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr3-a0-meta",
+   "material_key": "hiring-hr3-a0",
+   "text": "Адаптация новичка для интернет-магазина. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr3-a0-body",
+   "material_key": "hiring-hr3-a0",
+   "text": "Адаптация новичка сокращает время до первой самостоятельной задачи. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "hiring-hr3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr3-a1-meta",
+   "material_key": "hiring-hr3-a1",
+   "text": "Адаптация новичка для небольшого кафе. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr3-a1-body",
+   "material_key": "hiring-hr3-a1",
+   "text": "Адаптация новичка сокращает время до первой самостоятельной задачи. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "hiring-hr3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr3-a2-meta",
+   "material_key": "hiring-hr3-a2",
+   "text": "Адаптация новичка для онлайн-школы. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "hiring-hr3-a2-body",
+   "material_key": "hiring-hr3-a2",
+   "text": "Адаптация новичка сокращает время до первой самостоятельной задачи. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "hiring-hr3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "hiring-hr3-a3-meta",
+   "material_key": "hiring-hr3-a3",
+   "text": "Адаптация новичка для оптовой компании. Тема: Найм. Теги: найм, команда, сотрудники, собеседование.",
+   "source_block_ids": [
+    "hiring-hr3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx1-a0-meta",
+   "material_key": "tax-tx1-a0",
+   "text": "НДС для интернет-магазина. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx1-a0-body",
+   "material_key": "tax-tx1-a0",
+   "text": "НДС уплачивается с добавленной стоимости и требует раздельного учёта. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "tax-tx1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx1-a1-meta",
+   "material_key": "tax-tx1-a1",
+   "text": "НДС для небольшого кафе. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx1-a1-body",
+   "material_key": "tax-tx1-a1",
+   "text": "НДС уплачивается с добавленной стоимости и требует раздельного учёта. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "tax-tx1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx1-a2-meta",
+   "material_key": "tax-tx1-a2",
+   "text": "НДС для онлайн-школы. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx1-a2-body",
+   "material_key": "tax-tx1-a2",
+   "text": "НДС уплачивается с добавленной стоимости и требует раздельного учёта. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "tax-tx1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx1-a3-meta",
+   "material_key": "tax-tx1-a3",
+   "text": "НДС для оптовой компании. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx2-a0-meta",
+   "material_key": "tax-tx2-a0",
+   "text": "Упрощённая система для интернет-магазина. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx2-a0-body",
+   "material_key": "tax-tx2-a0",
+   "text": "Упрощённая система налогообложения заменяет ндс и налог на прибыль одним платежом. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "tax-tx2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx2-a1-meta",
+   "material_key": "tax-tx2-a1",
+   "text": "Упрощённая система для небольшого кафе. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx2-a1-body",
+   "material_key": "tax-tx2-a1",
+   "text": "Упрощённая система налогообложения заменяет ндс и налог на прибыль одним платежом. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "tax-tx2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx2-a2-meta",
+   "material_key": "tax-tx2-a2",
+   "text": "Упрощённая система для онлайн-школы. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx2-a2-body",
+   "material_key": "tax-tx2-a2",
+   "text": "Упрощённая система налогообложения заменяет ндс и налог на прибыль одним платежом. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "tax-tx2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx2-a3-meta",
+   "material_key": "tax-tx2-a3",
+   "text": "Упрощённая система для оптовой компании. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx3-a0-meta",
+   "material_key": "tax-tx3-a0",
+   "text": "Страховые взносы для интернет-магазина. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx3-a0-body",
+   "material_key": "tax-tx3-a0",
+   "text": "Страховые взносы платятся с фонда оплаты труда каждого сотрудника. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "tax-tx3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx3-a1-meta",
+   "material_key": "tax-tx3-a1",
+   "text": "Страховые взносы для небольшого кафе. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx3-a1-body",
+   "material_key": "tax-tx3-a1",
+   "text": "Страховые взносы платятся с фонда оплаты труда каждого сотрудника. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "tax-tx3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx3-a2-meta",
+   "material_key": "tax-tx3-a2",
+   "text": "Страховые взносы для онлайн-школы. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "tax-tx3-a2-body",
+   "material_key": "tax-tx3-a2",
+   "text": "Страховые взносы платятся с фонда оплаты труда каждого сотрудника. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "tax-tx3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "tax-tx3-a3-meta",
+   "material_key": "tax-tx3-a3",
+   "text": "Страховые взносы для оптовой компании. Тема: Налоги. Теги: налоги, ндс, взносы, усн.",
+   "source_block_ids": [
+    "tax-tx3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a0-meta",
+   "material_key": "marketplace-mp1-a0",
+   "text": "Карточка товара для интернет-магазина. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a0-body",
+   "material_key": "marketplace-mp1-a0",
+   "text": "Карточка товара продаёт через фото, заголовок и характеристики. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "marketplace-mp1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a1-meta",
+   "material_key": "marketplace-mp1-a1",
+   "text": "Карточка товара для небольшого кафе. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a1-body",
+   "material_key": "marketplace-mp1-a1",
+   "text": "Карточка товара продаёт через фото, заголовок и характеристики. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "marketplace-mp1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a2-meta",
+   "material_key": "marketplace-mp1-a2",
+   "text": "Карточка товара для онлайн-школы. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a2-body",
+   "material_key": "marketplace-mp1-a2",
+   "text": "Карточка товара продаёт через фото, заголовок и характеристики. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "marketplace-mp1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp1-a3-meta",
+   "material_key": "marketplace-mp1-a3",
+   "text": "Карточка товара для оптовой компании. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a0-meta",
+   "material_key": "marketplace-mp2-a0",
+   "text": "Логистика заказов для интернет-магазина. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a0-body",
+   "material_key": "marketplace-mp2-a0",
+   "text": "Логистика заказов определяет срок доставки и стоимость хранения. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "marketplace-mp2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a1-meta",
+   "material_key": "marketplace-mp2-a1",
+   "text": "Логистика заказов для небольшого кафе. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a1-body",
+   "material_key": "marketplace-mp2-a1",
+   "text": "Логистика заказов определяет срок доставки и стоимость хранения. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "marketplace-mp2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a2-meta",
+   "material_key": "marketplace-mp2-a2",
+   "text": "Логистика заказов для онлайн-школы. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a2-body",
+   "material_key": "marketplace-mp2-a2",
+   "text": "Логистика заказов определяет срок доставки и стоимость хранения. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "marketplace-mp2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp2-a3-meta",
+   "material_key": "marketplace-mp2-a3",
+   "text": "Логистика заказов для оптовой компании. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a0-meta",
+   "material_key": "marketplace-mp3-a0",
+   "text": "Рейтинг продавца для интернет-магазина. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a0-body",
+   "material_key": "marketplace-mp3-a0",
+   "text": "Рейтинг продавца зависит от отзывов, сроков и доли возвратов. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "marketplace-mp3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a1-meta",
+   "material_key": "marketplace-mp3-a1",
+   "text": "Рейтинг продавца для небольшого кафе. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a1-body",
+   "material_key": "marketplace-mp3-a1",
+   "text": "Рейтинг продавца зависит от отзывов, сроков и доли возвратов. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "marketplace-mp3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a2-meta",
+   "material_key": "marketplace-mp3-a2",
+   "text": "Рейтинг продавца для онлайн-школы. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a2-body",
+   "material_key": "marketplace-mp3-a2",
+   "text": "Рейтинг продавца зависит от отзывов, сроков и доли возвратов. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "marketplace-mp3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "marketplace-mp3-a3-meta",
+   "material_key": "marketplace-mp3-a3",
+   "text": "Рейтинг продавца для оптовой компании. Тема: Маркетплейсы. Теги: маркетплейс, карточка товара, доставка, продавец.",
+   "source_block_ids": [
+    "marketplace-mp3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op1-a0-meta",
+   "material_key": "operations-op1-a0",
+   "text": "Бизнес-процессы для интернет-магазина. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op1-a0-body",
+   "material_key": "operations-op1-a0",
+   "text": "Бизнес-процессы описывают, кто и как выполняет повторяющиеся задачи. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "operations-op1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op1-a1-meta",
+   "material_key": "operations-op1-a1",
+   "text": "Бизнес-процессы для небольшого кафе. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op1-a1-body",
+   "material_key": "operations-op1-a1",
+   "text": "Бизнес-процессы описывают, кто и как выполняет повторяющиеся задачи. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "operations-op1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op1-a2-meta",
+   "material_key": "operations-op1-a2",
+   "text": "Бизнес-процессы для онлайн-школы. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op1-a2-body",
+   "material_key": "operations-op1-a2",
+   "text": "Бизнес-процессы описывают, кто и как выполняет повторяющиеся задачи. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "operations-op1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op1-a3-meta",
+   "material_key": "operations-op1-a3",
+   "text": "Бизнес-процессы для оптовой компании. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op2-a0-meta",
+   "material_key": "operations-op2-a0",
+   "text": "Автоматизация рутины для интернет-магазина. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op2-a0-body",
+   "material_key": "operations-op2-a0",
+   "text": "Автоматизация рутины освобождает время на продажи и развитие. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "operations-op2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op2-a1-meta",
+   "material_key": "operations-op2-a1",
+   "text": "Автоматизация рутины для небольшого кафе. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op2-a1-body",
+   "material_key": "operations-op2-a1",
+   "text": "Автоматизация рутины освобождает время на продажи и развитие. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "operations-op2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op2-a2-meta",
+   "material_key": "operations-op2-a2",
+   "text": "Автоматизация рутины для онлайн-школы. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op2-a2-body",
+   "material_key": "operations-op2-a2",
+   "text": "Автоматизация рутины освобождает время на продажи и развитие. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "operations-op2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op2-a3-meta",
+   "material_key": "operations-op2-a3",
+   "text": "Автоматизация рутины для оптовой компании. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op3-a0-meta",
+   "material_key": "operations-op3-a0",
+   "text": "Контроль качества для интернет-магазина. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op3-a0-body",
+   "material_key": "operations-op3-a0",
+   "text": "Контроль качества фиксирует стандарт и точку, где он нарушается. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "operations-op3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op3-a1-meta",
+   "material_key": "operations-op3-a1",
+   "text": "Контроль качества для небольшого кафе. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op3-a1-body",
+   "material_key": "operations-op3-a1",
+   "text": "Контроль качества фиксирует стандарт и точку, где он нарушается. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "operations-op3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op3-a2-meta",
+   "material_key": "operations-op3-a2",
+   "text": "Контроль качества для онлайн-школы. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "operations-op3-a2-body",
+   "material_key": "operations-op3-a2",
+   "text": "Контроль качества фиксирует стандарт и точку, где он нарушается. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "operations-op3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "operations-op3-a3-meta",
+   "material_key": "operations-op3-a3",
+   "text": "Контроль качества для оптовой компании. Тема: Операции. Теги: процессы, автоматизация, качество, закупки.",
+   "source_block_ids": [
+    "operations-op3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr1-a0-meta",
+   "material_key": "product-pr1-a0",
+   "text": "Исследование спроса для интернет-магазина. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr1-a0-body",
+   "material_key": "product-pr1-a0",
+   "text": "Исследование спроса проверяет, готовы ли клиенты платить за продукт. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "product-pr1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr1-a1-meta",
+   "material_key": "product-pr1-a1",
+   "text": "Исследование спроса для небольшого кафе. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr1-a1-body",
+   "material_key": "product-pr1-a1",
+   "text": "Исследование спроса проверяет, готовы ли клиенты платить за продукт. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "product-pr1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr1-a2-meta",
+   "material_key": "product-pr1-a2",
+   "text": "Исследование спроса для онлайн-школы. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr1-a2-body",
+   "material_key": "product-pr1-a2",
+   "text": "Исследование спроса проверяет, готовы ли клиенты платить за продукт. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "product-pr1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr1-a3-meta",
+   "material_key": "product-pr1-a3",
+   "text": "Исследование спроса для оптовой компании. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr2-a0-meta",
+   "material_key": "product-pr2-a0",
+   "text": "Ценовая стратегия для интернет-магазина. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr2-a0-body",
+   "material_key": "product-pr2-a0",
+   "text": "Ценовая стратегия связывает цену с ценностью и позицией на рынке. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "product-pr2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr2-a1-meta",
+   "material_key": "product-pr2-a1",
+   "text": "Ценовая стратегия для небольшого кафе. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr2-a1-body",
+   "material_key": "product-pr2-a1",
+   "text": "Ценовая стратегия связывает цену с ценностью и позицией на рынке. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "product-pr2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr2-a2-meta",
+   "material_key": "product-pr2-a2",
+   "text": "Ценовая стратегия для онлайн-школы. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr2-a2-body",
+   "material_key": "product-pr2-a2",
+   "text": "Ценовая стратегия связывает цену с ценностью и позицией на рынке. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "product-pr2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr2-a3-meta",
+   "material_key": "product-pr2-a3",
+   "text": "Ценовая стратегия для оптовой компании. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr3-a0-meta",
+   "material_key": "product-pr3-a0",
+   "text": "Тестирование гипотез для интернет-магазина. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr3-a0-body",
+   "material_key": "product-pr3-a0",
+   "text": "Тестирование гипотез начинается с самой рискованной части идеи. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "product-pr3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr3-a1-meta",
+   "material_key": "product-pr3-a1",
+   "text": "Тестирование гипотез для небольшого кафе. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr3-a1-body",
+   "material_key": "product-pr3-a1",
+   "text": "Тестирование гипотез начинается с самой рискованной части идеи. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "product-pr3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr3-a2-meta",
+   "material_key": "product-pr3-a2",
+   "text": "Тестирование гипотез для онлайн-школы. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "product-pr3-a2-body",
+   "material_key": "product-pr3-a2",
+   "text": "Тестирование гипотез начинается с самой рискованной части идеи. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "product-pr3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "product-pr3-a3-meta",
+   "material_key": "product-pr3-a3",
+   "text": "Тестирование гипотез для оптовой компании. Тема: Продукт. Теги: продукт, спрос, цена, гипотезы.",
+   "source_block_ids": [
+    "product-pr3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd1-a0-meta",
+   "material_key": "funding-fd1-a0",
+   "text": "Бизнес-план для инвестора для интернет-магазина. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd1-a0-body",
+   "material_key": "funding-fd1-a0",
+   "text": "Бизнес-план для инвестора показывает модель, цифры и возврат вложений. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "funding-fd1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd1-a1-meta",
+   "material_key": "funding-fd1-a1",
+   "text": "Бизнес-план для инвестора для небольшого кафе. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd1-a1-body",
+   "material_key": "funding-fd1-a1",
+   "text": "Бизнес-план для инвестора показывает модель, цифры и возврат вложений. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "funding-fd1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd1-a2-meta",
+   "material_key": "funding-fd1-a2",
+   "text": "Бизнес-план для инвестора для онлайн-школы. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd1-a2-body",
+   "material_key": "funding-fd1-a2",
+   "text": "Бизнес-план для инвестора показывает модель, цифры и возврат вложений. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "funding-fd1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd1-a3-meta",
+   "material_key": "funding-fd1-a3",
+   "text": "Бизнес-план для инвестора для оптовой компании. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd2-a0-meta",
+   "material_key": "funding-fd2-a0",
+   "text": "Кредит для бизнеса для интернет-магазина. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd2-a0-body",
+   "material_key": "funding-fd2-a0",
+   "text": "Кредит для бизнеса оценивают по ставке, сроку и обеспечению. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "funding-fd2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd2-a1-meta",
+   "material_key": "funding-fd2-a1",
+   "text": "Кредит для бизнеса для небольшого кафе. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd2-a1-body",
+   "material_key": "funding-fd2-a1",
+   "text": "Кредит для бизнеса оценивают по ставке, сроку и обеспечению. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "funding-fd2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd2-a2-meta",
+   "material_key": "funding-fd2-a2",
+   "text": "Кредит для бизнеса для онлайн-школы. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd2-a2-body",
+   "material_key": "funding-fd2-a2",
+   "text": "Кредит для бизнеса оценивают по ставке, сроку и обеспечению. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "funding-fd2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd2-a3-meta",
+   "material_key": "funding-fd2-a3",
+   "text": "Кредит для бизнеса для оптовой компании. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd3-a0-meta",
+   "material_key": "funding-fd3-a0",
+   "text": "Грант на развитие для интернет-магазина. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd3-a0-body",
+   "material_key": "funding-fd3-a0",
+   "text": "Грант на развитие предполагает отчётность и целевое расходование. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "funding-fd3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd3-a1-meta",
+   "material_key": "funding-fd3-a1",
+   "text": "Грант на развитие для небольшого кафе. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd3-a1-body",
+   "material_key": "funding-fd3-a1",
+   "text": "Грант на развитие предполагает отчётность и целевое расходование. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "funding-fd3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd3-a2-meta",
+   "material_key": "funding-fd3-a2",
+   "text": "Грант на развитие для онлайн-школы. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "funding-fd3-a2-body",
+   "material_key": "funding-fd3-a2",
+   "text": "Грант на развитие предполагает отчётность и целевое расходование. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "funding-fd3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "funding-fd3-a3-meta",
+   "material_key": "funding-fd3-a3",
+   "text": "Грант на развитие для оптовой компании. Тема: Финансирование. Теги: инвестор, кредит, грант, бизнес-план.",
+   "source_block_ids": [
+    "funding-fd3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st1-a0-meta",
+   "material_key": "strategy-st1-a0",
+   "text": "Конкурентный анализ для интернет-магазина. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st1-a0-body",
+   "material_key": "strategy-st1-a0",
+   "text": "Конкурентный анализ сравнивает предложение, цену и каналы соперников. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "strategy-st1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st1-a1-meta",
+   "material_key": "strategy-st1-a1",
+   "text": "Конкурентный анализ для небольшого кафе. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st1-a1-body",
+   "material_key": "strategy-st1-a1",
+   "text": "Конкурентный анализ сравнивает предложение, цену и каналы соперников. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "strategy-st1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st1-a2-meta",
+   "material_key": "strategy-st1-a2",
+   "text": "Конкурентный анализ для онлайн-школы. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st1-a2-body",
+   "material_key": "strategy-st1-a2",
+   "text": "Конкурентный анализ сравнивает предложение, цену и каналы соперников. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "strategy-st1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st1-a3-meta",
+   "material_key": "strategy-st1-a3",
+   "text": "Конкурентный анализ для оптовой компании. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st2-a0-meta",
+   "material_key": "strategy-st2-a0",
+   "text": "Выход на новый рынок для интернет-магазина. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st2-a0-body",
+   "material_key": "strategy-st2-a0",
+   "text": "Выход на новый рынок требует проверки спроса и каналов сбыта. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "strategy-st2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st2-a1-meta",
+   "material_key": "strategy-st2-a1",
+   "text": "Выход на новый рынок для небольшого кафе. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st2-a1-body",
+   "material_key": "strategy-st2-a1",
+   "text": "Выход на новый рынок требует проверки спроса и каналов сбыта. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "strategy-st2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st2-a2-meta",
+   "material_key": "strategy-st2-a2",
+   "text": "Выход на новый рынок для онлайн-школы. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st2-a2-body",
+   "material_key": "strategy-st2-a2",
+   "text": "Выход на новый рынок требует проверки спроса и каналов сбыта. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "strategy-st2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st2-a3-meta",
+   "material_key": "strategy-st2-a3",
+   "text": "Выход на новый рынок для оптовой компании. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st3-a0-meta",
+   "material_key": "strategy-st3-a0",
+   "text": "Масштабирование бизнеса для интернет-магазина. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st3-a0-body",
+   "material_key": "strategy-st3-a0",
+   "text": "Масштабирование бизнеса опирается на повторяемую экономику и процессы. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "strategy-st3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st3-a1-meta",
+   "material_key": "strategy-st3-a1",
+   "text": "Масштабирование бизнеса для небольшого кафе. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st3-a1-body",
+   "material_key": "strategy-st3-a1",
+   "text": "Масштабирование бизнеса опирается на повторяемую экономику и процессы. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "strategy-st3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st3-a2-meta",
+   "material_key": "strategy-st3-a2",
+   "text": "Масштабирование бизнеса для онлайн-школы. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "strategy-st3-a2-body",
+   "material_key": "strategy-st3-a2",
+   "text": "Масштабирование бизнеса опирается на повторяемую экономику и процессы. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "strategy-st3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "strategy-st3-a3-meta",
+   "material_key": "strategy-st3-a3",
+   "text": "Масштабирование бизнеса для оптовой компании. Тема: Стратегия. Теги: стратегия, конкуренты, рынок, масштабирование.",
+   "source_block_ids": [
+    "strategy-st3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br1-a0-meta",
+   "material_key": "brand-br1-a0",
+   "text": "Позиционирование бренда для интернет-магазина. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br1-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br1-a0-body",
+   "material_key": "brand-br1-a0",
+   "text": "Позиционирование бренда отвечает, чем компания отличается от других. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "brand-br1-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br1-a1-meta",
+   "material_key": "brand-br1-a1",
+   "text": "Позиционирование бренда для небольшого кафе. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br1-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br1-a1-body",
+   "material_key": "brand-br1-a1",
+   "text": "Позиционирование бренда отвечает, чем компания отличается от других. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "brand-br1-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br1-a2-meta",
+   "material_key": "brand-br1-a2",
+   "text": "Позиционирование бренда для онлайн-школы. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br1-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br1-a2-body",
+   "material_key": "brand-br1-a2",
+   "text": "Позиционирование бренда отвечает, чем компания отличается от других. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "brand-br1-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br1-a3-meta",
+   "material_key": "brand-br1-a3",
+   "text": "Позиционирование бренда для оптовой компании. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br1-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br2-a0-meta",
+   "material_key": "brand-br2-a0",
+   "text": "Фирменный стиль для интернет-магазина. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br2-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br2-a0-body",
+   "material_key": "brand-br2-a0",
+   "text": "Фирменный стиль объединяет логотип, цвета и типографику. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "brand-br2-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br2-a1-meta",
+   "material_key": "brand-br2-a1",
+   "text": "Фирменный стиль для небольшого кафе. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br2-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br2-a1-body",
+   "material_key": "brand-br2-a1",
+   "text": "Фирменный стиль объединяет логотип, цвета и типографику. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "brand-br2-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br2-a2-meta",
+   "material_key": "brand-br2-a2",
+   "text": "Фирменный стиль для онлайн-школы. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br2-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br2-a2-body",
+   "material_key": "brand-br2-a2",
+   "text": "Фирменный стиль объединяет логотип, цвета и типографику. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "brand-br2-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br2-a3-meta",
+   "material_key": "brand-br2-a3",
+   "text": "Фирменный стиль для оптовой компании. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br2-a3-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br3-a0-meta",
+   "material_key": "brand-br3-a0",
+   "text": "Отзывы клиентов для интернет-магазина. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br3-a0-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br3-a0-body",
+   "material_key": "brand-br3-a0",
+   "text": "Отзывы клиентов влияют на решение о покупке сильнее рекламы. В интернет-магазине решение проверяют по данным о заказах, возвратах и среднем чеке.",
+   "source_block_ids": [
+    "brand-br3-a0-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br3-a1-meta",
+   "material_key": "brand-br3-a1",
+   "text": "Отзывы клиентов для небольшого кафе. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br3-a1-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br3-a1-body",
+   "material_key": "brand-br3-a1",
+   "text": "Отзывы клиентов влияют на решение о покупке сильнее рекламы. В небольшом кафе те же шаги делают вручную и сверяют с ежедневной выручкой.",
+   "source_block_ids": [
+    "brand-br3-a1-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br3-a2-meta",
+   "material_key": "brand-br3-a2",
+   "text": "Отзывы клиентов для онлайн-школы. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br3-a2-meta"
+   ],
+   "content_kind": "metadata"
+  },
+  {
+   "chunk_id": "brand-br3-a2-body",
+   "material_key": "brand-br3-a2",
+   "text": "Отзывы клиентов влияют на решение о покупке сильнее рекламы. В онлайн-школе метрики считают по группам учеников и длительности подписки.",
+   "source_block_ids": [
+    "brand-br3-a2-body"
+   ],
+   "content_kind": "body"
+  },
+  {
+   "chunk_id": "brand-br3-a3-meta",
+   "material_key": "brand-br3-a3",
+   "text": "Отзывы клиентов для оптовой компании. Тема: Бренд. Теги: бренд, стиль, отзывы, репутация.",
+   "source_block_ids": [
+    "brand-br3-a3-meta"
+   ],
+   "content_kind": "metadata"
+  }
+ ]
+}

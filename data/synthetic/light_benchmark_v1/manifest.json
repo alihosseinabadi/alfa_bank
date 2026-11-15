@@ -1,0 +1,58 @@
+{
+ "version": "light-benchmark-v1",
+ "summary": {
+  "materials": 168,
+  "chunks": 294,
+  "topics": 14,
+  "concepts": 42,
+  "paid_materials": 42
+ },
+ "cases": 104,
+ "cases_by_intent": {
+  "relevance": 84,
+  "refusal": 12,
+  "constraint": 8
+ },
+ "cases_by_split": {
+  "dev": 73,
+  "holdout": 31
+ },
+ "holdout_case_ids": [
+  "flt01",
+  "flt02",
+  "flt05",
+  "flt06",
+  "flt07",
+  "ood07",
+  "rel005",
+  "rel007",
+  "rel009",
+  "rel012",
+  "rel015",
+  "rel018",
+  "rel023",
+  "rel025",
+  "rel029",
+  "rel030",
+  "rel035",
+  "rel039",
+  "rel041",
+  "rel044",
+  "rel048",
+  "rel049",
+  "rel051",
+  "rel055",
+  "rel061",
+  "rel065",
+  "rel069",
+  "rel071",
+  "rel072",
+  "rel076",
+  "rel078"
+ ],
+ "holdout_hash": "8c9bacaa754a8dcafbf1dbe77678f53061ce09f86b5cc2138150a6972cf7bb85",
+ "files": {
+  "catalog.json": "f7957139a4b0bbcceac931d57b9a9780089a8fb132fbe9ea9925fdda9a941b64",
+  "queries.json": "72e89bda7b55b102907bb06a2d289acde99d99b95468fcf0fc7ab548ed919a3c"
+ }
+}

@@ -188,3 +188,89 @@ tuning versus reporting.
 - Never claim real conversion improvements.
 - Publish simulator parameters so others can reproduce or challenge them.
 - If a baseline wins a metric, say so in the table and in the demo.
+
+## 12. Retrieval evaluation on the public synthetic benchmark (added Phase 1)
+
+Sections 1–11 describe how the *bandit* is evaluated inside a simulator. Retrieval is
+a different question — it happens before any policy sees a candidate — and it needs a
+different harness, because a candidate that retrieval misses can never be recovered
+by ranking. Since the real catalog, indexes and judgments are not in this repository,
+retrieval is evaluated on a public synthetic benchmark:
+
+- generator: `scripts/make_light_benchmark.py` → `data/synthetic/light_benchmark_v1/`
+- runner: `scripts/evaluate_light_retrieval.py`
+- current results: `docs/light_search_evaluation.md`
+
+### 12.1 Construction, and what it costs in validity
+
+168 synthetic materials across 14 Russian business topics, 294 public chunks
+(paid materials contribute metadata chunks only, so the paid-body rule stays
+exercised). 104 cases: 84 relevance, 12 off-topic refusal, 8 constraint.
+
+Relevance is **construction-derived**: the material a query was generated from is 2,
+other materials of the same topic are 1, the rest are 0. Every material is graded, so
+`judged_metrics` never sees an unjudged top-k.
+
+Two query families per concept, both targeting the same material:
+
+| family | purpose | known bias |
+|---|---|---|
+| `natural` | the concept's own wording | easy for any lexical engine; close to a title lookup |
+| `paraphrase` | different wording, few shared surface forms | **built to favour morphology-aware retrieval** |
+
+The `paraphrase` family is a stress test by construction. A gain on it is expected,
+not discovered. It must always be reported next to `natural`, never merged into a
+single "NDCG improved" claim.
+
+### 12.2 Splitting and freezing
+
+Split is assigned by salted hash of `case_id` (`HOLDOUT_SALT`, residues 0–2 of
+`sha256(...) % 10`), i.e. **before** any result exists. Result: 73 dev / 31 holdout.
+
+Freeze record (must accompany every table):
+
+- `holdout_hash` = digest of the sorted holdout case ids
+- `catalog.json` and `queries.json` sha256
+
+Any change to the generator changes those hashes and invalidates every table that
+quotes them. Numbers are only comparable within one hash triple.
+
+### 12.3 Metrics and statistics
+
+- **NDCG@10**, **Success@5** (any grade-2 in top 5), **pooled Recall@50**, via the
+  existing `ml/retrieval_metrics.judged_metrics`.
+- **Refusal rate** on off-topic cases: fraction where the engine returns no
+  candidates. Reported per engine; the case count is small (9 dev / 3 holdout) and
+  the CIs are correspondingly useless — read it as a smoke test.
+- **False-refusal rate** on legitimate queries: fraction of relevance cases where the
+  engine returned nothing. This is the cost side of the coverage guard and is
+  reported explicitly.
+- **Constraint violations**: count of returned materials that break a requested
+  filter. This is an invariant, not an average: the number must be 0.
+- **Latency**: warm p50/p95 per query at `k=50`, after one untimed pass.
+
+Confidence intervals are **percentile bootstraps over cases** (2000 rounds, seed 7).
+Cases are the independent unit; queries are not resampled within a case.
+
+For the claims the report actually makes, marginal CIs are not enough: they overlap
+easily at n≈25–59. The runner therefore also reports **paired differences** — the
+bootstrap of `metric(engine A) − metric(engine B)` over the *same* cases, with
+wins/losses/ties. "A is not worse than B" is only asserted when the paired CI
+excludes zero in A's favour, or when the delta is ~0 with few losses.
+
+### 12.4 Tuning rule
+
+The fusion weights in `light-hybrid-search-v1` are hand-set defaults and were **not
+tuned on the holdout**, nor swept on dev. If they are ever swept, the sweep runs on
+dev only, the selected configuration is written down before the holdout is read, and
+the report states how many configurations were tried. With 59 dev cases, a sweep that
+moves NDCG by less than ~0.05 should be treated as noise, not as a finding.
+
+### 12.5 What this harness cannot tell you
+
+- real relevance for real entrepreneurs;
+- behaviour at production scale (168 vs ≈1,444 materials);
+- the value of E5 (no weights here);
+- typos, personalisation, or multi-turn refinement (not in v1);
+- annotator agreement (no human judgments exist here).
+
