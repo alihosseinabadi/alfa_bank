@@ -1,5 +1,7 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
+> Интеграционная ветка: актуальный запуск и ограничения этапа 2 описаны в [docs/integration-stage2.md](docs/integration-stage2.md). Рекомендации и события через HTTP ещё не подключены; ниже сохранена документация отдельных компонентов.
+
 Stage 7: [durable decisions, reported visibility and events](docs/events_stage7.md) are implemented as PostgreSQL services/CLI. Real HTTP/auth/frontend/payment integration and reward learning remain planned.
 
 ML stage 6: [observable pair features and deterministic prior ranking](docs/prior_stage6.md) are implemented. The current vector has 45 components including missing-value masks; [Quality audit](docs/quality_stage56.md): engineering components are usable, but robust retrieval acceptance and useful prior-ranking gains are not established.

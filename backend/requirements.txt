@@ -4,11 +4,13 @@
 # --- Web / API ---
 fastapi>=0.110,<1.0
 uvicorn[standard]>=0.29,<1.0
+email-validator>=2.0,<3.0
 pydantic>=2.6,<3.0
 pydantic-settings>=2.2,<3.0
 
 # --- Database ---
 sqlalchemy>=2.0,<3.0
+pymongo>=4.6,<5.0
 psycopg[binary]>=3.1,<4.0
 alembic>=1.13,<2.0
 
