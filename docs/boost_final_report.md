@@ -1,6 +1,6 @@
 # Alfa-Kurs ML boost — final report
 
-Date: 2026-11-15. Branch `ml-boost`, base `90f6bcd` (`ml`), head `96e14d6`.
+Date: 2026-11-15. Branch `ml-boost`, base `90f6bcd` (`ml`), head `02ecb80`.
 Environment: Windows 11, Python 3.12.10, numpy 2.5.3 / scipy 1.18.1 / scikit-learn 1.9.1,
 CPU only, no LLM calls, no transformer weights present.
 
@@ -28,14 +28,16 @@ that sentence attached.
 | `a9d2be8` | Phase 5.1: LinUCB batch scoring | `linucb.py`, `ucb_ranking.py`, `benchmark_linucb.py`, `docs/linucb_optimization.md`, 7 tests |
 | `1eaf030` | Phase 2/6: agreement + drift tooling, A/B plan | `judgment_agreement.py`, `monitor_drift.py`, `docs/ab_test_plan.md`, 9 tests |
 | `96e14d6` | Phase 4.1: onboarding layer | `onboarding.py`, `data/onboarding_goal_topics.json`, `docs/onboarding.md`, 24 tests |
+| `02ecb80` | Phase 1b: semantic v2 (material-level LSA, IDF-weighted synonym queries) | `semantic_retriever.py`, `LightHybridRetrieverV2`, index registry, evaluator engine, 18 tests, `docs/semantic_search_v2.md` |
 
 New runtime behaviour is **off by default**. The production path
-(`tfidf-search-v1`) is byte-identical in behaviour; the light path is a separate
-version string and a separate policy, reachable through `--engine light`. The
-onboarding module is not wired to any route. No existing test was modified to make a
-new one pass.
+(`tfidf-search-v1`) is byte-identical in behaviour; the light paths
+(`light-hybrid-search-v1` and `light-hybrid-search-v2`) are separate version
+strings with separate policies, selected explicitly and not wired into any route.
+The onboarding module is not wired to any route. No existing test was modified to
+make a new one pass.
 
-Test suite: **189 passed / 5 failed / 3 errors** at the start → **257 passed, 47
+Test suite: **189 passed / 5 failed / 3 errors** at the start → **275 passed, 47
 skipped** at the end. The 47 skips are unchanged environment gaps (46 need
 `ALFA_EVENTS_TEST_DATABASE_URL`; 1 needs a missing optional artifact).
 
@@ -69,6 +71,7 @@ off-topic, 8 constraint), frozen split 73 dev / 31 holdout. Hashes in
 | `char_ngram` (ablation) | 0.825 | 0.477 | **0.866** | 0.344 |
 | `lsa` (ablation) | 0.789 | 0.459 | 0.807 | **0.488** |
 | **`light_hybrid` (after)** | **0.805** | **0.434** | 0.824 | 0.418 |
+| `light_hybrid_v2` (§2.7) | 0.818 | **0.478** | **0.844** | **0.463** |
 
 Paired differences over the same cases (bootstrap 2000 rounds, seed 7):
 
@@ -83,7 +86,8 @@ Paired differences over the same cases (bootstrap 2000 rounds, seed 7):
 What this supports: the fused path is **materially better than the shipped TF-IDF**
 and better than lexical BM25, by +0.12…+0.22 NDCG@10, reproducibly on dev and holdout.
 Paraphrase NDCG roughly doubles (0.28 → 0.43), which is the morphology effect the
-stemmed channel was built for.
+stemmed channel was built for; v2's semantic channel adds 0.43 → 0.48 on top of
+that.
 
 What this does **not** support: that the fusion is better than its best single
 channel. `char_ngram` alone matches or beats it on NDCG@10; `lsa` matches it. The
@@ -154,8 +158,30 @@ Paraphrases with no shared vocabulary still fail for every engine in the default
 | `как убрать ручную работу из процессов` | Автоматизация рутины | Работа с жалобами |
 
 These need semantics. Stemming, char n-grams and a 120-component LSA over 168
-documents are not semantics. The +0.15 NDCG does not fix them, and the report should
-never imply it does.
+documents are not semantics, and neither is v2's 40-component material-level
+projection. The +0.12…+0.19 NDCG gains do not fix them, and the report should never
+imply they do.
+
+### 2.7 Semantic v2 — a bounded follow-up (`light-hybrid-search-v2`)
+
+Added after the first version of this report, on the same benchmark and hashes. Full
+detail in `docs/semantic_search_v2.md`; the measured core:
+
+| split | v1 paraphrase NDCG@10 | v2 paraphrase NDCG@10 | v1 → v2 top-1 | paired Δ [95% CI] |
+|---|---|---|---|---|
+| dev (34) | 0.434 | **0.478** | 0.294 → **0.412** | **+0.031 [+0.014, +0.049]** |
+| holdout (8) | 0.418 | **0.463** | 0.500 → 0.500 | **+0.028 [+0.009, +0.050]** |
+
+Natural NDCG@10: 0.805 → 0.818 dev, 0.824 → 0.844 holdout, with two natural
+queries losing NDCG (up to −0.147) to a same-topic neighbour. v2 now **ties**
+`char_ngram` on dev (−0.002) instead of trailing it (−0.033), and is nominally ahead
+on holdout (+0.023, CI includes 0). Latency 15.55 ms p50 / 18.96 ms p95 on dev, still
+slower than the 8.13 ms incumbent. Constraint violations 0; refusal unchanged at
+1.000; the `магазин` false refusal persists.
+
+Verdict: real, reproducible, small. It moves semantic search from 3/10 to 4/10, not
+to 6/10 — 6 of 10 paraphrases still return the wrong material first, and the failures
+in §2.6 are untouched.
 
 ---
 
@@ -237,6 +263,9 @@ drop-off, no effect on first-session clicks. Its starter set also gets sparse un
 | production latency under 100 ms | **unverified** | 18.69 ms p95 on a catalogue 8.6× smaller than production |
 | LinUCB scoring 27.8× faster | **measured**, scores match | 30.50 → 1.10 ms p50, max diff 1.11e-16 |
 | bandit policy quality improved | **no change** | simulator numbers identical to baseline |
+| semantic v2 beats v1 on paraphrases | **measured, small** | +0.031 dev / +0.028 holdout, paired CIs exclude 0 |
+| semantic v2 beats the best single channel | **not established** | −0.002 dev, +0.023 holdout (CI includes 0) |
+| semantic search is "solved" | **not claimed** | 41% top-1 on dev paraphrases; §2.6 failures remain |
 | two-annotator agreement | **not measurable** | no human grades in the repository |
 | onboarding improves cold-start outcomes | **not measured** | module not deployed; no events |
 
@@ -294,11 +323,14 @@ suite produces ~78 cp1252 `UnicodeDecodeError`s. Test files were not modified.
 3. **Run the A/B test first on retrieval only**, with the bandit held fixed
    (`docs/ab_test_plan.md`), and treat `char_ngram` as the honest competitor — the
    fusion must beat it on something that matters (refusal, latency, tail behaviour) or
-   the simpler channel is the better ship.
+   the simpler channel is the better ship. This applies to v1 *and* v2: v2 only ties
+   `char_ngram` on dev (−0.002, CI includes 0) and leads it by +0.023 on holdout with
+   a CI that also includes 0. The semantic channel is not yet a proven reason to
+   prefer the fused path over the single channel.
 4. **Do not quote "NDCG 0.63 → 0.81"** as a production improvement. Correct phrasing:
    "on a 104-case synthetic benchmark with construction-derived labels, the fused path
-   beats the shipped TF-IDF by 0.12–0.16 NDCG@10 on held-out cases; relevance on real
-   traffic is unmeasured."
+   beats the shipped TF-IDF by +0.12 NDCG@10 on held-out cases (+0.14 for the v2
+   semantic variant); relevance on real traffic is unmeasured."
 5. **Before any onboarding work continues**, emit an onboarding-completion event.
    Without a denominator, no onboarding change can be evaluated.
 
@@ -310,16 +342,21 @@ suite produces ~78 cp1252 `UnicodeDecodeError`s. Test files were not modified.
 # from the repository root
 $env:PYTHONUTF8=1
 
-python -m pytest backend/tests -q                       # 257 passed, 47 skipped
+python -m pytest backend/tests -q                       # 275 passed, 47 skipped
 python scripts/make_light_benchmark.py                  # idempotent without --force
 python scripts/evaluate_light_retrieval.py `
-    --json data/synthetic/light_benchmark_v1/results_light_v1.json
+    --json data/synthetic/light_benchmark_v1/results_light_v2.json
 python scripts/benchmark_linucb.py --json data/synthetic/linucb_benchmark_v1.json
 python scripts/simulate_linucb_stage8.py
 python scripts/simulate_slate_stage9.py
 ```
 
+The evaluator now scores `light_hybrid` and `light_hybrid_v2` in one run, so the
+command above produces both sets of numbers. `results_light_v1.json` is the frozen
+pre-v2 artifact and is not regenerated; `results_light_v2.json` is the current one.
+
 Companion documents: `docs/boost_baseline.md` (what could not be measured),
-`docs/light_search_evaluation.md` (full retrieval tables and failure analysis),
+`docs/light_search_evaluation.md` (full v1 retrieval tables and failure analysis),
+`docs/semantic_search_v2.md` (v2 design, dev tuning log, holdout result, failures),
 `docs/evaluation_methodology.md` §12 (harness validity), `docs/linucb_optimization.md`,
 `docs/ab_test_plan.md`, `docs/onboarding.md`.
