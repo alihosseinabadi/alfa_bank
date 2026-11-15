@@ -11,9 +11,13 @@ def rank_ucb(prior, model, model_state_id):
     if model.state_digest() != getattr(model, 'matrix_digest', None):
         raise ValueError('model state has changed')
     ranked = []
+    # One batch validation instead of one validation per candidate. The scores are
+    # numerically identical; see backend/tests/test_linucb_batch.py.
+    vectors = []
     for card in prior.candidates:
         validate_features(card.features)
-        score = model.score(card.features.vector)
+        vectors.append(card.features.vector)
+    for card, score in zip(prior.candidates, model.score_many(vectors)):
         ranked.append((card, score))
     ranked.sort(key=lambda pair: (-pair[1].total, pair[0].retrieval_rank, pair[0].material_key))
     cards = []

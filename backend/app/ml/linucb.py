@@ -16,6 +16,9 @@ class SharedLinUCB:
         self.dimension, self.ridge, self.alpha, self.max_condition = dimension, float(ridge), float(alpha), float(max_condition)
         self.A = np.eye(dimension, dtype=np.float64) * ridge if A is None else np.array(A, dtype=np.float64, copy=True)
         self.b = np.zeros(dimension, dtype=np.float64) if b is None else np.array(b, dtype=np.float64, copy=True)
+        self._cached_digest = None
+        self._cached_inverse = None
+        self._cached_theta = None
         self._validate()
 
     def state_digest(self):
@@ -40,18 +43,52 @@ class SharedLinUCB:
             raise ValueError('invalid feature vector')
         return x
 
-    def score(self, x):
+    def _ensure_cached(self):
+        """Validate the state and compute the inverse at most once per state.
+
+        The digest guard is what keeps this safe: if ``A`` or ``b`` changes by any
+        route -- ``observe``, ``revise`` or direct attribute mutation -- the digest
+        no longer matches and the state is re-validated and re-inverted before it is
+        used. Provenance (``state_digest``) is unchanged, so callers that compare
+        digests before and after keep working.
+        """
+        digest = self.state_digest()
+        if digest == self._cached_digest:
+            return
         self._validate()
-        x = self._vector(x)
-        theta = np.linalg.solve(self.A, self.b)
-        variance = float(x @ np.linalg.solve(self.A, x))
+        inverse = np.linalg.solve(self.A, np.eye(self.dimension, dtype=np.float64))
+        # A is symmetric positive definite (checked above), so A^-1 is too; the
+        # symmetrisation only removes floating-point asymmetry.
+        self._cached_inverse = 0.5 * (inverse + inverse.T)
+        self._cached_theta = self._cached_inverse @ self.b
+        self._cached_digest = digest
+
+    def _score_cached(self, x):
+        variance = float(x @ self._cached_inverse @ x)
         if not np.isfinite(variance) or variance < 0:
             raise ValueError('invalid uncertainty')
-        exploit = float(theta @ x)
+        exploit = float(self._cached_theta @ x)
         explore = float(self.alpha * np.sqrt(variance))
         if not np.isfinite(exploit + explore):
             raise ValueError('nonfinite score')
         return Score(exploit, explore, exploit + explore)
+
+    def score(self, x):
+        self._ensure_cached()
+        return self._score_cached(self._vector(x))
+
+    def score_many(self, features):
+        """Score a batch of candidates after one validation.
+
+        Same numbers as calling ``score`` in a loop, but the Cholesky check, the
+        condition-number estimate and the matrix inverse happen once per batch
+        instead of once per candidate.
+        """
+        if len(features) == 0:
+            return []
+        vectors = [self._vector(x) for x in features]
+        self._ensure_cached()
+        return [self._score_cached(x) for x in vectors]
 
     def observe(self, x, reward):
         x = self._vector(x)

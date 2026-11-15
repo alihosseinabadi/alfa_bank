@@ -1,0 +1,18 @@
+{
+  "feature_dimension": 45,
+  "candidates_per_batch": 50,
+  "rounds": 20,
+  "observations": 200,
+  "previous_ms": {
+    "p50": 30.499,
+    "p95": 35.053,
+    "mean": 31.356
+  },
+  "current_ms": {
+    "p50": 1.097,
+    "p95": 1.633,
+    "mean": 1.188
+  },
+  "speedup_p50": 27.81,
+  "max_abs_score_difference": 1.1102230246251565e-16
+}
