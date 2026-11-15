@@ -1,47 +1,10 @@
-# backend/app/database/
+# Product events PostgreSQL
 
-Database connectivity: engine, session factory, declarative base.
+connection.py создаёт engine только из явного ALFA_EVENTS_DATABASE_URL.
+Разрешены отдельные alfa_events/alfa_events_test, драйвер postgresql+psycopg.
+Нет fallback на исходную базу организаторов или общий DATABASE_URL.
+events_sessions создаёт sessionmaker; EventService владеет begin/commit/rollback.
 
-## Files
-
-| File | Purpose |
-|---|---|
-| `connection.py` | Create the SQLAlchemy engine and `SessionLocal` |
-| `base.py` | `Base = declarative_base()` shared by all models |
-
-## connection.py
-
-```python
-engine = create_engine(settings.database_url, pool_pre_ping=True)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-```
-
-- `pool_pre_ping=True` avoids stale connections after DB restarts.
-- The session is a FastAPI dependency; routes never build their own.
-
-## base.py
-
-Defines the declarative base that every model inherits. Keeping it separate avoids
-import cycles between `models` and `connection`.
-
-## Rules
-
-- No business logic.
-- One session per request.
-- Transactions are owned by services, not by routes.
-
-## Test
-
-`GET /health` reports DB status; a failing DB returns `503`, never a silent success.
-
-## What to learn
-
-Engine vs session, connection pooling, and why the `yield`-based dependency pattern
-guarantees cleanup.
+base.py: общий DeclarativeBase. Схема создаётся явными Alembic-миграциями,
+не create_all. Docker и команды: docs/events_stage7.md.
+Тестовые данные изолированы в новой базе и случайных схемах.

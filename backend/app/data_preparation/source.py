@@ -45,14 +45,16 @@ EXPORT_COLUMNS = {
 }
 
 
-def read_source_table(
+def _read_selected_table(
     table_name: str,
+    selected_columns: tuple[str, ...],
     compose_file: Path,
 ) -> pd.DataFrame:
     """Прочитать разрешённую таблицу, не изменяя исходную базу."""
 
-    if table_name not in EXPORT_COLUMNS:
-        raise ValueError(f"Таблица не настроена для выгрузки: {table_name}")
+    import re
+    if not all(re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", name) for name in (table_name, *selected_columns)):
+        raise ValueError("Invalid source identifier")
 
     compose_file = compose_file.resolve()
 
@@ -60,7 +62,7 @@ def read_source_table(
         raise FileNotFoundError(f"Не найден compose-файл: {compose_file}")
 
     columns = ", ".join(
-        f'"{column}"' for column in EXPORT_COLUMNS[table_name]
+        f'"{column}"' for column in selected_columns
     )
 
     query = (
@@ -127,3 +129,25 @@ EXPORT_COLUMNS.update({
         "IsClosed", "IsDeleted", "Published", "Url",
     ),
 })
+
+# Stage 2 catalog and content only; no user/IP fields are exported here.
+EXPORT_COLUMNS.update({
+    "Articles": EXPORT_COLUMNS["Articles"] + ("Content",),
+    "Documents": EXPORT_COLUMNS["Documents"] + ("FileId",),
+    "Glossary": ("Id", "Title", "Description", "Duration", "Url", "StatusId", "Published", "IsDeleted"),
+    "Calculators": ("Id", "Title", "Description", "Url", "IsDeleted", "RatingGroupId"),
+    "CalculatorPages": ("Id", "Title", "Description", "Url", "StatusId", "Published", "IsDeleted", "RatingGroupId"),
+    "Lessons": ("Id", "Title", "Description", "Content", "Duration", "IsDeleted", "IsGroup", "TypeId"),
+    "CourseLessonBindings": ("Id", "CourseId", "LessonId", "Order", "IsTrial", "IsClosed", "ClosedUntil"),
+    "ArticleEmbedItems": ("Id", "ArticleId", "Type", "HtmlContent", "Params", "Order"),
+    "DocumentEmbedItems": ("Id", "DocumentId", "Type", "HtmlContent", "Params", "Order"),
+    "GlossaryEmbedItems": ("Id", "GlossaryId", "Type", "HtmlContent", "Params", "Order"),
+    "CalculatorPageEmbedItems": ("Id", "CalculatorPageId", "Type", "HtmlContent", "Params", "Order"),
+    "LessonEmbedItems": ("Id", "LessonId", "Type", "HtmlContent", "Params", "Order"),
+    "Files": ("Id", "Title", "Url", "Extension", "Size", "IsDeleted"),
+})
+def read_source_table(table_name: str, compose_file: Path) -> pd.DataFrame:
+    """Read catalog-only allowlisted columns; history uses a separate registry."""
+    if table_name not in EXPORT_COLUMNS:
+        raise ValueError(f"Таблица не настроена для выгрузки: {table_name}")
+    return _read_selected_table(table_name, EXPORT_COLUMNS[table_name], compose_file)

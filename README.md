@@ -1,5 +1,15 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
+Stage 7: [durable decisions, reported visibility and events](docs/events_stage7.md) are implemented as PostgreSQL services/CLI. Real HTTP/auth/frontend/payment integration and reward learning remain planned.
+
+ML stage 6: [observable pair features and deterministic prior ranking](docs/prior_stage6.md) are implemented. The current vector has 45 components including missing-value masks; [Quality audit](docs/quality_stage56.md): engineering components are usable, but robust retrieval acceptance and useful prior-ranking gains are not established.
+
+ML profile update: [stage-4 MVP profile and request context](docs/profiles_stage4.md) prepare task-first inputs for retrieval; this is not yet the search or ranking system.
+
+ML history update: [stage-3 preparation and contracts](docs/history_stage3.md) normalize archive observations and continuation state for the MVP.
+
+ML catalog update: the real organizer archive is processed locally by the stage-2 pipeline. See [catalog setup and contracts](docs/catalog_stage2.md). This prepares content for retrieval; it does not implement the recommender or online learning.
+
 Hackathon project for the **Alfa-Bank Web/AI hackathon**, track
 **"Personalization of education for entrepreneurs."**
 
@@ -41,11 +51,10 @@ Profile  ->  Retrieval (top-50)  ->  LinUCB ranking  ->  Recommendations
                                                       inspections / purchases
 ```
 
-Every displayed course is logged as a row in `recommendation_impressions` (the
+The planned integration will log each genuinely displayed course as a row in `recommendation_impressions` (the
 canonical impression record, with `slate_id`, `position`, both scores and the model
 version). Every user action is logged as an *interaction* that references that
-impression and carries a reward. The bandit updates from those rewards, so the feed
-improves with use.
+impression and carries a reward. Stage 7 now implements event persistence through an internal service/CLI. Real frontend acknowledgements, payment verification and bandit updates are not integrated; their product effect remains unmeasured.
 
 ## 3. Algorithm in one paragraph
 
@@ -72,7 +81,7 @@ course features only.
 | Backend | Python, FastAPI, Pydantic | Typed, fast to build, auto docs |
 | Database | PostgreSQL + SQLAlchemy + Alembic | Real relational model + migrations |
 | ML | NumPy, Pandas, Scikit-learn | Enough for TF-IDF, features, LinUCB |
-| Embeddings | sentence-transformers | Optional semantic retrieval comparison |
+| Embeddings | transformers + local multilingual E5 | Experimental semantic retrieval; private weights/vectors required |
 | Experiments | Python scripts + Matplotlib | Reproducible offline evaluation |
 | Frontend | React, TypeScript, Vite, Tailwind, Recharts | Fast UI, readable analytics |
 | Local infra | Docker Compose | One command to run DB + API + UI |
@@ -105,8 +114,7 @@ learn to understand it.
 
 ## 6. Current status
 
-This repository currently contains the **architecture, documentation and
-scaffolding** layer. Source implementations are added phase by phase following
+The current implementation contains organizer catalog/history preparation, versioned profiles, lexical and experimental semantic retrieval, and deterministic prior ranking. API/UI integration and LinUCB remain planned; stage 7 adds internal event persistence. The quality audit documents known retrieval failures. The roadmap below is the original target architecture. Source implementations are added phase by phase following
 [`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md). Nothing here pretends to be finished:
 no Python module is described as working until code and tests exist.
 
@@ -135,9 +143,7 @@ Planned phases:
 ## 8. Honesty statement
 
 All conversion and reward numbers shown in the experiment environment are from a
-**synthetic user simulator**, not from real Alfa-Kurs traffic. The course catalogue
-itself is **synthetic/illustrative** — see
-[`docs/data_provenance.md`](docs/data_provenance.md). We report simulated results as
+**synthetic user simulator**, not from real Alfa-Kurs traffic. The stage-2+ catalogue comes from the private organizer archive. Evaluation profiles, actions and scenarios are synthetic; illustrative sample files are separate. Local derivatives and model artifacts are excluded from Git. We report simulated results as
 simulated and never present them as production outcomes.
 
 ## 9. Documentation index
@@ -164,3 +170,6 @@ simulated and never present them as production outcomes.
 - How to design rewards that do not corrupt the learning signal.
 - How to evaluate a recommender honestly with baselines, seeds and confidence intervals.
 - How to ship an ML system as a typed API with a real database and a UI.
+
+
+Этап 8: shared LinUCB, журнал наград и восстановление — [docs/learning_stage8.md](docs/learning_stage8.md).
