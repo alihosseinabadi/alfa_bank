@@ -1,0 +1,14 @@
+{
+  "version": "onboarding-goal-topics-v1",
+  "note": "Maps a stated goal to catalog topic names. Topic names must match the catalog's `topics` values; unknown topics are dropped at load time with a warning code, never invented.",
+  "goals": {
+    "find_customers": ["Маркетинг", "Продажи"],
+    "increase_profit": ["Юнит-экономика", "Финансы"],
+    "retain_customers": ["Клиентский сервис", "Маркетинг"],
+    "build_team": ["Найм", "Операции"],
+    "formalize_business": ["Право и регистрация", "Налоги"],
+    "launch_product": ["Продукт", "Маркетплейсы"],
+    "raise_money": ["Финансирование", "Финансы"],
+    "grow_business": ["Стратегия", "Операции"]
+  }
+}
