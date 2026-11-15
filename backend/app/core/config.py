@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     """
 
     database_url: str
+    recommendations_enabled: bool = Field(default=False, validation_alias="ALFA_RECOMMENDATIONS_ENABLED")
+    catalog_dir: str = Field(default="data/processed/catalog", validation_alias="ALFA_CATALOG_DIR")
+    retrieval_index_dir: str = Field(default="artifacts/retrieval", validation_alias="ALFA_RETRIEVAL_INDEX_DIR")
     api_cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
     session_secret: str | None = Field(default=None, validation_alias="ALFA_SESSION_SECRET")
     session_cookie_secure: bool = Field(default=True, validation_alias="ALFA_SESSION_COOKIE_SECURE")

@@ -11,6 +11,7 @@ from alembic import command
 from alembic.config import Config
 from alembic.autogenerate import compare_metadata
 from alembic.migration import MigrationContext
+from alembic.script import ScriptDirectory
 from sqlalchemy import select,func
 from sqlalchemy.engine import make_url
 from sqlalchemy.schema import CreateSchema,DropSchema
@@ -253,7 +254,7 @@ def test_migration_matches_orm_and_foreign_keys_are_real(store):
     _,sessions,engine=store
     with engine.connect() as c:
         assert compare_metadata(MigrationContext.configure(c),Base.metadata)==[]
-        assert c.exec_driver_sql("SELECT version_num FROM alembic_version").scalar()=="0004_slate_seed"
+        assert c.exec_driver_sql("SELECT version_num FROM alembic_version").scalar()==ScriptDirectory.from_config(Config(str(ROOT/"backend/alembic.ini"))).get_current_head()
     with pytest.raises(IntegrityError):
         with sessions.begin() as db:
             db.add(Impression(item_id=uuid4(),visible_ms=1200,visible_fraction=.8,source="client_visibility_ack"))

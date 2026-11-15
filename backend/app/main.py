@@ -3,6 +3,7 @@ FastAPI application factory, lifespan and health check.
 """
 
 from collections.abc import AsyncIterator
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, status
@@ -21,9 +22,23 @@ from app.api import users, courses, interactions, recommendations
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """App lifespan. Engine created at import; dispose on shutdown."""
-    yield
-    engine.dispose()
+    """Load the optional ML serving resources once; fail closed on errors."""
+    provider = None
+    if get_settings().recommendations_enabled:
+        app.state.recommendation_provider = None
+        try:
+            from app.services.ml_recommendation_provider import MLRecommendationProvider
+            provider = MLRecommendationProvider.load(get_settings())
+            app.state.recommendation_provider = provider
+        except Exception as exc:
+            # Paths, query text, credentials and database errors are not logged.
+            logging.getLogger(__name__).error('Recommendation provider unavailable (%s)', type(exc).__name__)
+    try:
+        yield
+    finally:
+        if provider is not None:
+            provider.close()
+        engine.dispose()
 
 
 def create_app() -> FastAPI:
