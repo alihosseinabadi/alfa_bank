@@ -7,6 +7,7 @@ One source of truth for tunables. Nothing here imports domain code.
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 # Project root (backend/) — config.py lives at backend/app/core/config.py
@@ -25,6 +26,9 @@ class Settings(BaseSettings):
     """
 
     database_url: str
+    api_cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    session_secret: str | None = Field(default=None, validation_alias="ALFA_SESSION_SECRET")
+    session_cookie_secure: bool = Field(default=True, validation_alias="ALFA_SESSION_COOKIE_SECURE")
 
     alpha: float = 1.0                  # LinUCB exploration
     linucb_ridge: float = 0.01          # keeps A positive definite

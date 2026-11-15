@@ -1,6 +1,7 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
 > Интеграционная ветка: актуальный запуск и ограничения этапа 2 описаны в [docs/integration-stage2.md](docs/integration-stage2.md). Рекомендации и события через HTTP ещё не подключены; ниже сохранена документация отдельных компонентов.
+> Публичный контракт этапа 3: [docs/recommendation-api-v1.md](docs/recommendation-api-v1.md).
 
 Stage 7: [durable decisions, reported visibility and events](docs/events_stage7.md) are implemented as PostgreSQL services/CLI. Real HTTP/auth/frontend/payment integration and reward learning remain planned.
 

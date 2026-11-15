@@ -6,6 +6,12 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from urllib.parse import urlsplit
+
+from app.core.config import get_settings
 from sqlalchemy import text
 
 from app.database import engine
@@ -26,6 +32,23 @@ def create_app() -> FastAPI:
         title="Alfa-Kurs API",
         lifespan=lifespan,
     )
+
+    origins = [origin.strip() for origin in get_settings().api_cors_origins.split(',') if origin.strip()]
+    for origin in origins:
+        parsed = urlsplit(origin)
+        if (parsed.scheme not in {'http', 'https'} or not parsed.netloc or parsed.username or parsed.password
+                or parsed.path or parsed.query or parsed.fragment or '*' in origin):
+            raise ValueError('API_CORS_ORIGINS must contain explicit HTTP(S) origins')
+    app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True,
+                       allow_methods=['GET', 'POST', 'OPTIONS'],
+                       allow_headers=['Content-Type', 'X-CSRF-Token'])
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_error_handler(_request, exc):
+        # Pydantic errors can include the submitted goal or profile in "input".
+        errors = [{'loc': error['loc'], 'msg': error['msg'], 'type': error['type']}
+                  for error in exc.errors()]
+        return JSONResponse(status_code=422, content={'detail': errors}, headers={'Cache-Control': 'no-store'})
 
     app.include_router(users.router, prefix="/api/v1")
     app.include_router(courses.router, prefix="/api/v1")
