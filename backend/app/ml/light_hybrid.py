@@ -1,7 +1,15 @@
-"""Light hybrid retrieval: stemmed BM25 + char n-grams + LSA, with an OOD guard.
+"""Light hybrid retrieval: stemmed BM25 + char n-grams + a semantic channel, with an OOD guard.
 
-This is an additive, versioned path (``light-hybrid-search-v1``). The legacy
-``tfidf-search-v1`` retriever, its index and its policy are untouched.
+Two selectable versions:
+
+* ``light-hybrid-search-v1`` — BM25(stem) + char n-grams + chunk-level LSA(120).
+* ``light-hybrid-search-v2`` — BM25(stem) + char n-grams + material-level LSA(40)
+  with IDF-weighted, synonym-expanded queries (``semantic_retriever.py``).
+
+Both are additive to the legacy ``tfidf-search-v1`` retriever, index and policy,
+which are untouched. The v2 subclass only overrides construction, channel set,
+identity payload and the explanation text; the refusal, eligibility, fusion and
+candidate logic is shared so the two versions cannot drift apart silently.
 
 Design decisions, all explicit:
 
@@ -16,7 +24,9 @@ Design decisions, all explicit:
   returns ``needs_clarification``. ``no_eligible`` here means "no acceptable
   material", which is the wording the stage-5 check cases expect.
 * Synonyms only boost candidates that already exist and only when the expansion
-  term is present in the candidate's own evidence chunk. They cannot create a hit.
+  term is present in the candidate's own evidence chunk. They cannot create a hit
+  in the post-fusion pass. (In v2 the semantic channel *does* use expansion terms
+  inside its own query vector; that is a separate, versioned channel.)
 """
 from __future__ import annotations
 
@@ -27,12 +37,15 @@ from .profile_contracts import CONTEXT_VERSION
 from .profile_policy import fingerprint
 from .retrieval_contracts import (
     LIGHT_RETRIEVAL_VERSION,
+    LIGHT_RETRIEVAL_VERSION_V2,
     LightRetrievalPolicy,
+    LightRetrievalPolicyV2,
     SearchCandidate,
     SearchResult,
 )
 from .retrieval_fusion import reciprocal_rank_fusion
 from .ru_normalize import analyze
+from .semantic_retriever import SemanticRetriever
 from .synonyms import SynonymDictionary, load_dictionary
 from .tfidf_retriever import eligible_for_context, make_candidate, prepare_corpus, tokenize_text
 
@@ -46,10 +59,12 @@ NO_DOMAIN_CLARIFICATION = (
 class LightHybridRetriever:
     """Stemmed, fused retrieval with explicit refusal semantics."""
 
+    retrieval_version = LIGHT_RETRIEVAL_VERSION
+
     def __init__(self, policy: LightRetrievalPolicy | None = None,
                  dictionary: SynonymDictionary | None = None):
         self.policy = policy or LightRetrievalPolicy()
-        if self.policy.version != LIGHT_RETRIEVAL_VERSION:
+        if self.policy.version != self.retrieval_version:
             raise ValueError("Incompatible light retrieval policy version")
         self.dictionary = dictionary if dictionary is not None else load_dictionary()
         self.materials: dict = {}
@@ -63,14 +78,26 @@ class LightHybridRetriever:
         self.lsa = LsaRetriever(self.policy, self.dictionary)
         self.identity: str | None = None
 
+    # -- version-specific hooks -----------------------------------------
+    def _retrievers(self) -> dict:
+        return {"bm25_stem": self.bm25, "char_ngram": self.chars, "lsa": self.lsa}
+
+    def _identity_extra(self) -> dict:
+        return {"lsa": self.lsa.bundle_id}
+
+    def _channel_explanation(self) -> str:
+        return (
+            "Стеммированный поиск покрывает словоформы, char-ngram — опечатки и "
+            "разные основы, LSA — близкие формулировки."
+        )
+
     # -- fitting ---------------------------------------------------------
     def fit(self, materials, chunks):
-        self.bm25.fit(materials, chunks)
-        self.chars.fit(materials, chunks)
-        self.lsa.fit(materials, chunks)
+        for channel in self._retrievers().values():
+            channel.fit(materials, chunks)
         signatures = {
             self._corpus_signature(channel.materials, channel.rows)
-            for channel in (self.bm25, self.chars, self.lsa)
+            for channel in self._retrievers().values()
         }
         if len(signatures) != 1:
             raise ValueError("Hybrid channels must share one filtered public corpus")
@@ -81,7 +108,7 @@ class LightHybridRetriever:
             "policy": self.policy.model_dump(),
             "dictionary": self.dictionary.identity,
             "corpus": signatures.pop(),
-            "lsa": self.lsa.bundle_id,
+            **self._identity_extra(),
         })
         return self
 
@@ -124,9 +151,8 @@ class LightHybridRetriever:
             )
 
         channels = {
-            "bm25_stem": self.bm25.query(context, 50),
-            "char_ngram": self.chars.query(context, 50),
-            "lsa": self.lsa.query(context, 50),
+            name: retriever.query(context, 50)
+            for name, retriever in self._retrievers().items()
         }
         declared = self.policy.channel_weights
         channels = {
@@ -155,7 +181,7 @@ class LightHybridRetriever:
         reason_codes = ["rank_fusion", "stemmed_query", "score_is_not_probability"]
         reason_codes += [f"channel:{name}" for name in sorted(channels)]
         return SearchResult(
-            version=LIGHT_RETRIEVAL_VERSION,
+            version=self.retrieval_version,
             context_id=context.context_id,
             algorithm="light_hybrid",
             status="matched",
@@ -199,21 +225,20 @@ class LightHybridRetriever:
         channel_list = ", ".join(f"{name}#{evidence[name]['rank']}" for name in names)
         reason = (
             f"Совпадение по смыслу запроса: каналы {channel_list}. "
-            "Стеммированный поиск покрывает словоформы, char-ngram — опечатки и "
-            "разные основы, LSA — близкие формулировки."
+            + self._channel_explanation()
         )
         if synonym_terms:
             reason += f" Учтены синонимы: {', '.join(synonym_terms)}."
         return candidate.model_copy(update={
             "reason_code": "hybrid_fused_match",
             "reason": reason,
-            "retrieval_version": LIGHT_RETRIEVAL_VERSION,
+            "retrieval_version": self.retrieval_version,
         })
 
     def _refusal(self, context, reason: str, clarification: str, eligible: int,
                  has_vocabulary: bool = False) -> SearchResult:
         return SearchResult(
-            version=LIGHT_RETRIEVAL_VERSION,
+            version=self.retrieval_version,
             context_id=context.context_id,
             algorithm="light_hybrid",
             status="no_eligible",
@@ -241,7 +266,7 @@ class LightHybridRetriever:
                 break
         if starters:
             return SearchResult(
-                version=LIGHT_RETRIEVAL_VERSION,
+                version=self.retrieval_version,
                 context_id=context.context_id,
                 algorithm="light_hybrid",
                 status="starter",
@@ -253,7 +278,7 @@ class LightHybridRetriever:
                 continuation_candidates=list(context.continuation_candidates),
             )
         return SearchResult(
-            version=LIGHT_RETRIEVAL_VERSION,
+            version=self.retrieval_version,
             context_id=context.context_id,
             algorithm="light_hybrid",
             status="needs_clarification",
@@ -263,4 +288,48 @@ class LightHybridRetriever:
             eligible_materials=len(eligible),
             query_has_vocabulary=False,
             continuation_candidates=list(context.continuation_candidates),
+        )
+
+
+class LightHybridRetrieverV2(LightHybridRetriever):
+    """``light-hybrid-search-v2``: v1 channels with the semantic channel in place of LSA.
+
+    Only construction, channel set, identity and explanation differ; refusal,
+    eligibility, fusion and candidate shaping are inherited deliberately.
+    """
+
+    retrieval_version = LIGHT_RETRIEVAL_VERSION_V2
+
+    def __init__(self, policy: LightRetrievalPolicyV2 | None = None,
+                 dictionary: SynonymDictionary | None = None):
+        self.policy = policy or LightRetrievalPolicyV2()
+        if self.policy.version != self.retrieval_version:
+            raise ValueError("Incompatible light retrieval policy version")
+        self.dictionary = dictionary if dictionary is not None else load_dictionary()
+        self.materials: dict = {}
+        self.rows: list = []
+        canonical = self.dictionary.canonical_map
+        self.bm25 = RussianStemBM25Retriever(
+            min_query_coverage=self.policy.min_query_coverage,
+            analyzer=lambda text: analyze(text, canonical),
+        )
+        self.chars = CharNgramRetriever(self.policy)
+        self.semantic = SemanticRetriever(self.policy, self.dictionary)
+        self.identity: str | None = None
+
+    def _retrievers(self) -> dict:
+        return {
+            "bm25_stem": self.bm25,
+            "char_ngram": self.chars,
+            "semantic": self.semantic,
+        }
+
+    def _identity_extra(self) -> dict:
+        return {"semantic": self.semantic.bundle_id}
+
+    def _channel_explanation(self) -> str:
+        return (
+            "Стеммированный поиск покрывает словоформы, char-ngram — опечатки и "
+            "разные основы, семантический канал — близкие по смыслу формулировки "
+            "в пространстве описаний материалов."
         )

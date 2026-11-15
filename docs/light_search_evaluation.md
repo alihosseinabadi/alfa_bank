@@ -8,6 +8,11 @@ every number below comes from a public synthetic benchmark whose relevance is
 construction-derived. It is a regression harness, not a measurement of production
 relevance. Section 8 lists what it cannot tell you.
 
+> **Later addition:** a v2 path (`light-hybrid-search-v2`) with a material-level
+> semantic channel is evaluated separately in `docs/semantic_search_v2.md`. Every
+> number in *this* document is v1 and remains valid; v2 raises dev paraphrase
+> NDCG@10 from 0.434 to 0.478 and holdout from 0.418 to 0.463.
+
 Summary of the honest result:
 
 * The light hybrid clearly beats the **currently shipped TF-IDF** and both BM25

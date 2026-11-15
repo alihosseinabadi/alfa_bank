@@ -21,9 +21,14 @@ import numpy as np
 import scipy
 import sklearn
 
-from app.ml.light_hybrid import LightHybridRetriever
+from app.ml.light_hybrid import LightHybridRetriever, LightHybridRetrieverV2
 from app.ml.profile_policy import fingerprint
-from app.ml.retrieval_contracts import LIGHT_RETRIEVAL_VERSION, LightRetrievalPolicy
+from app.ml.retrieval_contracts import (
+    LIGHT_RETRIEVAL_VERSION,
+    LIGHT_RETRIEVAL_VERSION_V2,
+    LightRetrievalPolicy,
+    LightRetrievalPolicyV2,
+)
 from app.ml.retrieval_contracts import PublicSearchChunk, SearchMaterial
 from app.ml.synonyms import load_dictionary
 
@@ -32,6 +37,7 @@ from .history_io import file_hash, read_jsonl, verify_files, write_jsonl
 PAYLOAD_FILES = {"materials.jsonl", "rows.jsonl", "policy.json"}
 CODE_PATHS = (
     "backend/app/ml/light_hybrid.py",
+    "backend/app/ml/semantic_retriever.py",
     "backend/app/ml/ngram_retriever.py",
     "backend/app/ml/lsa_retriever.py",
     "backend/app/ml/ru_normalize.py",
@@ -40,14 +46,24 @@ CODE_PATHS = (
     "backend/app/ml/retrieval_fusion.py",
 )
 
+# One registry, so a version string is the only thing a caller has to know.
+IMPLEMENTATIONS = {
+    LIGHT_RETRIEVAL_VERSION: (LightRetrievalPolicy, LightHybridRetriever),
+    LIGHT_RETRIEVAL_VERSION_V2: (LightRetrievalPolicyV2, LightHybridRetrieverV2),
+}
 
-def build_light_index(materials, chunks, policy: LightRetrievalPolicy | None = None):
+
+def build_light_index(materials, chunks, policy: LightRetrievalPolicy | LightRetrievalPolicyV2 | None = None):
     """Fit a light hybrid index over already-validated public inputs."""
     policy = policy or LightRetrievalPolicy()
-    return LightHybridRetriever(policy).fit(materials, chunks)
+    try:
+        _, retriever = IMPLEMENTATIONS[policy.version]
+    except KeyError as error:
+        raise ValueError(f"Unsupported light retrieval policy: {policy.version!r}") from error
+    return retriever(policy).fit(materials, chunks)
 
 
-def save_light_index(index: LightHybridRetriever, output_dir, root, *, catalog_bundle_id,
+def save_light_index(index, output_dir, root, *, catalog_bundle_id,
                      catalog_files=None) -> Path:
     if index.identity is None:
         raise ValueError("Index is not fitted")
@@ -62,8 +78,17 @@ def save_light_index(index: LightHybridRetriever, output_dir, root, *, catalog_b
             encoding="utf-8",
         )
         files = {name: file_hash(stage / name) for name in PAYLOAD_FILES}
+        audit = {
+            "materials": len(index.materials),
+            "chunks": len(index.rows),
+            "channels": sorted(index.policy.channel_weights),
+        }
+        if hasattr(index, "lsa"):
+            audit["lsa_components"] = index.lsa.components
+        if hasattr(index, "semantic"):
+            audit["semantic_components"] = index.semantic.components
         payload = {
-            "retrieval_version": LIGHT_RETRIEVAL_VERSION,
+            "retrieval_version": index.retrieval_version,
             "tokenizer_version": index.policy.tokenizer_version,
             "policy": index.policy.model_dump(mode="json"),
             "dictionary_version": index.dictionary.version,
@@ -78,12 +103,7 @@ def save_light_index(index: LightHybridRetriever, output_dir, root, *, catalog_b
                 str(path): file_hash(Path(root) / path) for path in CODE_PATHS
             },
             "files": files,
-            "audit": {
-                "materials": len(index.materials),
-                "chunks": len(index.rows),
-                "lsa_components": index.lsa.components,
-                "channels": sorted(index.policy.channel_weights),
-            },
+            "audit": audit,
         }
         identity = fingerprint(payload)
         (stage / "manifest.json").write_text(
@@ -112,8 +132,10 @@ def load_light_index(index_dir, *, catalog_bundle_id: str | None = None):
     payload = {key: value for key, value in manifest.items() if key != "bundle_id"}
     if fingerprint(payload) != manifest["bundle_id"]:
         raise ValueError("Light index manifest identity mismatch")
-    if manifest["retrieval_version"] != LIGHT_RETRIEVAL_VERSION:
+    version = manifest["retrieval_version"]
+    if version not in IMPLEMENTATIONS:
         raise ValueError("Incompatible light retrieval version")
+    policy_class, _ = IMPLEMENTATIONS[version]
     expected = {
         "sklearn_version": sklearn.__version__,
         "numpy_version": np.__version__,
@@ -129,7 +151,9 @@ def load_light_index(index_dir, *, catalog_bundle_id: str | None = None):
 
     materials = read_jsonl(directory / "materials.jsonl", SearchMaterial)
     rows = read_jsonl(directory / "rows.jsonl", PublicSearchChunk)
-    policy = LightRetrievalPolicy.model_validate(manifest["policy"])
+    policy = policy_class.model_validate(manifest["policy"])
+    if policy.version != version:
+        raise ValueError("Light index policy/version mismatch")
     dictionary = load_dictionary()
     if dictionary.version != manifest["dictionary_version"]:
         raise ValueError("Synonym dictionary version changed")

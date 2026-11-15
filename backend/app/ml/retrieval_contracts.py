@@ -11,6 +11,11 @@ TOKENIZER_VERSION="ru-lexical-v1"
 LIGHT_RETRIEVAL_VERSION="light-hybrid-search-v1"
 LIGHT_TOKENIZER_VERSION="ru-stem-v1"
 
+# Semantic variant: material-level LSA with IDF-weighted, synonym-expanded queries.
+# Additive: v1 stays selectable and byte-identical.
+LIGHT_RETRIEVAL_VERSION_V2="light-hybrid-search-v2"
+SUPPORTED_LIGHT_VERSIONS=(LIGHT_RETRIEVAL_VERSION,LIGHT_RETRIEVAL_VERSION_V2)
+
 class SearchMaterial(ProfileRecord):
     material_key:str
     title:str
@@ -56,6 +61,28 @@ class LightRetrievalPolicy(ProfileRecord):
     lsa_components:int=Field(default=120,ge=2,le=512)
     lsa_random_state:int=0
     lsa_min_similarity:float=Field(default=0.15,gt=0,le=1)
+    synonym_weight:float=Field(default=0.25,ge=0,le=1)
+    starter_keys:list[str]=Field(default_factory=list)
+
+class LightRetrievalPolicyV2(ProfileRecord):
+    """Policy for ``light-hybrid-search-v2``: v1 minus chunk LSA, plus one semantic channel.
+
+    The channel set is explicit here rather than shared with v1 so that changing
+    v2 cannot move v1's numbers.
+    """
+    version:str=LIGHT_RETRIEVAL_VERSION_V2
+    tokenizer_version:str=LIGHT_TOKENIZER_VERSION
+    min_query_coverage:float=Field(default=0.3,ge=0,le=1)
+    max_candidates:int=Field(default=50,ge=1,le=50)
+    rank_constant:int=Field(default=60,ge=1)
+    channel_weights:dict[str,float]=Field(
+        default_factory=lambda:{"bm25_stem":1.0,"char_ngram":0.8,"semantic":1.0})
+    char_ngram_range:tuple[int,int]=Field(default=(3,5))
+    char_min_similarity:float=Field(default=0.15,gt=0,le=1)
+    semantic_components:int=Field(default=40,ge=2,le=256)
+    semantic_random_state:int=0
+    semantic_min_similarity:float=Field(default=0.15,gt=0,le=1)
+    semantic_synonym_weight:float=Field(default=0.5,ge=0,le=1)
     synonym_weight:float=Field(default=0.25,ge=0,le=1)
     starter_keys:list[str]=Field(default_factory=list)
 

@@ -34,7 +34,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from app.ml.bm25_retriever import BM25Retriever
 from app.ml.bm25_ru_stem import RussianStemBM25Retriever
-from app.ml.light_hybrid import LightHybridRetriever
+from app.ml.light_hybrid import LightHybridRetriever, LightHybridRetrieverV2
 from app.ml.lsa_retriever import LsaRetriever
 from app.ml.ngram_retriever import CharNgramRetriever
 from app.ml.retrieval_contracts import LIGHT_RETRIEVAL_VERSION, PublicSearchChunk, SearchMaterial
@@ -45,7 +45,7 @@ from search_materials import context_for_case
 
 BENCHMARK_DIR = ROOT / "data" / "synthetic" / "light_benchmark_v1"
 # Engine -> score compared against; NDCG needs graded relevance, not raw scores.
-ENGINE_NAMES = ["tfidf", "bm25", "bm25_stem", "char_ngram", "lsa", "light_hybrid"]
+ENGINE_NAMES = ["tfidf", "bm25", "bm25_stem", "char_ngram", "lsa", "light_hybrid", "light_hybrid_v2"]
 
 RELEVANCE_FAMILIES = ("natural", "paraphrase")
 TOP_K = 50
@@ -59,6 +59,10 @@ PAIRWISE = [
     ("light_hybrid", "bm25_stem"),
     ("light_hybrid", "char_ngram"),
     ("light_hybrid", "lsa"),
+    ("light_hybrid_v2", "light_hybrid"),
+    ("light_hybrid_v2", "char_ngram"),
+    ("light_hybrid_v2", "tfidf"),
+    ("light_hybrid_v2", "bm25"),
     ("bm25_stem", "bm25"),
 ]
 
@@ -121,6 +125,16 @@ def build_engines(materials, chunks) -> dict[str, Callable[[Any, int], tuple[lis
         return [row.material_key for row in result.candidates], result.status == "matched"
 
     engines["light_hybrid"] = run_hybrid
+
+    hybrid_v2 = LightHybridRetrieverV2().fit(materials, chunks)
+    if hybrid_v2.identity is None:
+        raise ValueError("Light hybrid v2 was not fitted")
+
+    def run_hybrid_v2(context: Any, k: int) -> tuple[list, bool]:
+        result = hybrid_v2.query(context, k)
+        return [row.material_key for row in result.candidates], result.status == "matched"
+
+    engines["light_hybrid_v2"] = run_hybrid_v2
     return engines
 
 

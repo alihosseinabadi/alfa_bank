@@ -13,7 +13,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from .profile_contracts import CONTEXT_VERSION
-from .retrieval_contracts import LightRetrievalPolicy
+from .retrieval_contracts import SUPPORTED_LIGHT_VERSIONS, LightRetrievalPolicy
 from .tfidf_retriever import eligible_for_context, normalize_text, prepare_corpus, strip_passage
 
 CHANNEL = "char_ngram"
@@ -29,7 +29,7 @@ class CharNgramRetriever:
 
     def __init__(self, policy: LightRetrievalPolicy | None = None):
         policy = policy or LightRetrievalPolicy()
-        if policy.version != LightRetrievalPolicy().version:
+        if policy.version not in SUPPORTED_LIGHT_VERSIONS:
             raise ValueError("Incompatible light retrieval policy")
         self.policy = policy
         self.materials: dict = {}
