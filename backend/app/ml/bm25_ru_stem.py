@@ -12,11 +12,15 @@ def stem_tokens(text):
     return [analyzer.stemWord(word) if any('а' <= c <= 'я' for c in word) else word for word in tokenize_text(text)]
 
 class RussianStemBM25Retriever:
-    def __init__(self, k1=1.2, b=0.75, min_query_coverage=0.3):
+    def __init__(self, k1=1.2, b=0.75, min_query_coverage=0.3, analyzer=None):
         if not math.isfinite(k1) or not math.isfinite(b) or k1 <= 0 or not 0 <= b <= 1:
             raise ValueError("Invalid BM25 parameters")
         if not math.isfinite(min_query_coverage) or not 0 <= min_query_coverage <= 1:
             raise ValueError("Invalid query coverage")
+        # Optional analysis hook (used by the light hybrid to add synonym
+        # canonicalization). Defaults to the original Snowball analysis, so the
+        # experimental retriever keeps its previous behaviour.
+        self.analyzer = analyzer or stem_tokens
         self.k1, self.b, self.min_query_coverage = k1, b, min_query_coverage
         self.materials, self.rows = {}, []
         self.postings = {}
@@ -28,7 +32,7 @@ class RussianStemBM25Retriever:
         self.lengths = []
         postings = defaultdict(list)
         for i, row in enumerate(self.rows):
-            words = stem_tokens(row.text)
+            words = self.analyzer(row.text)
             self.lengths.append(len(words))
             for word, count in Counter(words).items():
                 postings[word].append((i, count))
@@ -44,7 +48,7 @@ class RussianStemBM25Retriever:
             raise ValueError("k must be a positive integer")
         if not self.rows or not context.query_text.strip():
             return []
-        terms = set(stem_tokens(context.query_text))
+        terms = set(self.analyzer(context.query_text))
         if not terms or sum(term in self.postings for term in terms) / len(terms) < self.min_query_coverage:
             return []
         scores = defaultdict(float)

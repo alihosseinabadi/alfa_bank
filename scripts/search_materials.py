@@ -31,14 +31,23 @@ def main():
     parser.add_argument("--time-minutes",type=int)
     parser.add_argument("--k",type=int,default=6)
     parser.add_argument("--baseline",action="store_true")
+    parser.add_argument("--engine",choices=["tfidf","light"],default="tfidf",
+        help="tfidf keeps the original index; light uses the stemmed hybrid index")
+    parser.add_argument("--light-index-dir",type=Path,default=ROOT/"artifacts/light")
     parser.add_argument("--index-dir",type=Path,default=ROOT/"artifacts/retrieval")
     parser.add_argument("--catalog-dir",type=Path,default=ROOT/"data/processed/catalog")
     parser.add_argument("--profiles-dir",type=Path,default=ROOT/"data/processed/profiles")
     parser.add_argument("--history-dir",type=Path,default=ROOT/"data/processed/history")
     parser.add_argument("--user-key",help="Private local identifier; never logged in result")
     args=parser.parse_args()
+    if args.baseline and args.engine=="light":
+        parser.error("--baseline is only available for --engine tfidf")
     _,_,_,catalog=load_catalog(args.catalog_dir)
-    index,manifest=load_index(args.index_dir,catalog_bundle_id=catalog["bundle_id"])
+    if args.engine=="light":
+        from app.data_preparation.light_index import load_light_index
+        engine,manifest=load_light_index(args.light_index_dir,catalog_bundle_id=catalog["bundle_id"])
+    else:
+        engine,manifest=load_index(args.index_dir,catalog_bundle_id=catalog["bundle_id"])
     if args.user_key:
         path=resolve_bundle(args.profiles_dir)
         profiles_manifest=json.loads((path/"manifest.json").read_text());verify_files(path,profiles_manifest)
@@ -54,7 +63,7 @@ def main():
     else:
         context=context_for_case({"task":args.task,"formats":args.formats,"available_time_minutes":args.time_minutes,
             "budget_preference":"free_only" if args.free_only else None})
-    result=(topic_baseline(index,context,args.k) if args.baseline else index.query(context,args.k)).model_dump()
+    result=(topic_baseline(engine,context,args.k) if args.baseline else engine.query(context,args.k)).model_dump()
     # The platform must resolve/check these private IDs, so demo exposes only count.
     result["continuation_candidates"]=[{"requires_access_check":True,"requires_progression_check":True,
         "candidate_count":len(c.candidate_lesson_ids)} for c in context.continuation_candidates]
