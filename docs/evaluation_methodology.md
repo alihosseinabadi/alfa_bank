@@ -274,3 +274,16 @@ moves NDCG by less than ~0.05 should be treated as noise, not as a finding.
 - typos, personalisation, or multi-turn refinement (not in v1);
 - annotator agreement (no human judgments exist here).
 
+### 12.6 Where the numbers live, and one integrity note
+
+Before/after tables, paired deltas and the claims ledger are consolidated in
+`docs/boost_final_report.md`; the raw per-case results are in
+`data/synthetic/light_benchmark_v1/results_light_v1.json`. Dev is used for every
+decision; the holdout is read once per phase and reported as-is.
+
+One measurement bug is recorded here because it changed a number: the first harness
+run reported 119 constraint violations. The cause was evaluator-side (constraint dicts
+were nested under `profile` instead of top-level, so `context_for_case` ignored them),
+not retrieval-side. The fixed harness reports 0 violations for all six engines. Runs
+produced before the fix are invalid and are not quoted anywhere.
+
