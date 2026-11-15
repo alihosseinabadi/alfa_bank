@@ -16,6 +16,10 @@ alembic>=1.13,<2.0
 numpy>=1.26,<3.0
 pandas>=2.2,<3.0
 scikit-learn>=1.4,<2.0
+# Russian stemming for the light retrieval path (backend/app/ml/ru_normalize.py).
+snowballstemmer>=2.2,<3.0
+# Optional Russian lemmatization; ru_normalize.py uses it only when installed.
+# pymorphy3>=2.0,<3.0
 
 # Optional semantic retrieval. Heavier; enable when comparing retrievers.
 # sentence-transformers>=2.7,<4.0

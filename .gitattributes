@@ -1,0 +1,14 @@
+# Keep the repository in LF regardless of the developer platform.
+* text=auto eol=lf
+
+# Binary payloads must never be normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.docx binary
+*.pptx binary
+*.zip binary
+*.npz binary
+*.npy binary
