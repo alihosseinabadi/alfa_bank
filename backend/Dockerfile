@@ -19,7 +19,10 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
 COPY backend /app/backend
 COPY scripts /app/scripts
 
-RUN chown -R app:app /app
+# Mount point for the synthetic demo catalogue built at container start; the
+# directory must exist before the named volume is attached so it inherits the
+# unprivileged owner instead of root:root.
+RUN mkdir -p /app/demo-bundles && chown -R app:app /app
 USER app
 
 EXPOSE 8000

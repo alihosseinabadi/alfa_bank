@@ -4,10 +4,13 @@
 #   cp .env.example .env
 #   docker compose up --build
 #
-# The UI is served at http://localhost:5173 and uses the explicitly labelled
-# synthetic demo catalogue. The real ML path (BM25 + prior + LinUCB + events)
-# needs the private organizer catalogue and index; see README "Optional: real
-# private catalogue". Nothing private is baked into these images.
+# The UI is served at http://localhost:5173 and uses the real ML path
+# (BM25 + prior + LinUCB + events) over an explicitly labelled SYNTHETIC
+# catalogue. The demo catalogue is generated inside the stack by
+# scripts/build_demo_catalog.py and shared through a named volume, so no data or
+# artifacts are baked into the images. Providing the private organizer catalogue
+# is optional; see README "Optional: real private catalogue". Nothing private is
+# committed or shipped.
 
 name: alfakurs
 
@@ -37,10 +40,16 @@ services:
     command:
       - sh
       - -c
-      - python -m alembic -c backend/product-alembic.ini upgrade head && python scripts/migrate_events.py
+      - python -m alembic -c backend/product-alembic.ini upgrade head && python scripts/migrate_events.py && if [ "$$ALFA_DEMO_CATALOG_BUILD" = "true" ]; then python scripts/build_demo_catalog.py --catalog-dir "$$ALFA_CATALOG_DIR" --index-dir "$$ALFA_RETRIEVAL_INDEX_DIR"; fi
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfakurs}:${POSTGRES_PASSWORD:-change_me}@db:5432/${POSTGRES_DB:-alfakurs}
       ALFA_EVENTS_DATABASE_URL: postgresql+psycopg://${ALFA_EVENTS_USER:-alfa_events}:${ALFA_EVENTS_PASSWORD:-local_events_only}@db:5432/${ALFA_EVENTS_DB:-alfa_events}
+      # The synthetic catalogue is generated here, never baked into the image.
+      ALFA_DEMO_CATALOG_BUILD: ${ALFA_DEMO_CATALOG_BUILD:-true}
+      ALFA_CATALOG_DIR: ${ALFA_CATALOG_DIR:-/app/demo-bundles/catalog}
+      ALFA_RETRIEVAL_INDEX_DIR: ${ALFA_RETRIEVAL_INDEX_DIR:-/app/demo-bundles/retrieval}
+    volumes:
+      - alfakurs_demo_bundles:/app/demo-bundles
     depends_on:
       db:
         condition: service_healthy
@@ -58,11 +67,14 @@ services:
       # Dev-only default. Override in .env with a real random secret.
       ALFA_SESSION_SECRET: ${ALFA_SESSION_SECRET:-dev-only-insecure-session-secret-change-me-0001}
       ALFA_SESSION_COOKIE_SECURE: ${ALFA_SESSION_COOKIE_SECURE:-false}
-      ALFA_RECOMMENDATIONS_ENABLED: ${ALFA_RECOMMENDATIONS_ENABLED:-false}
+      ALFA_RECOMMENDATIONS_ENABLED: ${ALFA_RECOMMENDATIONS_ENABLED:-true}
       ALFA_DEMO_FAST_LEARNING: ${ALFA_DEMO_FAST_LEARNING:-false}
-      ALFA_CATALOG_DIR: ${ALFA_CATALOG_DIR:-data/processed/catalog}
-      ALFA_RETRIEVAL_INDEX_DIR: ${ALFA_RETRIEVAL_INDEX_DIR:-artifacts/retrieval}
+      ALFA_CATALOG_DIR: ${ALFA_CATALOG_DIR:-/app/demo-bundles/catalog}
+      ALFA_RETRIEVAL_INDEX_DIR: ${ALFA_RETRIEVAL_INDEX_DIR:-/app/demo-bundles/retrieval}
       API_CORS_ORIGINS: ${API_CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+    volumes:
+      # Built by the migrate step; the API only reads it.
+      - alfakurs_demo_bundles:/app/demo-bundles:ro
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -92,7 +104,8 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_RECOMMENDATIONS_SOURCE: ${VITE_RECOMMENDATIONS_SOURCE:-demo}
+        VITE_RECOMMENDATIONS_SOURCE: ${VITE_RECOMMENDATIONS_SOURCE:-api}
+        VITE_DEMO_CATALOG: ${VITE_DEMO_CATALOG:-true}
         VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
     restart: unless-stopped
     ports:
@@ -104,3 +117,5 @@ services:
 volumes:
   alfakurs_pgdata:
     name: alfakurs_pgdata
+  alfakurs_demo_bundles:
+    name: alfakurs_demo_bundles

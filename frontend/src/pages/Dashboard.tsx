@@ -3,7 +3,7 @@ import { Link, useOutletContext } from 'react-router-dom'
 import CourseCard from '../components/CourseCard'
 import type { PageContext } from '../components/Layout'
 import { initials, profileReadiness } from '../services/account'
-import { getRecommendations, recommendationMode } from '../services/recommendations'
+import { demoCatalog, getRecommendations, recommendationMode } from '../services/recommendations'
 import type { Material } from '../types/recommendations'
 
 const plan = [
@@ -119,8 +119,8 @@ export default function Dashboard() {
               {materials.map((material) => <CourseCard key={material.id} {...material} />)}
             </div>
           )}
-          {recommendationMode === 'demo' && (
-            <p className="dash-muted dash-demo-note">Демо: карточки вымышлены, ссылки не ведут на реальные материалы.</p>
+          {(recommendationMode === 'demo' || demoCatalog) && (
+            <p className="dash-muted dash-demo-note">Демо-каталог: материалы синтетические, ссылки не ведут на реальные страницы.</p>
           )}
         </section>
 

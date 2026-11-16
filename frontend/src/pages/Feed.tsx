@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import ReasonPill from '../components/ReasonPill'
 import CourseCard from '../components/CourseCard'
 import type { PageContext } from '../components/Layout'
-import { getRecommendations, recommendationMode } from '../services/recommendations'
+import { demoCatalog, getRecommendations, recommendationMode } from '../services/recommendations'
 import { createRecommendationController } from '../services/recommendationController'
 import type { RecommendationState } from '../services/recommendationController'
 import { requestKeyForProfile } from '../services/profileSession'
@@ -54,6 +54,7 @@ export default function Feed() {
 
           {profile && <p className="current-goal"><span>Ваша задача:</span> <strong>{profile.goal}</strong> <Link to="/onboarding">Изменить</Link></p>}
           {recommendationMode === 'demo' && <p className="demo-notice"><strong>Это демонстрация.</strong> Материалы вымышлены, ссылки недоступны. Совпадение по словам задачи может быть неточным.</p>}
+          {demoCatalog && <p className="demo-notice"><strong>Синтетический каталог.</strong> Материалы сгенерированы для демонстрации: названия и ссылки вымышлены, организаторский каталог не подключён. Ранжирование выполняет настоящий конвейер BM25 + prior + LinUCB на этих данных.</p>}
           {result?.learningMode === 'test_fast' && <p className="demo-notice" role="status"><strong>Тестовое обучение.</strong> Действия записываются в изолированную тестовую базу. Это симуляция; реальные покупки не выполняются.</p>}
           <div aria-live="polite">
             {status === 'initial' && <div className="recommendation-empty"><div><h2>Начните с задачи</h2><p>{recommendationMode === 'demo' ? 'Выберите или опишите задачу, чтобы увидеть примеры материалов.' : 'Выберите или опишите задачу, чтобы найти материалы.'}</p><Link className="button button-primary" to="/onboarding">Выбрать задачу →</Link></div></div>}

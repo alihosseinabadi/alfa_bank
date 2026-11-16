@@ -266,3 +266,102 @@
   .dash-hero-art { display: none; }
   .wizard-options.is-dense { grid-template-columns: 1fr; }
 }
+
+/* --- analytics charts ------------------------------------------------------ */
+.ana-hero {
+  align-items: flex-start;
+  background:
+    radial-gradient(760px 320px at 110% -30%, rgba(239, 49, 36, .12), transparent 60%),
+    linear-gradient(135deg, #fff 0%, #fbf6f3 100%);
+  border-radius: 26px;
+}
+.ana-stats {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px; margin-top: 22px; max-width: 640px;
+}
+.ana-stats > div {
+  background: rgba(255, 255, 255, .82); border: 1px solid #ece5e1;
+  border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px;
+}
+.ana-stats strong { font-size: 20px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.ana-stats span { font-size: 11px; color: #8d8683; text-transform: uppercase; letter-spacing: .06em; }
+
+.ana-grid { align-items: stretch; }
+.ana-card { display: flex; flex-direction: column; }
+.ana-badge {
+  flex: 0 0 auto; align-self: flex-start; padding: 6px 11px; border-radius: 999px;
+  background: #ffe9e6; color: #b32219; font-size: 11px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.ana-badge-neutral { background: #f1ece9; color: #6b6462; }
+.ana-badge-warn { background: #fff3d6; color: #8a6100; }
+
+.ana-bars { display: flex; flex-direction: column; gap: 14px; margin: 26px 0 8px; }
+.ana-bar-row {
+  display: grid; grid-template-columns: 116px minmax(0, 1fr) 58px 62px;
+  align-items: center; gap: 10px;
+}
+.ana-bar-label { font-size: 13px; color: #4a4442; }
+.ana-bar-row.is-leader .ana-bar-label { color: #171717; font-weight: 600; }
+.ana-bar-track { height: 14px; border-radius: 999px; background: #f2edea; overflow: hidden; }
+.ana-bar-fill {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #c9c2be, #8d8683);
+  animation: ana-grow .9s cubic-bezier(.2, .7, .2, 1) both;
+}
+.ana-bar-row.is-leader .ana-bar-fill { background: linear-gradient(90deg, #ff938a, #ef3124); }
+.ana-bar-value { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.ana-bar-delta { font-size: 11px; color: #8d8683; font-variant-numeric: tabular-nums; }
+@keyframes ana-grow { from { width: 0 !important; } }
+@media (prefers-reduced-motion: reduce) { .ana-bar-fill { animation: none; } }
+
+.ana-axis {
+  display: flex; justify-content: space-between; margin-left: 126px; margin-right: 68px;
+  padding-top: 8px; border-top: 1px dashed #ece5e1; color: #a29b98; font-size: 11px;
+}
+
+.ana-columns {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px; margin: 26px 0 8px; align-items: end;
+}
+.ana-column { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ana-column-value {
+  font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; color: #171717;
+}
+.ana-column-track {
+  display: flex; align-items: flex-end; width: 100%; height: 132px;
+  border-radius: 14px; background: #f6f2ef; overflow: hidden;
+}
+.ana-column-fill {
+  display: block; width: 100%; border-radius: 14px;
+  background: linear-gradient(180deg, #ff938a, #ef3124);
+  animation: ana-rise .9s cubic-bezier(.2, .7, .2, 1) both;
+}
+.ana-column:last-child .ana-column-fill { background: linear-gradient(180deg, #d8d1cd, #a29b98); }
+.ana-column-label { font-size: 11px; color: #8d8683; text-align: center; line-height: 1.3; }
+@keyframes ana-rise { from { height: 0 !important; } }
+@media (prefers-reduced-motion: reduce) { .ana-column-fill { animation: none; } }
+
+.ana-missing { margin-top: 16px; }
+.ana-status { display: flex; flex-direction: column; gap: 12px; margin: 22px 0 6px; }
+.ana-status-row {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr);
+  align-items: center; gap: 14px; font-size: 13px; color: #4a4442;
+}
+.ana-pill-empty {
+  padding: 4px 10px; border-radius: 999px; background: #f6f2ef; color: #a29b98;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+}
+.ana-status-bar { height: 8px; border-radius: 999px; background: repeating-linear-gradient(90deg, #ece5e1 0 6px, transparent 6px 12px); }
+
+@media (max-width: 860px) {
+  .ana-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ana-bar-row { grid-template-columns: 100px minmax(0, 1fr) 54px; }
+  .ana-bar-delta { display: none; }
+  .ana-axis { margin-right: 54px; margin-left: 110px; }
+}
+
+/* --- profile: best-fit card ------------------------------------------------ */
+.personal-best { border-left: 3px solid #ef3124; }
+.personal-best .course-card { margin: 14px 0 10px; background: #fbf6f3; }
+.personal-best .personal-card-heading h2 { margin-bottom: 2px; }

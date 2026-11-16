@@ -1,8 +1,28 @@
+import { useEffect, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
+import CourseCard from '../components/CourseCard'
 import type { PageContext } from '../components/Layout'
+import { getRecommendations, recommendationMode } from '../services/recommendations'
+import type { Material } from '../types/recommendations'
 
 export default function ProfilePage() {
   const { user, profile } = useOutletContext<PageContext>()
+  const [best, setBest] = useState<Material | null>(null)
+  const [bestStatus, setBestStatus] = useState<'idle' | 'loading' | 'ready' | 'empty' | 'error'>('idle')
+
+  useEffect(() => {
+    let active = true
+    if (!profile?.goal) { setBestStatus('empty'); return }
+    setBestStatus('loading')
+    getRecommendations({ goal: profile.goal, profile }, recommendationMode)
+      .then((result) => {
+        if (!active) return
+        setBest(result.materials[0] ?? null)
+        setBestStatus(result.materials.length ? 'ready' : 'empty')
+      })
+      .catch(() => { if (active) setBestStatus('error') })
+    return () => { active = false }
+  }, [profile])
 
   return (
     <div className="personal-page">
@@ -37,6 +57,25 @@ export default function ProfilePage() {
           <Link className="cabinet-text-link" to="/onboarding">{profile ? 'Изменить задачу' : 'Выбрать задачу'} →</Link>
         </section>
         <div className="personal-content">
+          <section className="personal-card personal-best panel">
+            <div className="personal-card-heading">
+              <div><span className="account-kicker">ЛУЧШЕЕ СОВПАДЕНИЕ</span><h2>Что подходит вам сейчас</h2></div>
+              <span className="personal-mark" aria-hidden="true">★</span>
+            </div>
+            {bestStatus === 'ready' && best && (
+              <>
+                <CourseCard {...best} />
+                <p className="account-note">
+                  Подобрано по вашей задаче «{profile?.goal}» и ответам анкеты. Это
+                  результат ранжирования, а не гарантия результата.
+                </p>
+                <Link className="cabinet-text-link" to="/feed">Все материалы →</Link>
+              </>
+            )}
+            {bestStatus === 'loading' && <p>Подбираем материал…</p>}
+            {bestStatus === 'empty' && <p>Заполните анкету — и здесь появится материал, который лучше всего подходит вашей задаче.</p>}
+            {bestStatus === 'error' && <p>Сервис рекомендаций недоступен — попробуйте позже.</p>}
+          </section>
           <section className="personal-card panel">
             <div className="personal-card-heading"><div><span className="account-kicker">ОБУЧЕНИЕ</span><h2>Мой прогресс</h2></div><span className="personal-mark" aria-hidden="true">↗</span></div>
             <div className="personal-empty"><h3>Ваш путь только начинается</h3><p>Здесь появится прогресс по курсам, когда станут доступны данные об обучении.</p></div>

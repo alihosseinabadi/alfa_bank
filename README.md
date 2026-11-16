@@ -2,10 +2,11 @@
 
 **Кратко по-русски.** Alfa-Kurs подбирает учебные материалы предпринимателям по
 их задаче: BM25-поиск → признаки → prior-ранжирование → LinUCB → слэйт → события
-показов и кликов. В Docker-демо для жюри каталог **вымышленный**, а рекомендации
-помечены как демонстрационные. Реальный каталог организатора приватен и в
-репозиторий не входит. Конверсия, продажи и эффект обучения на живых данных
-**не измерялись**.
+показов и кликов. В Docker-демо для жюри каталог **синтетический**: он
+генерируется скриптом внутри стека, а рекомендации выдаёт настоящий конвейер
+BM25 → prior → LinUCB, и UI помечает такой каталог как демонстрационный. Реальный
+каталог организатора приватен и в репозиторий не входит. Конверсия, продажи и
+эффект обучения на живых данных **не измерялись**.
 
 A hackathon project for the Alfa-Bank Web/AI hackathon, track
 "Personalization of education for entrepreneurs". The product is a task-first
@@ -85,10 +86,13 @@ Open **http://localhost:5173**. The API health endpoint is
   downloads). Later starts are much faster.
 - Stop: `docker compose down`. Reset the databases and start clean:
   `docker compose down -v && docker compose up --build`.
-- The UI is built in **explicit demo mode** (`VITE_RECOMMENDATIONS_SOURCE=demo`):
-  cards are fictional and the banner says so. The API, both databases,
-  migrations, sessions and the reward worker are real and start as part of the
-  same stack.
+- The stack generates a **synthetic demo catalogue** inside a shared volume
+  (`scripts/build_demo_catalog.py`) and runs the **real ML path** on it: BM25 →
+  prior ranking → LinUCB → slate. The UI calls the API, so cards come from that
+  pipeline, and both the dashboard and the feed carry a visible
+  «синтетический каталог» notice. No catalogue or index is baked into the images.
+- The API, both databases, migrations, sessions, event recording and the reward
+  worker are real and start as part of the same stack.
 - If `docker` is not installed, install Docker Desktop first
   (`winget install Docker.DockerDesktop` on Windows) and start it once. The
   command cannot work without Docker.

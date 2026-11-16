@@ -11,6 +11,8 @@ export function resolveRecommendationMode(value: string | undefined): Recommenda
 }
 
 export const recommendationMode = resolveRecommendationMode(import.meta.env.VITE_RECOMMENDATIONS_SOURCE)
+// True when the stack serves the generated synthetic catalogue, not organizer data.
+export const demoCatalog = import.meta.env.VITE_DEMO_CATALOG === 'true'
 export class RecommendationConfigurationError extends Error {}
 
 const formats: Record<string, string> = {
