@@ -156,7 +156,10 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
 - `backend/requirements.lock.txt` (66 pinned lines) is installed by
   `backend/Dockerfile`; the lock was produced by `pip freeze` in a clean
   Python 3.12 virtual environment with `backend/requirements.txt` +
-  `backend/requirements-catalog.txt`.
+  `backend/requirements-catalog.txt`. It was then installed into a second,
+  empty virtual environment (`pip install -r backend/requirements.lock.txt`,
+  exit 0) and the app imported there: `fastapi 0.163.1, numpy 2.5.5,
+  scikit-learn 1.9.1`, `app.main` imports.
 
 ---
 
@@ -166,7 +169,8 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
 |---|---|
 | Backend test suite (no DB) | **verified** — 211 passed, 0 failed |
 | Backend DB-marked tests | **unverified** — skipped, no PostgreSQL test DB |
-| Frontend `npm ci` / build | **verified** |
+| Backend dependency lock installs from scratch | **verified** — clean venv, exit 0, app imports |
+| Frontend `npm ci` / production build | **verified** |
 | Frontend tests | **19/21 pass**; 2 fail in a test-side `globalThis.crypto` assignment (same on Node 20 and Node 26) |
 | Deck regenerated to pptx | **verified** |
 | Deck exported to PDF | **verified** — 12 pages, slide 1 inspected |
