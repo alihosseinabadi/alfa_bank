@@ -59,3 +59,13 @@ pyvenv.cfg
 /e5-vectors/
 e5-model.zip
 e5-vectors.zip
+
+.env
+data/raw/
+data/processed/
+data/interim/
+artifacts/
+*.backup
+node_modules/
+.venv/
+__pycache__/
