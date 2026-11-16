@@ -1,4 +1,9 @@
-# Project Roadmap
+# Project Roadmap (historical)
+
+> **Historical document.** This is the original planning roadmap, kept for context.
+> It describes intended phases, not the submitted state. The submission entry points
+> are `README.md` and `compose.yaml`; the verification record is
+> `docs/submission-report.md`.
 
 Priorities, phases and risks. Ordered so that **the ML story is proven before the
 product is polished** — judges reward a working, explainable algorithm more than a
@@ -41,7 +46,7 @@ If time runs out, cut from the bottom, never from the top.
 - `backend/app/core/config.py` with typed settings (including reward weights,
   `alpha`, `retrieval_k`, `purchase_attribution_days`).
 - `backend/app/database/` engine + session + Base.
-- `backend/requirements.txt`, `.env.example`, `docker-compose.yml`.
+- `backend/requirements.txt`, `.env.example`, `compose.yaml`.
 - `backend/app/main.py` with `/health`.
 
 **Definition of done:** `uvicorn` runs, `/health` returns 200, DB connection checked.
@@ -97,7 +102,7 @@ duplicate-event and stale-attribution paths return 409; `tests/test_api.py` gree
 ## Phase 6 — Delivery
 
 **Deliverables**
-- `docker-compose up` runs DB + API (+ UI build served).
+- `docker compose up --build` runs DB + API + worker + UI.
 - Seed script loads catalogue.
 - Demo script rehearsed and timed.
 - Presentation following `docs/presentation_guide.md`.

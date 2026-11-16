@@ -102,7 +102,7 @@ alfa-kurs/
 ├── ARCHITECTURE.md            # how all components connect
 ├── DEVELOPMENT_GUIDE.md       # how to build it, step by step
 ├── PROJECT_ROADMAP.md         # priorities and milestones
-├── docker-compose.yml         # local PostgreSQL + services
+├── compose.yaml               # local PostgreSQL + services
 ├── .env.example               # every required environment variable
 ├── .gitignore
 ├── docs/                      # deep-dive documentation

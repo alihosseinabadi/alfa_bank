@@ -1,0 +1,217 @@
+# Submission verification report
+
+Run on 2026-11-16 (Moscow time) in `C:\Users\ASUS\Downloads\alfa_bank-integration`.
+
+**Environment used for these checks**
+
+| Item | Value |
+|---|---|
+| OS | Windows 11, timezone UTC+03:00 |
+| Python | 3.12.10 (system), pip 25.0.1 |
+| Node | v26.7.0, npm 11.x (invoked as `npm.cmd` because of the PowerShell execution policy) |
+| Docker | **not installed** (`docker` is not recognised; no Docker Desktop directory) |
+| Private organizer data | absent (`data/raw`, `data/processed`, `artifacts/` do not exist) |
+
+Everything below is what actually ran. Anything not listed as run is listed as
+**unverified** — it is not claimed to work.
+
+---
+
+## 1. Commands and results
+
+### Backend tests
+
+```bash
+PYTHONPATH=backend python -m pytest backend/tests -q
+```
+
+Result (real tail):
+
+```
+211 passed, 66 skipped, 233 warnings in 144.88s (0:02:24)
+```
+
+- 0 failures, 0 errors.
+- 66 skips are the database-marked tests that require
+  `ALFA_EVENTS_TEST_DATABASE_URL` / a PostgreSQL test database; they were not
+  configured on this machine.
+
+### Frontend install, tests and build
+
+```bash
+npm.cmd ci --prefix frontend          # exit 0, "added 253 packages"
+npm.cmd --prefix frontend test
+npm.cmd --prefix frontend run build   # tsc -b && vite build, OK
+```
+
+Frontend tests (real tail):
+
+```
+ℹ tests 21
+ℹ pass 19
+ℹ fail 2
+```
+
+The two failures are in `frontend/tests/profile-session.test.mjs` and come from
+the runtime, not from the application code:
+
+```
+TypeError: Cannot set property crypto of #<Object> which has only a getter
+```
+
+The test does `globalThis.crypto = webcrypto` in a `before` hook. On Node 26
+`globalThis.crypto` is a read-only getter. The Docker images use Node 20
+(`frontend/Dockerfile`), where that assignment is allowed, but this was **not**
+re-run on Node 20 here, so the claim "passes on Node 20" is not verified.
+Per the task rules the test was **not modified** to make it pass.
+
+Build output (real tail):
+
+```
+✓ 56 modules transformed.
+dist/index.html                    0.42 kB
+dist/assets/index-DUHIGxBs.js    201.95 kB │ gzip: 66.08 kB
+✓ built in 3.06s
+```
+
+### Presentation build
+
+```bash
+node presentation/business_2026_11_15/build.cjs   # with pptxgenjs 4.0.1 on NODE_PATH
+```
+
+Result: `Alfa-Kurs-business.pptx` regenerated (364 KB, 12 slides). The
+hard-coded absolute `require` path was replaced with `require('pptxgenjs')`, so
+the deck now builds on any machine with the package installed.
+
+PDF export: **not run**. This machine has no LibreOffice and no Microsoft
+Office, so a pptx→pdf conversion is unavailable (details in section 4).
+
+### Compose file and Dockerfiles
+
+- `compose.yaml` parses as YAML (PyYAML) and declares services
+  `db, migrate, api, worker, frontend` and volume `alfakurs_pgdata`.
+- Images were **not built** and the stack was **not started** (no Docker).
+- `backend/requirements.lock.txt` (66 pinned lines) is installed by
+  `backend/Dockerfile`; the lock was produced by `pip freeze` in a clean
+  Python 3.12 virtual environment with `backend/requirements.txt` +
+  `backend/requirements-catalog.txt`.
+
+---
+
+## 2. What is verified vs unverified
+
+| Item | Status |
+|---|---|
+| Backend test suite (no DB) | **verified** — 211 passed, 0 failed |
+| Backend DB-marked tests | **unverified** — skipped, no PostgreSQL test DB |
+| Frontend `npm ci` / build | **verified** |
+| Frontend tests | **19/21 pass**; 2 fail on Node 26 due to the `crypto` global |
+| Deck regenerated to pptx | **verified** |
+| Deck exported to PDF | **unverified** — no converter on this machine |
+| `docker compose up --build` | **unverified** — Docker not installed |
+| `/health`, nginx proxy, SPA routing in containers | **unverified** |
+| Product + events migrations on a fresh volume | **unverified** |
+| Reward worker loop in containers | **unverified** |
+| Real BM25/prior/LinUCB path on the organizer catalogue | **unverified** — private catalogue and index absent |
+| CTR, conversion, sales, business effect | **not measured** — no live traffic, no payments |
+
+The demo UI path is synthetic and is labelled as such in the UI, README and
+deck. It does not emit impression or click events, because demo cards carry no
+decision IDs; events and the reward worker are exercised by backend tests and by
+the real API path only.
+
+---
+
+## 3. Secrets and private-data audit
+
+- Working tree: only `.env.example` matches any `.env*` pattern. No `.env`,
+  `backend/.env` or secret file exists on disk.
+- `git ls-files` (255 files) contains no `.env`, no `*.backup`, no `data/raw`,
+  `data/processed`, `data/interim`, `artifacts/`, `reports/`, no archive, dump,
+  key or token file. The only match for the audit pattern was `.env.example`.
+- `.gitignore` ignores `.env`, `.env.*` (except `.env.example`), `artifacts/`,
+  `data/raw/`, `data/interim/`, `data/processed/`, `reports/`, `*.backup`,
+  `*.dump`, model weights, `node_modules/`, `dist/`.
+  `git check-ignore` confirmed each of those paths is ignored.
+- History: this snapshot arrived without `.git`. A local repository was
+  initialised for the submission and contains a single import commit
+  (`a43d0f1`), so **no historical commit can leak private files here**. The
+  original multi-branch repository history was not available to audit locally.
+- `docker build` context is filtered by `.dockerignore` files that exclude
+  `.env`, `data/raw`, `data/interim`, `data/processed`, `artifacts`, `reports`,
+  `*.backup`, `*.zip`, `presentation` and model archives.
+
+---
+
+## 4. Known gaps left in this submission
+
+1. **Docker stack is authored, not executed.** Configuration was reviewed by
+   reading it, not by running it. First real risk points: image build of the
+   lock file, `migrate` ordering, and the nginx `/api` proxy.
+2. **PDF is not regenerated.** The source deck was updated and rebuilt to pptx.
+   The previous PDF (`presentation/business_2026_11_15/Alfa-Kurs-business.pdf`)
+   still has the old slide 1. Exact new slide 1 text is in section 5 so it can
+   be pasted into the deck if a converter becomes available.
+3. **Events database credentials are duplicated** in
+   `scripts/sql/init_events.sql` (role `alfa_events`, password
+   `local_events_only`). Changing `ALFA_EVENTS_*` in `.env` requires editing the
+   SQL file too.
+4. **No real catalogue** means the ML path cannot be demonstrated end to end;
+   the UI runs in explicitly labelled demo mode.
+5. **Frontend tests** fail on Node 26 because of a test-side `globalThis.crypto`
+   assignment; the suite target is Node 20 and was not re-run there.
+
+---
+
+## 5. New slide 1 text (for a manual PDF export)
+
+Title: `Рекомендации для Альфа-Курса`
+
+Subtitle: `Alfa-Kurs · трек «Персонализация образования для предпринимателей» · автор: alihosseinabadi`
+
+Left block:
+
+```
+ОТ БИЗНЕС-ЗАДАЧИ
+к подходящему
+следующему шагу
+
+BM25 → признаки → prior → LinUCB → подборка материалов. В демо для жюри
+каталог вымышленный, карточки помечены как демонстрационные.
+```
+
+Right panel — «Как проверить за 3 шага»:
+
+```
+1. cp .env.example .env && docker compose up --build
+2. Открыть http://localhost:5173
+3. Ввести «Как предпринимателю разобраться с НДС?» — появятся три демокарточки.
+
+Демо: материалы вымышлены и подписаны; конверсия, продажи и бизнес-эффект
+не измерялись.
+```
+
+Footer:
+
+```
+github.com/alihosseinabadi/alfa_bank
+Docker-стек в этом окружении не запускался (Docker недоступен);
+каталог демо синтетический, код API, событий и воркера реальный
+```
+
+---
+
+## 6. Manual steps required before sending the link
+
+1. Install Docker Desktop (Compose v2) and run, in a fresh copy:
+   `cp .env.example .env && docker compose up --build`.
+2. Open http://localhost:5173 and complete the three test steps from the README
+   (НДС task → clients task → off-topic empty state).
+3. Check `curl http://localhost:8000/health` and
+   `docker compose exec db psql -U alfakurs -d alfa_events -c '\dt'`.
+4. Regenerate the PDF from `presentation/business_2026_11_15/Alfa-Kurs-business.pptx`
+   (LibreOffice or PowerPoint → Export as PDF) and save it to the repository
+   root as `Alfa-Kurs-presentation.pdf`.
+5. Optionally re-run the frontend tests on Node 20 (`nvm use 20 && npm --prefix
+   frontend test`) to confirm 21/21.
