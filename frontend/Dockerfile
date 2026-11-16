@@ -11,8 +11,10 @@ COPY . .
 
 # Vite variables are build-time. Defaults keep the judge demo explicitly synthetic.
 ARG VITE_RECOMMENDATIONS_SOURCE=demo
+ARG VITE_DEMO_CATALOG=true
 ARG VITE_API_BASE_URL=
 ENV VITE_RECOMMENDATIONS_SOURCE=${VITE_RECOMMENDATIONS_SOURCE} \
+    VITE_DEMO_CATALOG=${VITE_DEMO_CATALOG} \
     VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 RUN npm run build

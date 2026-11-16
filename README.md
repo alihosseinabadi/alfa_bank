@@ -196,14 +196,17 @@ explicitly says that CTR and conversion were not measured.
 | Product DB and events DB | real PostgreSQL, created by compose |
 | BM25 / TF-IDF / prior / LinUCB / slate code | real code, covered by tests |
 | Event storage and reward worker | real code, runs against the events DB |
-| Recommendation cards in the Docker demo | **fictional demo data** |
+| Recommendation cards in the Docker demo | real BM25 + prior + LinUCB over a **synthetic** catalogue |
 | Organizer catalogue, index, E5 artifacts | **absent (private)** |
 | CTR, conversion, sales, business uplift | **not measured** |
 | Live analytics screen | **not wired** (static historical panel) |
 
-The demo catalogue is explicitly fictional: titles, descriptions and links are
-invented for the UI. No personal data, no organizer archive, no real customer
-records are included.
+The catalogue is explicitly synthetic: `scripts/build_demo_catalog.py` writes six
+fictional materials (articles, courses, a document and a webinar) and runs the
+real preparation pipeline over them inside the stack. Titles, descriptions and
+links are invented; the UI labels the catalogue as synthetic on the dashboard and
+the feed. No personal data, no organizer archive, no real customer records are
+included.
 
 ---
 
