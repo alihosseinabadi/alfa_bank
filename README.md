@@ -64,15 +64,13 @@ material opening, live analytics, and a measured business effect.
 
 ---
 
-## 2. Quick start for judges
+## 2. Quick start
 
-Requires Docker Desktop with Compose v2. Nothing else, no private data.
+There are two ways in; neither needs private data.
 
-> **Status of this snapshot.** The stack below was authored and reviewed but has
-> not been executed on the author's machine (Docker was unavailable there). The
-> backend tests, the frontend install and the frontend build were run; exact
-> results and the list of unverified items are in
-> [`docs/submission-report.md`](docs/submission-report.md).
+### Option A — Docker, one command (the judge path)
+
+Requires Docker Desktop with Compose v2.
 
 ```bash
 cp .env.example .env
@@ -91,14 +89,58 @@ Open **http://localhost:5173**. The API health endpoint is
   cards are fictional and the banner says so. The API, both databases,
   migrations, sessions and the reward worker are real and start as part of the
   same stack.
+- If `docker` is not installed, install Docker Desktop first
+  (`winget install Docker.DockerDesktop` on Windows) and start it once. The
+  command cannot work without Docker.
 
 If port 5173 or 8000 is busy, set `FRONTEND_PORT` / `API_PORT` in `.env`.
+
+> **Status of this snapshot.** The compose stack has not been executed on the
+> author's machine (Docker was unavailable there). Its migration, `/health`,
+> registration and worker commands were executed against a real PostgreSQL 16.9
+> instead; exact results and the list of unverified items are in
+> [`docs/submission-report.md`](docs/submission-report.md).
+
+### Option B — UI demo without Docker (no database)
+
+On Windows, double-click **`start-demo.cmd`**, or run it from a terminal:
+
+```bat
+start-demo.cmd
+```
+
+It installs `frontend/node_modules` on the first run, starts Vite in demo mode on
+**http://127.0.0.1:5173** and opens the browser once the page answers. Add
+`--no-open` to skip the browser, or `--port 5174` to change the port.
+
+macOS / Linux:
+
+```bash
+npm --prefix frontend ci
+VITE_RECOMMENDATIONS_SOURCE=demo npm --prefix frontend run dev
+```
+
+This path is client-side only: it shows the labelled demo cards but does not
+start the API, the databases or the worker.
+
+### Troubleshooting
+
+- `npm : ... cannot be loaded because running scripts is disabled` — PowerShell
+  blocks `npm.ps1` on this machine. Use `npm.cmd` instead of `npm`, or just run
+  `start-demo.cmd`.
+- The page does not open — try **http://127.0.0.1:5173** explicitly. Some setups
+  resolve `localhost` to IPv6 while the dev server listens on IPv4; also check
+  that nothing else occupies port 5173.
+- Port already in use — `start-demo.cmd --port 5174`, or set `FRONTEND_PORT` in
+  `.env` for Docker.
 
 ---
 
 ## 3. How to test the main features
 
-Use the UI at http://localhost:5173.
+Use the UI at **http://127.0.0.1:5173** (or the port you chose). Steps 1–6 work
+in both quick-start options; registration and event checks need the API
+(Option A, or the manual backend in section 6).
 
 1. **Onboarding.** The app opens on «Анкета». Keep the default task or type one.
 2. **Example task 1 (taxes).** Enter
@@ -194,7 +236,10 @@ Backend (from the repository root):
 PYTHONPATH=backend python -m pytest backend/tests -q
 ```
 
-Frontend:
+Windows PowerShell uses the same line (`$env:PYTHONPATH='backend'` then
+`python -m pytest backend/tests -q`).
+
+Frontend (use `npm.cmd` instead of `npm` when PowerShell blocks `npm.ps1`):
 
 ```bash
 npm --prefix frontend ci
@@ -203,11 +248,42 @@ npm --prefix frontend run build
 ```
 
 The backend test suite contains database-marked tests that need
-`ALFA_EVENTS_TEST_DATABASE_URL`; they are skipped when no PostgreSQL test
-database is configured. In the submission run the backend suite reported
-**211 passed, 66 skipped, 0 failed**, and the frontend suite **19 passed,
-2 failed** (both failures are a test-side `globalThis.crypto` assignment; see
-`docs/submission-report.md`).
+`ALFA_EVENTS_TEST_DATABASE_URL` and `ALFA_PRODUCT_TEST_DATABASE_URL`; they are
+skipped when no isolated PostgreSQL test databases are configured.
+
+### Backend without Docker (manual PostgreSQL)
+
+Verified on PostgreSQL 16.9 with a database `alfakurs`, a role `alfa_events`
+and databases `alfa_events` / `alfa_events_test` (the same names compose uses):
+
+```bash
+export DATABASE_URL=postgresql+psycopg://alfakurs@127.0.0.1:5432/alfakurs
+export ALFA_EVENTS_DATABASE_URL=postgresql+psycopg://alfa_events:local_events_only@127.0.0.1:5432/alfa_events
+export ALFA_SESSION_SECRET=dev-only-insecure-session-secret-change-me-0001
+export PYTHONPATH=backend
+
+python -m alembic -c backend/product-alembic.ini upgrade head
+python scripts/migrate_events.py
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+In a second terminal, with the same variables:
+
+```bash
+python scripts/reward_worker.py --interval 30
+curl http://127.0.0.1:8000/health          # {"status":"ok"}
+psql "$ALFA_EVENTS_DATABASE_URL" -c '\dt'  # events tables
+```
+
+`ALFA_SESSION_SECRET` must be at least 32 bytes. For the full database test
+suite add `ALFA_EVENTS_TEST_DATABASE_URL` (pointing at `alfa_events_test`) and
+`ALFA_PRODUCT_TEST_DATABASE_URL` (pointing at `alfa_product_test`).
+
+Submission-run results: backend **211 passed, 66 skipped, 0 failed** without a
+database and **276 passed, 1 skipped, 0 failed** against PostgreSQL 16.9 with
+both test databases (the one skip needs the private catalogue pipeline);
+frontend **19 passed, 2 failed** (both failures are a test-side
+`globalThis.crypto` assignment, see `docs/submission-report.md`).
 
 ---
 
@@ -262,6 +338,8 @@ scripts/
   migrate_events.py      events migrations
   reward_worker.py       delayed reward projection loop
   sql/init_events.sql    creates the events databases on a fresh volume
+  local/demo.mjs         Docker-free demo runner used by start-demo.cmd
+start-demo.cmd           one-click Windows demo (no Docker, no database)
 compose.yaml             one-command demo stack
 docs/                    stage reports, methodology, integration audit
 presentation/            business deck sources and PDF

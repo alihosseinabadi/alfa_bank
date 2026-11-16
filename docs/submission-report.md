@@ -163,14 +163,59 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
   exit 0) and the app imported there: `fastapi 0.163.1, numpy 2.5.5,
   scikit-learn 1.9.1`, `app.main` imports.
 
+### Local PostgreSQL stack (the same commands the containers run)
+
+Docker is still unavailable, so the commands from `compose.yaml` were executed
+natively against **PostgreSQL 16.9** (EDB Windows binaries, `initdb`, listening
+on `127.0.0.1:55432`, role `alfa_events` / password `local_events_only`,
+databases `alfakurs`, `alfa_events`, `alfa_events_test`, `alfa_product_test`).
+
+```bash
+python -m alembic -c backend/product-alembic.ini upgrade head
+python scripts/migrate_events.py
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+python scripts/reward_worker.py --once
+curl http://127.0.0.1:8000/health
+```
+
+Real results:
+
+```
+product DB  \dt → users, courses, interactions, recommendation_impressions,
+                  bandit_state, alembic_version                   (6 tables)
+events  DB  \dt → alembic_version, event_actors, event_receipts,
+                  interaction_events, recommendation_decisions,
+                  recommendation_impressions, recommendation_items,
+                  reward_observations, reward_revisions, serving_requests,
+                  slate_random_seeds, unattributed_clicks        (12 tables)
+migrate_events.py → "Product events migrations applied"
+GET  /health      → {"status":"ok"}  HTTP 200   (/openapi.json HTTP 200)
+POST /api/v1/users/ → HTTP 201, row visible in `users`
+reward_worker.py --once → exit 0 ("Standard delayed reward policy")
+```
+
+This exercises the same migration files, settings and endpoints as the compose
+services. It does **not** exercise the Docker images, the entrypoint order or
+the nginx proxy.
+
+The same PostgreSQL also ran the whole backend suite with the database-marked
+tests enabled:
+
+```text
+ALFA_EVENTS_TEST_DATABASE_URL=...alfa_events_test
+ALFA_PRODUCT_TEST_DATABASE_URL=...alfa_product_test
+python -m pytest backend/tests -q
+→ 276 passed, 1 skipped, 233 warnings in 175.53s
+```
+
 ---
 
 ## 2. What is verified vs unverified
 
 | Item | Status |
 |---|---|
-| Backend test suite (no DB) | **verified** — 211 passed, 0 failed |
-| Backend DB-marked tests | **unverified** — skipped, no PostgreSQL test DB |
+| Backend test suite (no DB) | **verified** — 211 passed, 66 skipped, 0 failed |
+| Backend DB-marked tests | **verified** — with `alfa_events_test` + `alfa_product_test`: **276 passed, 1 skipped, 0 failed** (the skip is the real-tokenizer test, which needs the private catalogue pipeline) |
 | Backend dependency lock installs from scratch | **verified** — clean venv, exit 0, app imports |
 | Frontend `npm ci` / production build | **verified** |
 | Frontend tests | **19/21 pass**; 2 fail in a test-side `globalThis.crypto` assignment (same on Node 20 and Node 26) |
@@ -180,10 +225,13 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
 | `compose.yaml` against the compose-spec JSON schema | **verified** |
 | Committed tree completeness (fresh `git archive` + app import) | **verified** — 318 files, app imports |
 | Demo UI flow: НДС → 3 cards, clients → 2 cards, off-topic → empty state, demo banner shown | **verified** on the local Vite dev server with headless Chrome |
+| `start-demo.cmd` (Docker-free launcher) | **verified** — installs deps, serves on 127.0.0.1:5173, HTTP 200 |
 | Same UI flow through nginx in the Docker image | **unverified** |
-| `/health`, nginx proxy, SPA routing in containers | **unverified** |
-| Product + events migrations on a fresh volume | **unverified** |
-| Reward worker loop in containers | **unverified** |
+| `/health` against real PostgreSQL 16.9 | **verified** — HTTP 200 `{"status":"ok"}` |
+| Product + events migrations on real PostgreSQL 16.9 | **verified** — 6 product tables, 12 events tables |
+| Registration endpoint against real PostgreSQL | **verified** — HTTP 201, row in `users` |
+| Reward worker against the real events DB | **verified** — `--once`, exit 0 |
+| The same steps inside the Docker images / fresh volume | **unverified** |
 | Real BM25/prior/LinUCB path on the organizer catalogue | **unverified** — private catalogue and index absent |
 | CTR, conversion, sales, business effect | **not measured** — no live traffic, no payments |
 
@@ -220,16 +268,13 @@ the real API path only.
 1. **Docker stack is authored, not executed.** Configuration was reviewed by
    reading it, not by running it. First real risk points: image build of the
    lock file, `migrate` ordering, and the nginx `/api` proxy.
-2. **Docker stack is authored, not executed.** Configuration was reviewed by
-   reading it, not by running it. First real risk points: image build of the
-   lock file, `migrate` ordering, and the nginx `/api` proxy.
-3. **Events database credentials are duplicated** in
+2. **Events database credentials are duplicated** in
    `scripts/sql/init_events.sql` (role `alfa_events`, password
    `local_events_only`). Changing `ALFA_EVENTS_*` in `.env` requires editing the
    SQL file too.
-4. **No real catalogue** means the ML path cannot be demonstrated end to end;
+3. **No real catalogue** means the ML path cannot be demonstrated end to end;
    the UI runs in explicitly labelled demo mode.
-5. **Frontend tests** are 19/21: two tests assign the read-only
+4. **Frontend tests** are 19/21: two tests assign the read-only
    `globalThis.crypto`, so they fail on Node 20 and Node 26 alike. Fixing that
    requires editing the test file, which was out of scope here.
 
