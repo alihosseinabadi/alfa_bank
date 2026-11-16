@@ -56,7 +56,7 @@ interactions) and the isolated **events** database (impressions, decisions,
 reward ledger). They are deliberately separate.
 
 What is actually implemented: FastAPI backend, React/Vite frontend, BM25 and
-TF-IDF retrieval, the 45-feature builder, deterministic prior ranking, shared
+TF-IDF retrieval, the 22-feature builder, deterministic prior ranking, shared
 LinUCB, slate policy, internal event service, reward ledger and replay,
 anonymous signed sessions with CSRF, two Alembic migration chains, and this
 Docker demo stack. What is not: real organizer data, live payments, external
