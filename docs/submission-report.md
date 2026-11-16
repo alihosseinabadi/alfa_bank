@@ -109,6 +109,25 @@ link, `cp .env.example .env && docker compose up --build`,
 `http://localhost:5173`, the three steps and the synthetic-demo note are all
 present and not clipped.
 
+### Demo UI flow (local Vite + headless Chrome, no Docker)
+
+The production bundle cannot be served without Docker here, so the UI was
+checked on the Vite dev server with `VITE_RECOMMENDATIONS_SOURCE=demo` and a
+scripted headless Chrome (puppeteer-core, local Chrome). It performed the three
+README steps by typing into `#custom-goal`.
+
+```
+vat:      path=/feed  demoBanner=true  cards=["НДС для малого бизнеса",
+          "Как выбрать налоговый режим", "Регистрация ИП"]
+clients:  path=/feed  demoBanner=true  cards=["Как найти первых клиентов",
+          "Каналы привлечения клиентов"]
+offTopic: path=/feed  emptyState=true  cards=0
+console:  one 404 (default /favicon.ico, not defined by the app)
+```
+
+This verifies the client-side demo path and its labels. It does **not** verify
+nginx, the API proxy, containers or the real ML path.
+
 ### Clean-tree smoke test (no Docker)
 
 ```bash
@@ -153,6 +172,8 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
 | Deck exported to PDF | **verified** — 12 pages, slide 1 inspected |
 | `docker compose up --build` | **unverified** — Docker not installed |
 | Committed tree completeness (fresh `git archive` + app import) | **verified** — 318 files, app imports |
+| Demo UI flow: НДС → 3 cards, clients → 2 cards, off-topic → empty state, demo banner shown | **verified** on the local Vite dev server with headless Chrome |
+| Same UI flow through nginx in the Docker image | **unverified** |
 | `/health`, nginx proxy, SPA routing in containers | **unverified** |
 | Product + events migrations on a fresh volume | **unverified** |
 | Reward worker loop in containers | **unverified** |
