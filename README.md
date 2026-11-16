@@ -139,30 +139,32 @@ start the API, the databases or the worker.
 
 ## 3. How to test the main features
 
-Use the UI at **http://127.0.0.1:5173** (or the port you chose). Steps 1–6 work
+Use the UI at **http://127.0.0.1:5173** (or the port you chose). Steps 1–4 work
 in both quick-start options; registration and event checks need the API
 (Option A, or the manual backend in section 6).
 
-1. **Onboarding.** The app opens on «Анкета». Keep the default task or type one.
-2. **Example task 1 (taxes).** Enter
-   «Как предпринимателю разобраться с НДС?» and press «Подобрать материалы».
-   You should see three clearly labelled demo cards about НДС, tax regimes and
-   ИП registration.
-3. **Example task 2 (clients).** Go back to «Анкета», enter
-   «Как найти первых клиентов?» and submit. The demo set changes to the
-   client-acquisition examples. This shows that the task text drives the result.
-4. **Explanations.** Each card carries a short "why" line and a type label.
-   These are demo explanations, not model explanations.
-5. **Off-topic query.** Enter «Как починить карбюратор» — the demo matcher has no
-   category for it, so the UI shows an explicit empty state instead of inventing
-   cards.
-6. **State.** Refresh the page: the task and profile are restored from browser
-   storage where the browser allows it. «Изменить» on the feed returns to the
-   questionnaire.
-7. **Registration.** Open «Профиль» → registration. Registration requires one of
-   the three preset goals in the form and a reachable API; it is not linked to
-   the anonymous session. This is a known limitation, not a demo feature.
-8. **Backend and events.** The API, databases and worker run even in demo mode.
+1. **Sign up.** The app opens on the sign-in screen. Register with any name and
+   e-mail (the password is never sent) or press «Войти в демо без регистрации».
+2. **Six questions.** Answer with the choice cards: main task, sphere, stage,
+   experience, what blocks you most, then describe the situation in your own
+   words. The right panel shows the profile filling up; «Назад» returns to any
+   step, and the last button says «Открыть дашборд».
+3. **Dashboard.** The greeting shows your name, the profile card shows a
+   readiness bar, your answers as chips and free text, the focus card repeats
+   your task, «Что открыть первым» shows the two matching demo cards, and the
+   checklist toggles the three suggested steps.
+4. **Recommendations.** «Смотреть все рекомендации» opens the full feed: «Как
+   найти первых клиентов?» gives two client cards, «Как разобраться с НДС?»
+   gives three tax cards, «Как починить карбюратор» gives an explicit empty
+   state. Each card carries a short "why" line and a type label; these are demo
+   explanations, not model explanations.
+5. **State.** Refresh the page: the account, answers and readiness bar are
+   restored from browser storage. «Выйти» clears them.
+6. **Registration in the API.** Open «Профиль» → registration. This form writes
+   a user into the product database and needs a reachable API; it is the only
+   screen that stores anything server-side. It accepts the three preset goals
+   and is not linked to the anonymous session — a known limitation.
+7. **Backend and events.** The API, databases and worker run even in demo mode.
    To inspect them:
 
    ```bash

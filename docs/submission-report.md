@@ -270,8 +270,9 @@ python -m pytest backend/tests -q
 | `docker compose up --build` | **verified** — images built, `migrate` exit 0, `db`/`api` healthy |
 | `compose.yaml` against the compose-spec JSON schema | **verified** |
 | Committed tree completeness (fresh `git archive` + app import) | **verified** — 318 files, app imports |
-| Demo UI flow: НДС → 3 cards, clients → 2 cards, off-topic → empty state, demo banner shown | **verified** on the local Vite dev server with headless Chrome |
+| Demo UI flow: sign-up → 6 questions → dashboard → НДС → 3 cards, clients → 2 cards, off-topic → empty state, demo banner shown | **verified** on the local Vite dev server and through the nginx build with headless Chrome, no console errors |
 | `start-demo.cmd` (Docker-free launcher) | **verified** — installs deps, serves on 127.0.0.1:5173, HTTP 200 |
+| Sign-up, six-question wizard, dashboard readiness bar and checklist | **verified** — answers persist across reload, recommendations follow the chosen task |
 | Same UI flow through nginx in the Docker image | **verified** — same cards, no console errors |
 | `/health` against real PostgreSQL 16.9 | **verified** — HTTP 200 `{"status":"ok"}` |
 | Product + events migrations on real PostgreSQL 16.9 | **verified** — 6 product tables, 12 events tables |
