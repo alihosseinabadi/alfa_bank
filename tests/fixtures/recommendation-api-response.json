@@ -1,0 +1,20 @@
+{
+  "learning_mode": "standard",
+  "status": "matched",
+  "decision_id": "b177117e-96cb-4ba8-9f3f-455d537e90d0",
+  "items": [{
+    "item_id": "393caacb-8a5c-4485-ae56-9d5f02ec38f4",
+    "material_key": "article:synthetic-example",
+    "position": 1,
+    "title": "Учебный пример",
+    "format": "article",
+    "url": "https://example.org/example",
+    "link_status": "unknown",
+    "access_type": "По подписке",
+    "requires_access_check": true,
+    "listed_price": null,
+    "duration_minutes": 12.5,
+    "reason": "Пример объяснения для проверки контракта"
+  }],
+  "message": null
+}

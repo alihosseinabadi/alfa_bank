@@ -1,0 +1,45 @@
+# Alfa-Kurs local development stack.
+#
+# Phase 1 ships the database only. The api and frontend services are added in
+# their phases (see PROJECT_ROADMAP.md) so this file never claims to run
+# something that does not exist yet.
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: alfakurs-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-alfakurs}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+      POSTGRES_DB: ${POSTGRES_DB:-alfakurs}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - alfakurs_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-alfakurs} -d ${POSTGRES_DB:-alfakurs}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  alfakurs_pgdata:
+
+# --- Planned (enable when the phase lands) ----------------------------------
+#
+#  api:
+#    build: ./backend
+#    env_file: .env
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    ports:
+#      - "${API_PORT:-8000}:8000"
+#
+#  frontend:
+#    build: ./frontend
+#    depends_on:
+#      - api
+#    ports:
+#      - "5173:5173"

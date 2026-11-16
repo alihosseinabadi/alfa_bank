@@ -1,0 +1,153 @@
+"""Чтение исходных таблиц через существующий PostgreSQL в Docker."""
+
+from io import StringIO
+from pathlib import Path
+import subprocess
+
+import pandas as pd
+
+
+EXPORT_COLUMNS = {
+    "Courses": (
+        "Id", "Title", "Description", "DescriptionAdditional",
+        "Target", "Duration", "LessonQuantity", "Cost",
+        "TypeId", "StatusId", "HasTrial", "IsClosed",
+        "IsDeleted", "Published", "Url",
+    ),
+    "ContentSettings": (
+        "Id", "EntityId", "EntityTypeId", "StatusId",
+        "TypeId", "IsDeleted", "Published",
+    ),
+    "ContentSettingsTopics": (
+        "ContentSettingsId", "TopicId", "Order",
+    ),
+    "ContentSettingsTags": (
+        "ContentSettingsId", "TagId", "Order",
+    ),
+    "ContentSettingsIndustries": (
+        "ContentSettingsId", "IndustryId", "Order",
+    ),
+    "Topics": (
+        "Id", "Title", "Description", "IsDeleted", "IsPublic",
+    ),
+    "Tags": (
+        "Id", "Title", "IsDeleted",
+    ),
+    "Industries": (
+        "Id", "Title", "IsDeleted",
+    ),
+    "Statuses": (
+        "Id", "Title",
+    ),
+    "CourseTypes": (
+        "Id", "Title", "IsDeleted",
+    ),
+}
+
+
+def _read_selected_table(
+    table_name: str,
+    selected_columns: tuple[str, ...],
+    compose_file: Path,
+) -> pd.DataFrame:
+    """Прочитать разрешённую таблицу, не изменяя исходную базу."""
+
+    import re
+    if not all(re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", name) for name in (table_name, *selected_columns)):
+        raise ValueError("Invalid source identifier")
+
+    compose_file = compose_file.resolve()
+
+    if not compose_file.is_file():
+        raise FileNotFoundError(f"Не найден compose-файл: {compose_file}")
+
+    columns = ", ".join(
+        f'"{column}"' for column in selected_columns
+    )
+
+    query = (
+        f'COPY (SELECT {columns} FROM public."{table_name}" '
+        f'ORDER BY {columns}) '
+        "TO STDOUT WITH (FORMAT CSV, HEADER TRUE);"
+    )
+
+    command = [
+        "docker", "compose",
+        "-f", str(compose_file),
+        "exec", "-T", "db",
+        "psql",
+        "-X",
+        "--quiet",
+        "--set=ON_ERROR_STOP=1",
+        "--username=alfa_ml",
+        "--dbname=alfa_course",
+        "--command", query,
+    ]
+
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        timeout=120,
+        check=False,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"Не удалось прочитать {table_name}:\n{result.stderr.strip()}"
+        )
+
+    return pd.read_csv(
+        StringIO(result.stdout),
+        dtype="string",
+        keep_default_na=False,
+        na_values=[""],
+    )
+
+
+# Дополнительные типы образовательных материалов.
+EXPORT_COLUMNS.update({
+    "Articles": (
+        "Id", "Title", "Description", "CardDescription",
+        "Duration", "StatusId", "TypeId", "IsPublic",
+        "IsClosed", "IsDeleted", "Published", "Url",
+    ),
+    "Documents": (
+        "Id", "Title", "Description", "TypeId",
+        "StatusId", "IsDeleted", "Published",
+        "Url", "Extension", "Size",
+    ),
+    "Webinars": (
+        "Id", "Title", "Description", "DescriptionExt",
+        "Duration", "StatusId", "TypeId", "IsClosed",
+        "IsDeleted", "Url", "StartsAt", "EndsAt",
+    ),
+    "Podcasts": (
+        "Id", "Title", "Description", "DescriptionExt",
+        "Duration", "Cost", "StatusId", "TypeId",
+        "IsClosed", "IsDeleted", "Published", "Url",
+    ),
+})
+
+# Stage 2 catalog and content only; no user/IP fields are exported here.
+EXPORT_COLUMNS.update({
+    "Articles": EXPORT_COLUMNS["Articles"] + ("Content",),
+    "Documents": EXPORT_COLUMNS["Documents"] + ("FileId",),
+    "Glossary": ("Id", "Title", "Description", "Duration", "Url", "StatusId", "Published", "IsDeleted"),
+    "Calculators": ("Id", "Title", "Description", "Url", "IsDeleted", "RatingGroupId"),
+    "CalculatorPages": ("Id", "Title", "Description", "Url", "StatusId", "Published", "IsDeleted", "RatingGroupId"),
+    "Lessons": ("Id", "Title", "Description", "Content", "Duration", "IsDeleted", "IsGroup", "TypeId"),
+    "CourseLessonBindings": ("Id", "CourseId", "LessonId", "Order", "IsTrial", "IsClosed", "ClosedUntil"),
+    "ArticleEmbedItems": ("Id", "ArticleId", "Type", "HtmlContent", "Params", "Order"),
+    "DocumentEmbedItems": ("Id", "DocumentId", "Type", "HtmlContent", "Params", "Order"),
+    "GlossaryEmbedItems": ("Id", "GlossaryId", "Type", "HtmlContent", "Params", "Order"),
+    "CalculatorPageEmbedItems": ("Id", "CalculatorPageId", "Type", "HtmlContent", "Params", "Order"),
+    "LessonEmbedItems": ("Id", "LessonId", "Type", "HtmlContent", "Params", "Order"),
+    "Files": ("Id", "Title", "Url", "Extension", "Size", "IsDeleted"),
+})
+def read_source_table(table_name: str, compose_file: Path) -> pd.DataFrame:
+    """Read catalog-only allowlisted columns; history uses a separate registry."""
+    if table_name not in EXPORT_COLUMNS:
+        raise ValueError(f"Таблица не настроена для выгрузки: {table_name}")
+    return _read_selected_table(table_name, EXPORT_COLUMNS[table_name], compose_file)
