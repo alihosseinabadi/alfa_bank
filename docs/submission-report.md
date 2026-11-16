@@ -150,8 +150,10 @@ also ignoring the lowercase `scripts/` directory on Windows, so the whole
 directory was untracked. The pattern was removed in commit `6d0899c`.
 
 ### Compose file and Dockerfiles
-- `compose.yaml` parses as YAML (PyYAML) and declares services
-  `db, migrate, api, worker, frontend` and volume `alfakurs_pgdata`.
+- `compose.yaml` parses as YAML (PyYAML), validates against the official
+  compose-spec JSON schema (fetched from the compose-spec repository), and
+  declares services `db, migrate, api, worker, frontend` and volume
+  `alfakurs_pgdata`.
 - Images were **not built** and the stack was **not started** (no Docker).
 - `backend/requirements.lock.txt` (66 pinned lines) is installed by
   `backend/Dockerfile`; the lock was produced by `pip freeze` in a clean
@@ -175,6 +177,7 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
 | Deck regenerated to pptx | **verified** |
 | Deck exported to PDF | **verified** — 12 pages, slide 1 inspected |
 | `docker compose up --build` | **unverified** — Docker not installed |
+| `compose.yaml` against the compose-spec JSON schema | **verified** |
 | Committed tree completeness (fresh `git archive` + app import) | **verified** — 318 files, app imports |
 | Demo UI flow: НДС → 3 cards, clients → 2 cards, off-topic → empty state, demo banner shown | **verified** on the local Vite dev server with headless Chrome |
 | Same UI flow through nginx in the Docker image | **unverified** |
