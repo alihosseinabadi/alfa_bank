@@ -13,5 +13,17 @@ export type Material = {
   eventRef?: { itemId: string; materialKey: string }
 }
 
-export type RecommendationRequest = { goal: string; requestKey?: string; profile?: { business_stage?: string; industry?: string; experience?: string } }
+export type RecommendationRequest = {
+  goal: string
+  requestKey?: string
+  profile?: {
+    business_stage?: string
+    stage?: string
+    industry?: string
+    experience?: string
+    difficulty?: string
+    note?: string
+    goal?: string
+  }
+}
 export type RecommendationResult = { materials: Material[]; source: 'demo' | 'api'; status?: 'matched' | 'starter' | 'needs_clarification' | 'no_eligible'; clarification?: string; learningMode?: 'standard' | 'test_fast' }

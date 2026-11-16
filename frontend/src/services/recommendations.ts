@@ -26,7 +26,16 @@ export async function getRecommendations(
 ): Promise<RecommendationResult> {
   if (mode === 'invalid') throw new RecommendationConfigurationError('Источник рекомендаций настроен неверно.')
   if (mode === 'api') {
-    const response = await requestRecommendations({ request_key: requestKey ?? crypto.randomUUID(), task: goal, profile })
+    const response = await requestRecommendations({
+      request_key: requestKey ?? crypto.randomUUID(),
+      task: goal,
+      // The API forbids unknown profile fields; forward only the three it accepts.
+      profile: {
+        business_stage: profile?.business_stage ?? profile?.stage ?? null,
+        industry: profile?.industry ?? null,
+        experience: profile?.experience ?? null,
+      },
+    })
     return {
       source: 'api', status: response.status, clarification: response.message ?? undefined,
       learningMode: response.learning_mode,

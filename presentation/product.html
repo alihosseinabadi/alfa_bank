@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Alfa-Kurs — продукт и демо</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  :root {
+    --ink: #171717; --red: #ef3124; --red-dark: #b5261e; --cream: #f8f5f2;
+    --line: #e6ded9; --muted: #6b6462; --soft: #a29b98; --pink: #f6e9e4;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif; color: var(--ink);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    background: #fff;
+  }
+  .page {
+    width: 210mm; height: 297mm; padding: 16mm 15mm 13mm;
+    position: relative; overflow: hidden; page-break-after: always; background: #fff;
+  }
+  .page:last-child { page-break-after: auto; }
+  .page::before {
+    content: ""; position: absolute; top: 0; left: 0; width: 4mm; height: 297mm; background: var(--red);
+  }
+  .kicker { font-size: 8.5pt; letter-spacing: .18em; text-transform: uppercase; color: var(--red); font-weight: 700; }
+  .pnum { position: absolute; top: 15mm; right: 15mm; font-size: 8.5pt; color: var(--soft); }
+  h1 { font-size: 34pt; line-height: 1.04; letter-spacing: -.03em; margin: 5mm 0 4mm; }
+  h2 { font-size: 23pt; line-height: 1.08; letter-spacing: -.02em; margin: 3mm 0 3mm; }
+  h3 { font-size: 11.5pt; margin: 0 0 2mm; }
+  p { font-size: 10.5pt; line-height: 1.5; color: var(--muted); margin: 0 0 3mm; }
+  .lead { font-size: 13pt; color: #3c3634; line-height: 1.45; }
+  .small { font-size: 8.5pt; color: var(--soft); line-height: 1.45; }
+  .grid { display: grid; gap: 4mm; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .card {
+    border: 1px solid var(--line); border-radius: 5mm; padding: 5mm;
+    background: #fff; break-inside: avoid;
+  }
+  .card.tint { background: #fcfaf9; }
+  .badge {
+    display: inline-block; font-size: 7.5pt; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; background: var(--pink); color: var(--red-dark);
+    border-radius: 999px; padding: 1.4mm 3mm;
+  }
+  .badge.dark { background: #211d1c; color: #fff; }
+  .badge.warn { background: #fff3d6; color: #8a6100; }
+  .stat { display: flex; flex-direction: column; gap: 1mm; }
+  .stat strong { font-size: 22pt; letter-spacing: -.02em; }
+  .stat span { font-size: 8pt; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+  .rule { height: 1px; background: var(--line); margin: 5mm 0; }
+  .run {
+    background: #171717; color: #fff; border-radius: 4mm; padding: 5mm 6mm;
+    font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; line-height: 1.7;
+  }
+  .run b { color: #ff938a; font-weight: 600; }
+  .shot {
+    width: 100%; border: 1px solid var(--line); border-radius: 3.5mm;
+    display: block; object-fit: cover; object-position: top center;
+    box-shadow: 0 3mm 9mm rgba(23,23,23,.08);
+  }
+  .shot.tall { height: 150mm; }
+  .shot.mid { height: 105mm; }
+  .shot.small { height: 86mm; }
+  .foot {
+    position: absolute; left: 15mm; right: 15mm; bottom: 9mm;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 7.5pt; color: var(--soft); border-top: 1px solid var(--line); padding-top: 3mm;
+  }
+  .foot b { color: var(--ink); font-weight: 600; }
+  ul { margin: 0; padding-left: 5mm; }
+  li { font-size: 10pt; line-height: 1.5; color: #3c3634; margin-bottom: 2mm; }
+  li::marker { color: var(--red); }
+  .pipe { display: flex; align-items: stretch; gap: 0; margin: 5mm 0; }
+  .pipe div {
+    flex: 1; border: 1px solid var(--line); padding: 3mm 2mm; text-align: center;
+    font-size: 8.5pt; font-weight: 700; background: #fff;
+  }
+  .pipe div:first-child { border-radius: 3mm 0 0 3mm; }
+  .pipe div:last-child { border-radius: 0 3mm 3mm 0; }
+  .pipe div + div { border-left: 0; }
+  .pipe .hot { background: var(--red); color: #fff; border-color: var(--red); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; font-size: 9pt; padding: 3mm 2.5mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 7.5pt; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+  td b { font-weight: 600; }
+  .cover { background: var(--cream); }
+  .cover::after {
+    content: ""; position: absolute; right: -40mm; top: -50mm; width: 150mm; height: 150mm;
+    border-radius: 50%; background: radial-gradient(circle at 40% 60%, rgba(239,49,36,.20), transparent 65%);
+  }
+  .cover .inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+  .cover h1 { font-size: 41pt; margin-top: 8mm; }
+  .cover .lead { max-width: 140mm; }
+  .cover .meta { margin-top: auto; display: grid; grid-template-columns: 1.2fr .8fr; gap: 6mm; align-items: end; }
+  .cover .run { font-size: 9pt; }
+  .big-num { font-size: 15pt; font-weight: 700; letter-spacing: -.02em; }
+  .tag { display: inline-block; border: 1px solid var(--line); border-radius: 999px; padding: 1.2mm 3mm; font-size: 8pt; color: var(--muted); margin: 0 1.5mm 1.5mm 0; background: #fff; }
+  .note {
+    background: var(--cream); border-left: 3px solid var(--red); border-radius: 2mm;
+    padding: 4mm 4.5mm; font-size: 8.8pt; line-height: 1.5; color: #4a4442;
+  }
+  .cap { font-size: 7.8pt; color: var(--soft); margin-top: 2mm; line-height: 1.4; }
+  .two-shots { display: grid; grid-template-columns: 1.55fr 1fr; gap: 4mm; align-items: start; }
+</style>
+</head>
+<body>
+
+<!-- 1 ------------------------------------------------------------------ -->
+<section class="page cover">
+  <div class="inner">
+    <div>
+      <span class="kicker">Hack&amp;Change 2026 · Трек 1 · Персонализация обучения</span>
+      <h1>Alfa-Kurs:<br />рекомендации,<br />которые объясняют себя</h1>
+      <p class="lead">
+        Предприниматель описывает задачу — получает учебные материалы Alfa-Kurs,
+        ранжированные BM25, prior-правилами и LinUCB, с понятным объяснением «почему этот материал».
+      </p>
+      <div>
+        <span class="tag">BM25 retrieval</span><span class="tag">prior ranking</span>
+        <span class="tag">LinUCB</span><span class="tag">события и reward worker</span>
+        <span class="tag">React + FastAPI + PostgreSQL</span>
+      </div>
+    </div>
+
+    <div class="meta">
+      <div>
+        <div class="run">
+          <b>cp .env.example .env</b><br />
+          <b>docker compose up --build</b><br />
+          → http://localhost:5173
+        </div>
+        <p class="small" style="margin-top:3mm">
+          Одна команда поднимает UI, API, две базы PostgreSQL, миграции и worker.
+          Каталог в демо — синтетический, он генерируется внутри стека.
+        </p>
+      </div>
+      <div>
+        <span class="badge dark">демо, не оргаторский каталог</span>
+        <p class="small" style="margin-top:3mm">
+          Конверсия, продажи и бизнес-эффект не измерялись.
+          Организаторский каталог приватен и в репозиторий не входит.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">02</span>
+  <span class="kicker">Задача и решение</span>
+  <h2>Не «ещё один каталог», а ответ на конкретную задачу</h2>
+
+  <div class="grid g3">
+    <div class="card">
+      <span class="badge">Проблема</span>
+      <h3 style="margin-top:3mm">Каталог большой, задача — одна</h3>
+      <p>Предпринимателю нужен не весь Alfa-Kurs, а 2–3 материала под его ситуацию:
+        стадию, отрасль, опыт и ограничение по времени.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Решение</span>
+      <h3 style="margin-top:3mm">Task-first рекомендации</h3>
+      <p>Шесть вопросов → профиль → поиск → ранжирование → карточки
+        с типом, доступом, длительностью и объяснением.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Петля</span>
+      <h3 style="margin-top:3mm">Обратная связь</h3>
+      <p>Показы и клики пишутся в отдельную events-базу, worker пересчитывает
+        награды и обновляет модель.</p>
+    </div>
+  </div>
+
+  <div class="pipe">
+    <div>Профиль<br />и задача</div>
+    <div class="hot">BM25<br />top-50</div>
+    <div>Prior<br />ranking</div>
+    <div>LinUCB<br />exploit + explore</div>
+    <div>Slate<br />и позиции</div>
+    <div>UI<br />и события</div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card tint">
+      <h3>Что видит пользователь</h3>
+      <ul>
+        <li>Дашборд: заполненность профиля, фокус, подборка, план на сегодня.</li>
+        <li>Лента: все найденные материалы, а не фиксированные два.</li>
+        <li>Профиль: лучшее совпадение под текущую задачу.</li>
+        <li>Аналитика: графики исторической оценки и честные «нет данных».</li>
+      </ul>
+    </div>
+    <div class="card tint">
+      <h3>Что реально работает в демо</h3>
+      <ul>
+        <li>API, CSRF-сессии, миграции, две PostgreSQL-базы.</li>
+        <li>Настоящий конвейер BM25 → prior → LinUCB на синтетическом каталоге.</li>
+        <li>Запись показов и кликов, reward worker.</li>
+        <li>Не подключены: реальный каталог организатора, оплаты, live-аналитика.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · продуктовое демо</span><span>синтетические данные · 2026-11-16</span></div>
+</section>
+
+<!-- 3 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">03</span>
+  <span class="kicker">Вход и анкета</span>
+  <h2>Шесть вопросов вместо длинной формы</h2>
+  <p class="lead" style="max-width:165mm">
+    Вход за один клик для демо. Дальше — пять вопросов с вариантами и один свободный:
+    задача, отрасль, стадия, опыт, главное ограничение и описание ситуации.
+  </p>
+
+  <div class="two-shots" style="margin-top:6mm">
+    <div>
+      <img class="shot tall" src="shots/01-auth.png" alt="Экран входа" />
+      <p class="cap">Вход: регистрация, вход и «Войти в демо без регистрации». Пароль не отправляется.</p>
+    </div>
+    <div>
+      <img class="shot tall" src="shots/02-wizard.png" alt="Анкета" />
+      <p class="cap">Анкета: прогресс, выбранные ответы и подсказка на каждом шаге.</p>
+    </div>
+  </div>
+
+  <div class="note" style="position:absolute; left:15mm; right:15mm; bottom:22mm">
+    Профиль хранится локально в браузере, поэтому демо работает без регистрации.
+    Регистрация в API — отдельный экран «Профиль» и единственная запись в продуктовую БД.
+  </div>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · вход и анкета</span><span>скриншоты: локальный запуск</span></div>
+</section>
+
+<!-- 4 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">04</span>
+  <span class="kicker">Дашборд</span>
+  <h2>Задача, профиль и подборка — на одном экране</h2>
+
+  <img class="shot tall" src="shots/03-dashboard.png" alt="Дашборд" style="margin-top:4mm" />
+  <p class="cap">
+    Заполненность профиля, ответы-чипы, фокус задачи, карточки из API и план на сегодня.
+    Карточки приходят из настоящего ML-конвейера, каталог при этом синтетический — об этом говорит подпись под подборкой.
+  </p>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · дашборд</span><span>VITE_RECOMMENDATIONS_SOURCE=api</span></div>
+</section>
+
+<!-- 5 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">05</span>
+  <span class="kicker">Рекомендации</span>
+  <h2>Каждая карточка объясняет, почему она здесь</h2>
+
+  <img class="shot mid" src="shots/04-feed.png" alt="Лента рекомендаций" style="margin-top:4mm" />
+
+  <div class="grid g3" style="margin-top:6mm">
+    <div class="card">
+      <span class="badge">Что в карточке</span>
+      <p style="margin-top:2mm">Тип материала, название, доступ, длительность, цена по каталогу
+        и короткое объяснение из prior-ранжирования.</p>
+    </div>
+    <div class="card">
+      <span class="badge">Что внутри API</span>
+      <p style="margin-top:2mm">BM25 top-50 → признаки → prior → LinUCB → слэйт.
+        Ответ содержит decision_id, позиции и причины.</p>
+    </div>
+    <div class="card">
+      <span class="badge warn">Честная граница</span>
+      <p style="margin-top:2mm">Ссылки ведут на демо-пути синтетического каталога.
+        Реальные материалы организатора не подключены.</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:5mm">
+    Показы и клики записываются в events-БД с привязкой к решению. Это позволяет
+    проверять петлю обучения; CTR и конверсия на живых пользователях не измерялись.
+  </div>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · рекомендации</span><span>реальный ML-путь на синтетическом каталоге</span></div>
+</section>
+
+<!-- 6 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">06</span>
+  <span class="kicker">Аналитика</span>
+  <h2>Графики вместо сухих цифр — и честные пробелы</h2>
+
+  <img class="shot mid" src="shots/05-analytics.png" alt="Аналитика" style="margin-top:4mm" />
+
+  <div class="grid g2" style="margin-top:6mm">
+    <div class="card tint">
+      <h3>Что показывают графики</h3>
+      <ul>
+        <li>NDCG@10 по четырём методам на шкале 0.82–0.86, чтобы разница была видна.</li>
+        <li>Прирост к baseline TF-IDF: +0.0246 у BM25 + prior.</li>
+        <li>Разрыв между TF-IDF и BM25 больше вклада prior.</li>
+      </ul>
+    </div>
+    <div class="card tint">
+      <h3>Чего здесь нет</h3>
+      <ul>
+        <li>CTR, просмотры и конверсия — «нет данных», а не ноль.</li>
+        <li>Оценка на 21 задаче, один агентный разметчик.</li>
+        <li>LinUCB против случайного на реальном трафике не проверялся.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="cap" style="margin-top:4mm">
+    Историческая синтетическая оценка retrieval из docs/quality_stage56.md.
+    Это не A/B-тест и не доказательство бизнес-эффекта.
+  </p>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · аналитика</span><span>историческая оценка, не live-метрики</span></div>
+</section>
+
+<!-- 7 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">07</span>
+  <span class="kicker">Профиль</span>
+  <h2>Лучшее совпадение — сразу в личном кабинете</h2>
+
+  <img class="shot mid" src="shots/06-profile.png" alt="Профиль с лучшим совпадением" style="margin-top:4mm" />
+
+  <div class="grid g2" style="margin-top:6mm">
+    <div class="card">
+      <h3>Как выбирается «лучшее совпадение»</h3>
+      <p>Задача и ответы анкеты → контекст запроса → BM25-кандидаты →
+        prior-ранжирование → LinUCB. Первая карточка ответа показывается
+        в профиле вместе с объяснением.</p>
+    </div>
+    <div class="card">
+      <h3>Почему это полезно</h3>
+      <p>Пользователь не начинает с пустого каталога: он видит один конкретный
+        следующий шаг и может перейти ко всей подборке. Профиль остаётся
+        локальным, пока не включена регистрация.</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:5mm">
+    Рекомендация — результат ранжирования, а не гарантия результата.
+    В демо материалы синтетические; названия и ссылки вымышлены.
+  </div>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · профиль</span><span>лучшее совпадение из API</span></div>
+</section>
+
+<!-- 8 ------------------------------------------------------------------ -->
+<section class="page">
+  <span class="pnum">08</span>
+  <span class="kicker">Итог</span>
+  <h2>Что можно проверить за пять минут</h2>
+
+  <table style="margin-top:4mm">
+    <thead><tr><th>Шаг</th><th>Действие</th><th>Что подтверждает</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td>Открыть http://localhost:5173 и нажать «Войти в демо».</td><td>UI, роутинг, локальный профиль.</td></tr>
+      <tr><td><b>2</b></td><td>Ответить на шесть вопросов.</td><td>Анкета, прогресс, сохранение ответов.</td></tr>
+      <tr><td><b>3</b></td><td>Посмотреть дашборд и «Все рекомендации».</td><td>Карточки из BM25 + prior + LinUCB.</td></tr>
+      <tr><td><b>4</b></td><td>Открыть «Аналитику».</td><td>Графики исторической оценки и пробелы.</td></tr>
+      <tr><td><b>5</b></td><td>Открыть «Профиль».</td><td>Лучшее совпадение под задачу.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="grid g3" style="margin-top:8mm">
+    <div class="card tint"><div class="stat"><strong>2</strong><span>PostgreSQL базы</span></div>
+      <p style="margin-top:2mm">Продуктовая и изолированная events-база, отдельные миграции.</p></div>
+    <div class="card tint"><div class="stat"><strong>6</strong><span>синтетических материалов</span></div>
+      <p style="margin-top:2mm">26 публичных чанков, индекс BM25; генерируются при старте.</p></div>
+    <div class="card tint"><div class="stat"><strong>0</strong><span>измеренных бизнес-эффектов</span></div>
+      <p style="margin-top:2mm">Конверсия, продажи и uplift не заявляются.</p></div>
+  </div>
+
+  <div class="run" style="margin-top:8mm">
+    <b>git clone</b> https://github.com/alihosseinabadi/alfa_bank<br />
+    <b>cp .env.example .env</b> &amp;&amp; <b>docker compose up --build</b> → http://localhost:5173
+  </div>
+
+  <div class="grid g2" style="margin-top:6mm">
+    <div>
+      <h3>Что дальше</h3>
+      <p>Подключить приватный каталог организатора и собрать индекс тем же
+        пайплайном. Затем — A/B-тест и измерение CTR/конверсии.</p>
+    </div>
+    <div>
+      <h3>Документация</h3>
+      <p>README.md · docs/submission-report.md · docs/quality_stage56.md ·
+        docs/recommendation-api-v1.md</p>
+    </div>
+  </div>
+
+  <div class="foot"><span><b>Alfa-Kurs</b> · Hack&amp;Change 2026</span><span>github.com/alihosseinabadi/alfa_bank</span></div>
+</section>
+
+</body>
+</html>
