@@ -43,3 +43,30 @@ Validates the CSV before inserting; aborts on the first invalid row.
 
 Keeping CLIs thin, so the same tested functions are used by scripts, the API and
 tests.
+
+## Implemented stage-2 catalog commands
+
+- restore_catalog_source.py: restore the supplied archive into an empty isolated PostgreSQL 17 database.
+- export_catalog_sources.py: read catalog/content tables and create a hashed source manifest.
+- prepare_catalog_tokenizer.py: explicitly prepare the pinned E5 tokenizer.
+- build_catalog_bundle.py: normalize materials, resolve aliases, extract content, chunk and validate.
+- check_catalog_urls.py: record bounded URL probes separately from content processing.
+- verify_catalog_bundle.py: verify checksums, contracts, scopes and token counts.
+
+Runbook and output contracts: [docs/catalog_stage2.md](../docs/catalog_stage2.md).
+## Implemented stage-3 history commands
+
+- export_user_history.py: separate allowlisted exports with immutable source snapshots.
+- build_user_history.py: normalized observations, continuation candidates and conservative temporal projections.
+- verify_user_history.py: checksum, source, catalog, partition and chronology checks.
+- sql/check_user_history.sql: aggregate read-only audit without user identifiers.
+
+MVP runbook and contracts: [docs/history_stage3.md](../docs/history_stage3.md).
+## Implemented stage-4 MVP profile commands
+
+- build_user_profiles.py: current or cutoff-limited profiles from validated inputs.
+- verify_user_profiles.py: checksum and full source reconstruction checks.
+- inspect_user_context.py --demo: eight public synthetic case-aligned scenarios.
+- inspect_user_context.py --user-key ...: local redacted request-context inspection.
+
+Runbook: [docs/profiles_stage4.md](../docs/profiles_stage4.md).

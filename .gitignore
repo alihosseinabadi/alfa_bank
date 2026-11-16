@@ -39,3 +39,27 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Organizer dataset and locally generated derivatives
+/data/raw/
+/data/interim/
+/data/processed/
+/reports/
+*.backup
+*.dump
+
+# Additional local environments and model weights
+pyvenv.cfg
+Include/
+Lib/
+Scripts/
+share/
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.ckpt
+/e5-model/
+/e5-vectors/
+e5-model.zip
+e5-vectors.zip

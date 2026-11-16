@@ -1,60 +1,16 @@
-# frontend/
+# Alfa-Kurs frontend
 
-React + TypeScript + Vite + Tailwind + Recharts. Three screens, wired to the real API.
+Основной режим подключается к API рекомендаций; `VITE_RECOMMENDATIONS_SOURCE=demo` включает отдельно обозначенные вымышленные примеры. Ошибка API не подменяется демоданными. Анкета и ключ повторного запроса сохраняются в `sessionStorage` текущей вкладки, если браузер разрешает хранение; при закрытии вкладки восстановление не гарантируется. На экране аналитики могут отображаться демонстрационные данные.
 
-## Screens
-
-| Route | Screen | Purpose |
-|---|---|---|
-| `/onboarding` | Onboarding | collect industry, stage, experience, interests, challenges, goals |
-| `/feed` | Personalized feed | ranked courses with reason + actions |
-| `/analytics` | Analytics | LinUCB vs Random vs Popular, regret, CTR, conversion |
-
-## Planned structure
-
-```
-frontend/
-├── package.json
-├── vite.config.ts
-├── tsconfig.json
-├── tailwind.config.js
-├── index.html
-└── src/
-    ├── main.tsx
-    ├── App.tsx
-    ├── index.css
-    ├── components/     # CourseCard, ReasonPill, Chart wrappers, Layout
-    ├── pages/          # Onboarding, Feed, Analytics
-    ├── services/       # api.ts (typed fetch client)
-    ├── hooks/          # useProfile, useRecommendations, useAnalytics
-    ├── types/          # mirrors backend Pydantic schemas
-    └── README.md
-```
-
-## Run
+Запустите backend и worker по [инструкции этапа 5](../docs/integration-stage5.md), установите зависимости и запустите frontend:
 
 ```bash
-cd frontend
-npm install
-npm run dev      # http://localhost:5173
-npm run build    # type-check + bundle
+npm --prefix frontend install
+VITE_API_BASE_URL=http://127.0.0.1:8000 npm --prefix frontend run dev -- --host 127.0.0.1 --port 5173
+npm --prefix frontend test
+npm --prefix frontend run build
 ```
 
-Environment: `VITE_API_BASE_URL=http://127.0.0.1:8000`
+Разрешите origin frontend в `API_CORS_ORIGINS`. Корневой `.env.example` не загружается Vite автоматически: задайте переменные в окружении или в файле окружения внутри `frontend`. Вместо `VITE_API_BASE_URL` можно настроить `VITE_API_PROXY_TARGET` для dev-прокси; в собранном приложении нужен reverse proxy или API origin с CORS. Для демонстрационных примеров задайте `VITE_RECOMMENDATIONS_SOURCE=demo` перед запуском или сборкой.
 
-## Rules
-
-- No mock data in the committed app. If the API is down, show an error state.
-- All API calls go through `services/api.ts`; components never call `fetch` directly.
-- Types mirror the backend schemas exactly.
-- Charts read live endpoints, not static arrays.
-
-## Why Recharts
-
-Declarative, small, good enough for the analytics judge screen. No charting
-framework with a heavy runtime.
-
-## What to learn
-
-Typed API clients, React data fetching, and keeping UI state minimal by letting the
-server be the source of truth.
+Контракт API описан в [recommendation-api-v1.md](../docs/recommendation-api-v1.md), ограничения событий и тестового обучения — в инструкции этапа 5. Подтверждение реальной покупки и внешнего открытия материала пока не подключено.
