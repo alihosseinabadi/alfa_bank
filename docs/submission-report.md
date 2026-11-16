@@ -109,8 +109,28 @@ link, `cp .env.example .env && docker compose up --build`,
 `http://localhost:5173`, the three steps and the synthetic-demo note are all
 present and not clipped.
 
-### Compose file and Dockerfiles
+### Clean-tree smoke test (no Docker)
 
+```bash
+git archive --format=tar HEAD | tar -x -C <fresh dir>
+PYTHONPATH=<fresh>/backend python -c "import app.main as m; print(m.app.title)"
+```
+
+Result:
+
+```
+files in fresh copy: 318
+app import ok: Alfa-Kurs API
+routes: 9
+```
+
+This also confirmed that `scripts/migrate_events.py`,
+`scripts/reward_worker.py` and `compose.yaml` are present in the committed
+tree. It caught a real submission bug: the venv ignore pattern `Scripts/` was
+also ignoring the lowercase `scripts/` directory on Windows, so the whole
+directory was untracked. The pattern was removed in commit `6d0899c`.
+
+### Compose file and Dockerfiles
 - `compose.yaml` parses as YAML (PyYAML) and declares services
   `db, migrate, api, worker, frontend` and volume `alfakurs_pgdata`.
 - Images were **not built** and the stack was **not started** (no Docker).
@@ -132,6 +152,7 @@ present and not clipped.
 | Deck regenerated to pptx | **verified** |
 | Deck exported to PDF | **verified** — 12 pages, slide 1 inspected |
 | `docker compose up --build` | **unverified** — Docker not installed |
+| Committed tree completeness (fresh `git archive` + app import) | **verified** — 318 files, app imports |
 | `/health`, nginx proxy, SPA routing in containers | **unverified** |
 | Product + events migrations on a fresh volume | **unverified** |
 | Reward worker loop in containers | **unverified** |
