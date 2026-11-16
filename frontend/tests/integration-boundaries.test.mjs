@@ -30,13 +30,16 @@ test('демо возвращает примеры для задачи и пус
   assert.deepEqual(empty.materials, [])
 })
 
-test('неподключённый API и неизвестная настройка не подменяются демоданными', async () => {
+test('ошибка API и неизвестная настройка не подменяются демоданными', async () => {
   assert.equal(recommendations.resolveRecommendationMode(undefined), 'demo')
   assert.equal(recommendations.resolveRecommendationMode('api'), 'api')
   assert.equal(recommendations.resolveRecommendationMode('apі'), 'invalid')
-  for (const mode of ['api', 'invalid']) {
-    await assert.rejects(recommendations.getRecommendations({ goal: 'Найти клиентов' }, mode), recommendations.RecommendationConfigurationError)
-  }
+  await assert.rejects(recommendations.getRecommendations({ goal: 'Найти клиентов' }, 'invalid'), recommendations.RecommendationConfigurationError)
+  const originalFetch = globalThis.fetch
+  try {
+    globalThis.fetch = async () => new Response(null, { status: 503 })
+    await assert.rejects(recommendations.getRecommendations({ goal: 'Найти клиентов', requestKey: 'a' }, 'api'), (error) => error.status === 503)
+  } finally { globalThis.fetch = originalFetch }
 })
 
 test('новый запрос убирает прежнюю выдачу, поздний ответ игнорируется, ошибка допускает повтор', async () => {

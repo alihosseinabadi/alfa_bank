@@ -10,7 +10,8 @@ export type Material = {
   href?: string
   access?: string
   linkNote?: string
+  eventRef?: { itemId: string; materialKey: string }
 }
 
-export type RecommendationRequest = { goal: string }
-export type RecommendationResult = { materials: Material[]; source: 'demo' | 'api'; status?: 'matched' | 'starter' | 'needs_clarification' | 'no_eligible'; clarification?: string }
+export type RecommendationRequest = { goal: string; requestKey?: string; profile?: { business_stage?: string; industry?: string; experience?: string } }
+export type RecommendationResult = { materials: Material[]; source: 'demo' | 'api'; status?: 'matched' | 'starter' | 'needs_clarification' | 'no_eligible'; clarification?: string; learningMode?: 'standard' | 'test_fast' }

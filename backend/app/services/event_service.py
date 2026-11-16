@@ -15,6 +15,12 @@ class ItemNotFound(ValueError):pass
 class VisibilityRequired(ValueError):pass
 class InvalidEventTime(ValueError):pass
 
+
+def is_confirmed_free(item):
+    """Require open access and an explicitly observed zero listing price."""
+    price = item.snapshot.get('features', {}).get('values', {}).get('listed_price_scaled')
+    return item.access_type == 'Открытый' and price is not None and price == 0
+
 def canonical(value):
     if isinstance(value,datetime):return value.astimezone(timezone.utc).isoformat()
     if isinstance(value,UUID):return str(value)
@@ -43,7 +49,7 @@ class EventService:
 
     def _owned(self,db,actor,item_id,material_key):
         found=db.execute(select(DecisionItem,Decision).join(Decision,Decision.id==DecisionItem.decision_id)
-            .where(DecisionItem.id==item_id,Decision.actor_id==actor.actor_id)).first()
+            .where(DecisionItem.id==item_id,Decision.actor_id==actor.actor_id,Decision.session_id==actor.session_id)).first()
         if found is None or found[0].material_key!=material_key:
             raise ItemNotFound("Issued item not found for this actor/material")
         return found
@@ -221,9 +227,9 @@ class EventService:
         identity=fingerprint(canonical(request.model_dump()))
         with self.sessions.begin() as db:
             self._lock_actor(db,actor)
+            item,decision=self._owned(db,actor,request.item_id,request.material_key)
             replay=self._replay(db,actor,request.event_key,"visibility",identity)
             if replay:return replay
-            item,decision=self._owned(db,actor,request.item_id,request.material_key)
             self._time(request.client_time)
             impression=db.scalar(select(Impression).where(Impression.item_id==item.id))
             duplicate=impression is not None
@@ -238,14 +244,14 @@ class EventService:
         identity=fingerprint(canonical(request.model_dump()))
         with self.sessions.begin() as db:
             self._lock_actor(db,actor)
+            item,decision=self._owned(db,actor,request.item_id,request.material_key)
             replay=self._replay(db,actor,request.event_key,request.kind,identity)
             if replay:return replay
-            item,decision=self._owned(db,actor,request.item_id,request.material_key)
             impression=self._impression(db,item.id,request.impression_id)
             self._time(request.client_time)
             event=Interaction(actor_id=actor.actor_id,session_id=actor.session_id,item_id=item.id,
                 impression_id=impression.id,kind=request.kind,source="client",trust="client_reported",
-                simulated=decision.simulated,is_free_open=request.kind=="material_open" and item.access_type=="Открытый",
+                simulated=decision.simulated,is_free_open=request.kind=="material_open" and is_confirmed_free(item),
                 qualified_use=False,client_time=request.client_time)
             db.add(event);db.flush()
             self._receipt(db,actor,request.event_key,request.kind,identity,event=event)
@@ -261,9 +267,9 @@ class EventService:
             "occurred_at":request.occurred_at}))
         with self.sessions.begin() as db:
             self._lock_actor(db,actor)
+            item,decision=self._owned(db,actor,request.item_id,request.material_key)
             replay=self._replay(db,actor,request.event_key,"purchase_confirmed",identity)
             if replay:return replay
-            item,decision=self._owned(db,actor,request.item_id,request.material_key)
             impression=self._impression(db,item.id,request.impression_id)
             self._time(request.occurred_at,30)
             lock_key=principal.provider+":"+principal.environment+":"+request.transaction_key

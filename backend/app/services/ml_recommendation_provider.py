@@ -29,7 +29,7 @@ from app.models.learning import RewardObservation, RewardRevision
 from app.models.serving import ServingRequest
 from app.schemas.recommendation import RecommendationCard, RecommendationResponse
 from app.services.event_service import EventConflict, EventService
-from app.services.learning_service import LearningService
+from app.services.learning_configuration import DEMO_MODEL_KEY, learning_service
 from app.services.recommendation_orchestrator import issue_recommendations
 from app.services.recommendation_provider import ProviderUnavailable, RequestConflict
 
@@ -47,9 +47,13 @@ class _TransactionSessions:
 
 
 class MLRecommendationProvider:
-    def __init__(self, index, manifest, materials, engine, secret):
+    def __init__(self, index, manifest, materials, engine, secret, *, demo=False):
         self.index, self.manifest, self.materials = index, manifest, materials
         self.engine, self.sessions, self.secret = engine, events_sessions(engine), secret
+        self.demo = demo
+        self.model_key = DEMO_MODEL_KEY if demo else 'shared-linucb-v1'
+        if demo and engine.url.database != 'alfa_events_test':
+            raise ValueError('Fast demo requires isolated alfa_events_test')
         # Build the existing BM25 channel once from the verified public corpus.
         self.search = BM25Retriever().fit(list(index.materials.values()), index.rows)
         self.retrieval_policy_id = fingerprint({'method': 'bm25', 'k1': self.search.k1,
@@ -81,12 +85,12 @@ class MLRecommendationProvider:
         try:
             with engine.connect() as connection:
                 revision = connection.execute(text('SELECT version_num FROM alembic_version')).scalar_one()
-                if revision != '0005_serving_requests':
+                if revision != '0006_reward_projection':
                     raise ValueError('Events database migrations are incompatible')
+            return cls(search, manifest, materials, engine, settings.session_secret, demo=settings.demo_fast_learning)
         except Exception:
             engine.dispose()
             raise
-        return cls(search, manifest, materials, engine, settings.session_secret)
 
     def close(self):
         self.engine.dispose()
@@ -107,9 +111,9 @@ class MLRecommendationProvider:
         db.execute(text('SELECT pg_advisory_xact_lock(731987122)'))
         version = db.scalar(select(func.count()).select_from(RewardRevision).join(
             RewardObservation, RewardObservation.id == RewardRevision.observation_id
-        ).where(RewardObservation.model_key == 'shared-linucb-v1'))
+        ).where(RewardObservation.model_key == self.model_key))
         if self._model_cache is None or self._ledger_version != version:
-            model = LearningService(_TransactionSessions(db)).replay()
+            model = learning_service(_TransactionSessions(db), demo=self.demo, database_name=self.engine.url.database).replay()
             self._model_cache, self._ledger_version = model, version
         return self._model_cache
 
@@ -151,7 +155,7 @@ class MLRecommendationProvider:
                 prior = rank_candidates(batch, self.materials, context, profile=profile,
                                         progress=progress, blocked_material_keys=blocked, k=50)
                 result = issue_recommendations(EventService(_TransactionSessions(db)), actor,
-                    request.request_key, prior, context, batch, lambda: self._model(db), k=request.limit)
+                    request.request_key, prior, context, batch, lambda: self._model(db), k=request.limit, simulated=self.demo)
                 decision, selected = result['decision'], result['result']
                 refs = decision['items']
                 if len(refs) != len(selected) or any(
@@ -177,7 +181,7 @@ class MLRecommendationProvider:
                     message = 'Временно использовано базовое ранжирование.'
                 elif cards and len(cards) < request.limit:
                     message = 'Найдены не все запрошенные материалы. Попробуйте уточнить задачу.'
-                public = RecommendationResponse(status=prior.status, decision_id=decision['decision_id'],
+                public = RecommendationResponse(learning_mode='test_fast' if self.demo else 'standard', status=prior.status, decision_id=decision['decision_id'],
                                                 items=cards, message=message)
                 db.add(ServingRequest(actor_id=actor.actor_id, request_key=request.request_key,
                     request_hash=request_hash, decision_id=public.decision_id,

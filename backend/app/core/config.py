@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     """
 
     database_url: str
+    demo_fast_learning: bool = Field(default=False, validation_alias="ALFA_DEMO_FAST_LEARNING")
     recommendations_enabled: bool = Field(default=False, validation_alias="ALFA_RECOMMENDATIONS_ENABLED")
     catalog_dir: str = Field(default="data/processed/catalog", validation_alias="ALFA_CATALOG_DIR")
     retrieval_index_dir: str = Field(default="artifacts/retrieval", validation_alias="ALFA_RETRIEVAL_INDEX_DIR")

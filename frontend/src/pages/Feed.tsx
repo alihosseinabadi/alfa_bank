@@ -1,5 +1,5 @@
 import { Link, useOutletContext } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReasonPill from '../components/ReasonPill'
 import CourseCard from '../components/CourseCard'
 import type { PageContext } from '../components/Layout'
@@ -19,6 +19,7 @@ export default function Feed() {
   const details = [profile?.stage, profile?.industry, profile?.experience].filter(Boolean)
   const [state, setState] = useState<RecommendationState>({ status: 'initial' })
   const [attempt, setAttempt] = useState(0)
+  const requestIdentity = useRef<{ input: string; key: string } | null>(null)
   const status = state.status
   const result = state.status === 'success' ? state.result : null
   const configurationError = state.status === 'error' ? state.configurationError : ''
@@ -26,9 +27,16 @@ export default function Feed() {
   useEffect(() => {
     if (!profile?.goal) { setState({ status: 'initial' }); return }
     const controller = createRecommendationController(getRecommendations, setState)
-    void controller.request(profile.goal)
+    const input = JSON.stringify(profile)
+    if (recommendationMode === 'api' && requestIdentity.current?.input !== input) {
+      requestIdentity.current = { input, key: crypto.randomUUID() }
+    }
+    void controller.request(profile.goal, recommendationMode === 'api' ? {
+      requestKey: requestIdentity.current?.key,
+      profile: { business_stage: profile.stage || undefined, industry: profile.industry || undefined, experience: profile.experience || undefined },
+    } : {})
     return () => controller.dispose()
-  }, [profile?.goal, attempt])
+  }, [profile, attempt])
 
   return (
     <div className="cabinet">
@@ -45,6 +53,7 @@ export default function Feed() {
 
           {profile && <p className="current-goal"><span>Ваша задача:</span> <strong>{profile.goal}</strong> <Link to="/onboarding">Изменить</Link></p>}
           {recommendationMode === 'demo' && <p className="demo-notice"><strong>Это демонстрация.</strong> Материалы вымышлены, ссылки недоступны. Совпадение по словам задачи может быть неточным.</p>}
+          {result?.learningMode === 'test_fast' && <p className="demo-notice" role="status"><strong>Тестовое обучение.</strong> Действия записываются в изолированную тестовую базу. Это симуляция; реальные покупки не выполняются.</p>}
           <div aria-live="polite">
             {status === 'initial' && <div className="recommendation-empty"><div><h2>Начните с задачи</h2><p>{recommendationMode === 'demo' ? 'Выберите или опишите задачу, чтобы увидеть примеры материалов.' : 'Выберите или опишите задачу, чтобы найти материалы.'}</p><Link className="button button-primary" to="/onboarding">Выбрать задачу →</Link></div></div>}
             {status === 'loading' && <div className="recommendation-empty"><span className="loading-mark" aria-hidden="true" />Подбираем материалы…</div>}

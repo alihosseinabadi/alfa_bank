@@ -65,6 +65,7 @@ class RecommendationCard(PublicModel):
 
 
 class RecommendationResponse(PublicModel):
+    learning_mode: Literal['standard', 'test_fast'] = 'standard'
     status: Literal['matched', 'starter', 'needs_clarification', 'no_eligible']
     decision_id: UUID
     items: list[RecommendationCard] = Field(max_length=6)

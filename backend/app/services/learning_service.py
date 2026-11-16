@@ -1,5 +1,6 @@
 """Serialized reward projection from immutable events to a replayable ledger."""
 from datetime import datetime, timezone
+from types import SimpleNamespace
 import hashlib, json
 from uuid import uuid4
 from sqlalchemy import select, text
@@ -9,10 +10,12 @@ from app.ml.feature_registry import REGISTRY_HASH, FEATURE_DIMENSION, validate_f
 from app.ml.ranking_contracts import PairFeatures
 from app.ml.reward_policy import RewardPolicy
 from app.ml.linucb import SharedLinUCB
+from app.services.event_service import is_confirmed_free
 
 class LearningService:
-    def __init__(self, sessions, model_key='shared-linucb-v1', policy=None, ridge=1.0, alpha=0.5):
+    def __init__(self, sessions, model_key='shared-linucb-v1', policy=None, ridge=1.0, alpha=0.5, *, simulated_only=False):
         self.sessions, self.model_key = sessions, model_key
+        self.simulated_only = simulated_only
         self.policy, self.ridge, self.alpha = policy or RewardPolicy(), ridge, alpha
         SharedLinUCB(FEATURE_DIMENSION, ridge, alpha)
         self.identity = hashlib.sha256(json.dumps([self.policy.fingerprint, REGISTRY_HASH, ridge, alpha], separators=(chr(44), chr(58))).encode()).hexdigest()
@@ -23,10 +26,17 @@ class LearningService:
         changed = 0
         with self.sessions.begin() as db:
             db.execute(text('SELECT pg_advisory_xact_lock(731987122)'))
-            rows = db.execute(select(Impression, DecisionItem, Decision).join(DecisionItem, Impression.item_id == DecisionItem.id).join(Decision, DecisionItem.decision_id == Decision.id).where(Decision.simulated == False).order_by(Impression.id)).all()
+            rows = db.execute(select(Impression, DecisionItem, Decision).join(DecisionItem, Impression.item_id == DecisionItem.id).join(Decision, DecisionItem.decision_id == Decision.id).where(Decision.simulated == self.simulated_only).order_by(Impression.id)).all()
             for impression, item, decision in rows:
                 events = db.scalars(select(Interaction).where(Interaction.impression_id == impression.id, Interaction.item_id == item.id, Interaction.actor_id == decision.actor_id)).all()
-                if any(e.is_free_open and item.access_type != 'Открытый' for e in events): raise ValueError('inconsistent free access')
+                # Old events inferred free access from the access label alone.
+                # Keep immutable events intact, but project unverified claims as
+                # non-free; the existing ledger revision corrects earlier rewards.
+                if not is_confirmed_free(item):
+                    fields = ('simulated', 'impression_id', 'item_id', 'ingested_at', 'kind',
+                              'source', 'trust', 'payment_environment', 'client_time')
+                    events = [SimpleNamespace(**{k: getattr(e, k) for k in fields}, is_free_open=False)
+                              if e.is_free_open else e for e in events]
                 reward = self.policy.reward(impression, events, now)
                 if reward is None: continue
                 features = PairFeatures.model_validate(item.snapshot['features'])
@@ -41,14 +51,19 @@ class LearningService:
                     db.add(obs)
                     db.flush()
                     old = None
+                    reason = 'initial_observation'
                 else:
                     if obs.registry_hash != REGISTRY_HASH or obs.policy_hash != self.identity or obs.features != features.vector:
                         raise ValueError('incompatible observation provenance')
                     if now < obs.updated_at: raise ValueError('observation clock moved backwards')
-                    if obs.reward == reward: continue
+                    previous = db.get(RewardRevision, (obs.id, obs.revision))
+                    if previous is None: raise ValueError('missing latest reward revision')
+                    if obs.reward == reward and previous.projection_version == 'verified-free-v2': continue
+                    reason = 'legacy_free_revalidation' if previous.projection_version == 'legacy-v1' else 'reward_update'
                     old = obs.reward
                     obs.reward, obs.revision, obs.updated_at = reward, obs.revision + 1, now
-                db.add(RewardRevision(observation_id=obs.id, revision=obs.revision, old_reward=old, new_reward=reward, recorded_at=now))
+                db.add(RewardRevision(observation_id=obs.id, revision=obs.revision, old_reward=old, new_reward=reward,
+                    recorded_at=now, projection_version='verified-free-v2', reason=reason))
                 changed += 1
         return changed
 

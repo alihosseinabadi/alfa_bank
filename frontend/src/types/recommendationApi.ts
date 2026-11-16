@@ -25,6 +25,7 @@ export type RecommendationApiCard = {
   reason: string
 }
 export type RecommendationApiResponse = {
+  learning_mode: 'standard' | 'test_fast'
   status: 'matched' | 'starter' | 'needs_clarification' | 'no_eligible'
   decision_id: string
   items: RecommendationApiCard[]

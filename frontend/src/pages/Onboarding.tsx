@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import type { PageContext } from '../components/Layout'
+import { recommendationMode } from '../services/recommendations'
 
 const goals = [
   'Найти клиентов',
@@ -116,7 +117,7 @@ export default function Onboarding() {
           <details className="optional-details" open={detailsOpen} onToggle={(event) => setDetailsOpen(event.currentTarget.open)}>
           <summary>Немного о вас <span>Необязательно</span></summary>
           <div className="form-intro">
-            <p>Необязательно. Пока эти сведения не влияют на демонстрационные материалы.</p>
+            <p>{recommendationMode === 'demo' ? 'Необязательно. Пока эти сведения не влияют на демонстрационные материалы.' : 'Необязательно. Эти сведения помогут уточнить подборку.'}</p>
           </div>
 
           <div className="form-fields">

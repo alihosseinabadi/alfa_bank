@@ -23,7 +23,7 @@ from test_prior_ranking_stage6 import chunk, material
 @pytest.fixture
 def serving(store):
     _, sessions, engine = store
-    materials = [material('a', title='НДС для бизнеса', duration_minutes=15),
+    materials = [material('a', title='НДС для бизнеса', duration_minutes=15, listed_price=0),
                  material('b', title='Налоговый учёт', item_type='course', access_type='По подписке', listed_price=0)]
     rows = [chunk('a'), chunk('b')]
     index = TfidfRetriever().fit(materials, rows)

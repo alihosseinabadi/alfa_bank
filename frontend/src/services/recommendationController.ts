@@ -14,11 +14,11 @@ export function createRecommendationController(
   let generation = 0
   let disposed = false
   return {
-    async request(goal: string) {
+    async request(goal: string, options: Omit<RecommendationRequest, 'goal'> = {}) {
       const requestId = ++generation
       publish({ status: 'loading' })
       try {
-        const result = await load({ goal })
+        const result = await load({ goal, ...options })
         if (!disposed && requestId === generation) publish({ status: 'success', result })
       } catch (error: unknown) {
         if (!disposed && requestId === generation) publish({

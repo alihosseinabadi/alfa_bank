@@ -54,9 +54,9 @@ def store():
 def actor(kind="anonymous"):
     return TrustedActor(actor_id=uuid4(),session_id=uuid4(),kind=kind)
 
-def issue(service,a=None,*,access="Открытый",simulated=True):
+def issue(service,a=None,*,access="Открытый",simulated=True,price=0):
     a=a or actor()
-    p,c,m,b=setup(materials=[material(access_type=access,listed_price=0)])
+    p,c,m,b=setup(materials=[material(access_type=access,listed_price=price)])
     r=rank_candidates(b,m,c,profile=p)
     key=uuid4();decision=service.issue(a,key,r,c,retrieval_batch=b,simulated=simulated)
     return a,c,r,key,decision,decision["items"][0],b
@@ -142,7 +142,8 @@ def test_anonymous_session_binding_and_authenticated_session_change(store):
     with pytest.raises(EventConflict):
         service.acknowledge(a.model_copy(update={"session_id":uuid4()}),ack(item))
     auth,_,_,_,_,auth_item,_=issue(service,actor("authenticated"))
-    assert service.acknowledge(auth.model_copy(update={"session_id":uuid4()}),ack(auth_item))["id"]
+    with pytest.raises(ItemNotFound):
+        service.acknowledge(auth.model_copy(update={"session_id":uuid4()}),ack(auth_item))
 
 @pytest.mark.parametrize("days",[8,-1])
 def test_client_time_range_rolls_back(store,days):
@@ -160,10 +161,10 @@ def test_same_instant_timezone_is_same_idempotent_message(store):
     first=service.acknowledge(a,request)
     assert service.acknowledge(a,request.model_copy(update={"client_time":stamp.astimezone(timezone(timedelta(hours=3)))}))["id"]==first["id"]
 
-@pytest.mark.parametrize("access,expected",[("Открытый",True),("По подписке",False)])
-def test_free_open_uses_access_not_zero_price(store,access,expected):
+@pytest.mark.parametrize("access,price,expected",[("Открытый",0,True),("Открытый",None,False),("Открытый",50,False),("По подписке",0,False)])
+def test_free_open_requires_confirmed_zero_price(store,access,price,expected):
     service,sessions,_=store
-    a,_,_,_,_,item,_=issue(service,access=access)
+    a,_,_,_,_,item,_=issue(service,access=access,price=price)
     service.acknowledge(a,ack(item))
     output=service.action(a,action(item,kind="material_open"))
     with sessions() as db:

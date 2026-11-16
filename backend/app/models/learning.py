@@ -26,6 +26,8 @@ class RewardRevision(Base):
     old_reward: Mapped[float | None] = mapped_column(Float)
     new_reward: Mapped[float] = mapped_column(Float)
     recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    projection_version: Mapped[str] = mapped_column(String(40), default='verified-free-v2', server_default='legacy-v1')
+    reason: Mapped[str | None] = mapped_column(String(80), nullable=True)
     __table_args__ = (CheckConstraint('revision >= 1'), CheckConstraint('new_reward >= 0 AND new_reward <= 1'), CheckConstraint('old_reward IS NULL OR (old_reward >= 0 AND old_reward <= 1)'))
 
 class SlateRandomSeed(Base):

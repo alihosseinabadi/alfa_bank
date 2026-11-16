@@ -12,7 +12,7 @@ export class RecommendationApiError extends Error {
 
 /** Validate untrusted JSON and copy only the documented public fields. */
 export function parseRecommendationResponse(value: unknown): RecommendationApiResponse {
-  if (!isRecord(value) || typeof value.decision_id !== 'string' || !uuid.test(value.decision_id) ||
+  if (!isRecord(value) || !(value.learning_mode === 'standard' || value.learning_mode === 'test_fast') || typeof value.decision_id !== 'string' || !uuid.test(value.decision_id) ||
       typeof value.status !== 'string' || !['matched', 'starter', 'needs_clarification', 'no_eligible'].includes(value.status) ||
       !Array.isArray(value.items) || value.items.length > 6 || !(value.message === null || (typeof value.message === 'string' && value.message.trim().length > 0))) return fail()
   const status = value.status as RecommendationApiResponse['status']
@@ -35,7 +35,7 @@ export function parseRecommendationResponse(value: unknown): RecommendationApiRe
       requires_access_check: card.requires_access_check, listed_price: card.listed_price,
       duration_minutes: card.duration_minutes, reason: card.reason }
   })
-  return { status, decision_id: value.decision_id, items, message: value.message as string | null }
+  return { learning_mode: value.learning_mode, status, decision_id: value.decision_id, items, message: value.message as string | null }
 }
 
 async function jsonOrThrow(response: Response): Promise<unknown> {
@@ -45,7 +45,7 @@ async function jsonOrThrow(response: Response): Promise<unknown> {
 
 let sessionInFlight: Promise<string> | null = null
 
-function getCsrfToken(): Promise<string> {
+export function getCsrfToken(): Promise<string> {
   // Parallel calls in this tab must not race to create distinct cookies.
   if (!sessionInFlight) {
     sessionInFlight = (async () => {
