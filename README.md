@@ -1,5 +1,7 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
+> **Для проверки MVP:** актуальная [инструкция запуска и демонстрации](docs/integration-stage8.md), [отчёт проверок](docs/integration-stage7.md). Остальной README ниже содержит исторические планы и не является инструкцией запуска.
+
 > Интеграционная ветка: подготовка каталога и API описаны в [этапе 4](docs/integration-stage4.md), события и worker — в [этапе 5](docs/integration-stage5.md). Frontend поддерживает API и отдельный деморежим; подтверждение внешнего открытия и реальных покупок ещё не интегрировано. Ниже сохранена историческая документация отдельных компонентов.
 > Публичный контракт этапа 3: [docs/recommendation-api-v1.md](docs/recommendation-api-v1.md).
 
