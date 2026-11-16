@@ -42,6 +42,7 @@ export async function getRecommendations(
   }
   const query = goal.toLocaleLowerCase('ru')
   const key = /клиент|продаж|покупател/.test(query) ? 'clients'
+    : /ндс|налог|регистрац|зарегистр|(^|\s)ип(\s|$|[,.?!])/.test(query) ? 'taxes'
     : /финанс|деньг|расход|бюджет/.test(query) ? 'finance'
     : /сотрудник|наня|команд|персонал/.test(query) ? 'hiring' : ''
   return { source: 'demo', materials: demoMaterials[key] ?? [] }

@@ -1,13 +1,23 @@
 import { Link } from 'react-router-dom'
 
+// Static, labelled historical evaluation. No live analytics are wired; these
+// numbers come from docs/quality_stage56.md and must not be presented as CTR,
+// conversion or a LinUCB-vs-baseline simulation.
+const rows = [
+  { method: 'TF-IDF', ndcg: '0.8321' },
+  { method: 'TF-IDF + prior', ndcg: '0.8326' },
+  { method: 'BM25', ndcg: '0.8564' },
+  { method: 'BM25 + prior', ndcg: '0.8567' },
+]
+
 export default function Analytics() {
   return (
     <div className="analytics-page">
       <section className="analytics-intro">
         <div>
-          <span className="eyebrow dark-eyebrow">РЕЗУЛЬТАТЫ</span>
-          <h1>Оценка рекомендаций</h1>
-          <p>Посмотрим, как работают разные подходы к подбору материалов.</p>
+          <span className="eyebrow dark-eyebrow">ОЦЕНКА ПОИСКА</span>
+          <h1>Историческая оценка рекомендаций</h1>
+          <p>Статический срез синтетической оценки, не live-аналитика приложения.</p>
         </div>
 
         <span className="analytics-symbol" aria-hidden="true">▥</span>
@@ -17,37 +27,46 @@ export default function Analytics() {
         <section className="panel analytics-card">
           <div className="panel-heading">
             <div>
-              <span className="card-kicker">АКТИВНОСТЬ</span>
-              <h2>События в приложении</h2>
+              <span className="card-kicker">СИНТЕТИЧЕСКАЯ ОЦЕНКА</span>
+              <h2>NDCG@10 по методам</h2>
             </div>
-            <span className="small-icon" aria-hidden="true">↗</span>
+            <span className="small-icon" aria-hidden="true">▥</span>
           </div>
 
           <div className="metric-list">
-            <div><span>CTR</span><strong>—</strong></div>
-            <div><span>Просмотры материалов</span><strong>—</strong></div>
-            <div><span>Конверсия в покупку</span><strong>—</strong></div>
+            {rows.map((row) => (
+              <div key={row.method}>
+                <span>{row.method}</span>
+                <strong>{row.ndcg}</strong>
+              </div>
+            ))}
           </div>
 
-          <p className="muted-note">Данные пока недоступны.</p>
+          <p className="muted-note">
+            21 задача, один агентный разметчик, приватные метки недоступны. Это
+            историческая оценка retrieval, а не CTR, конверсия или продажи.
+          </p>
         </section>
 
         <section className="panel analytics-card">
           <div className="panel-heading">
             <div>
-              <span className="card-kicker">СИМУЛЯЦИЯ</span>
-              <h2>Сравнение алгоритмов</h2>
+              <span className="card-kicker">ЧЕГО ЗДЕСЬ НЕТ</span>
+              <h2>Live-метрики</h2>
             </div>
             <span className="small-icon yellow-icon" aria-hidden="true">▥</span>
           </div>
 
           <div className="metric-list">
-            <div><span>LinUCB</span><strong>—</strong></div>
-            <div><span>Random</span><strong>—</strong></div>
-            <div><span>Popular</span><strong>—</strong></div>
+            <div><span>CTR</span><strong>не измерялся</strong></div>
+            <div><span>Просмотры материалов</span><strong>не измерялись</strong></div>
+            <div><span>Конверсия в покупку</span><strong>не измерялась</strong></div>
           </div>
 
-          <p className="muted-note">Результаты симуляции пока недоступны.</p>
+          <p className="muted-note">
+            События показов и кликов реализованы, но живого трафика и оплат в
+            демо нет. LinUCB-против-случайного на реальных данных не проверялся.
+          </p>
         </section>
       </div>
 

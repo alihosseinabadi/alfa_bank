@@ -8,7 +8,7 @@ const supportedGoals = ['Найти клиентов', 'Разобраться �
 export async function registerUser(email: string, profile: Profile | null): Promise<RegisteredUser> {
   // В backend текущая цель обязательна в БД, хотя в схеме запроса она nullable.
   if (!profile?.goal || !supportedGoals.includes(profile.goal)) {
-    throw new Error('Для регистрации пока нужна одна из трёх готовых задач в анкете. Собственный текст можно использовать в деморежиме.')
+    throw new Error('Для регистрации пока нужна одна из трёх готовых задач в анкете.')
   }
   const response = await fetch(`${baseUrl}/api/v1/users/`, {
     method: 'POST',
