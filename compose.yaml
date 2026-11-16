@@ -1,45 +1,106 @@
-# Alfa-Kurs local development stack.
+# Alfa-Kurs local demo stack.
 #
-# Phase 1 ships the database only. The api and frontend services are added in
-# their phases (see PROJECT_ROADMAP.md) so this file never claims to run
-# something that does not exist yet.
+# One command for judges:
+#   cp .env.example .env
+#   docker compose up --build
+#
+# The UI is served at http://localhost:5173 and uses the explicitly labelled
+# synthetic demo catalogue. The real ML path (BM25 + prior + LinUCB + events)
+# needs the private organizer catalogue and index; see README "Optional: real
+# private catalogue". Nothing private is baked into these images.
+
+name: alfakurs
 
 services:
   db:
     image: postgres:16-alpine
-    container_name: alfakurs-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-alfakurs}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
       POSTGRES_DB: ${POSTGRES_DB:-alfakurs}
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - alfakurs_pgdata:/var/lib/postgresql/data
+      - ./scripts/sql/init_events.sql:/docker-entrypoint-initdb.d/10-init-events.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-alfakurs} -d ${POSTGRES_DB:-alfakurs}"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
+
+  migrate:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: alfakurs-api:local
+    restart: "no"
+    command:
+      - sh
+      - -c
+      - python -m alembic -c backend/product-alembic.ini upgrade head && python scripts/migrate_events.py
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfakurs}:${POSTGRES_PASSWORD:-change_me}@db:5432/${POSTGRES_DB:-alfakurs}
+      ALFA_EVENTS_DATABASE_URL: postgresql+psycopg://${ALFA_EVENTS_USER:-alfa_events}:${ALFA_EVENTS_PASSWORD:-local_events_only}@db:5432/${ALFA_EVENTS_DB:-alfa_events}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: alfakurs-api:local
+    restart: unless-stopped
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfakurs}:${POSTGRES_PASSWORD:-change_me}@db:5432/${POSTGRES_DB:-alfakurs}
+      ALFA_EVENTS_DATABASE_URL: postgresql+psycopg://${ALFA_EVENTS_USER:-alfa_events}:${ALFA_EVENTS_PASSWORD:-local_events_only}@db:5432/${ALFA_EVENTS_DB:-alfa_events}
+      # Dev-only default. Override in .env with a real random secret.
+      ALFA_SESSION_SECRET: ${ALFA_SESSION_SECRET:-dev-only-insecure-session-secret-change-me-0001}
+      ALFA_SESSION_COOKIE_SECURE: ${ALFA_SESSION_COOKIE_SECURE:-false}
+      ALFA_RECOMMENDATIONS_ENABLED: ${ALFA_RECOMMENDATIONS_ENABLED:-false}
+      ALFA_DEMO_FAST_LEARNING: ${ALFA_DEMO_FAST_LEARNING:-false}
+      ALFA_CATALOG_DIR: ${ALFA_CATALOG_DIR:-data/processed/catalog}
+      ALFA_RETRIEVAL_INDEX_DIR: ${ALFA_RETRIEVAL_INDEX_DIR:-artifacts/retrieval}
+      API_CORS_ORIGINS: ${API_CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)\""]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    ports:
+      - "${API_PORT:-8000}:8000"
+
+  worker:
+    image: alfakurs-api:local
+    restart: unless-stopped
+    command: ["python", "scripts/reward_worker.py", "--interval", "30"]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfakurs}:${POSTGRES_PASSWORD:-change_me}@db:5432/${POSTGRES_DB:-alfakurs}
+      ALFA_EVENTS_DATABASE_URL: postgresql+psycopg://${ALFA_EVENTS_USER:-alfa_events}:${ALFA_EVENTS_PASSWORD:-local_events_only}@db:5432/${ALFA_EVENTS_DB:-alfa_events}
+      ALFA_DEMO_FAST_LEARNING: ${ALFA_DEMO_FAST_LEARNING:-false}
+      ALFA_SESSION_SECRET: ${ALFA_SESSION_SECRET:-dev-only-insecure-session-secret-change-me-0001}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_RECOMMENDATIONS_SOURCE: ${VITE_RECOMMENDATIONS_SOURCE:-demo}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    depends_on:
+      api:
+        condition: service_healthy
 
 volumes:
   alfakurs_pgdata:
-
-# --- Planned (enable when the phase lands) ----------------------------------
-#
-#  api:
-#    build: ./backend
-#    env_file: .env
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    ports:
-#      - "${API_PORT:-8000}:8000"
-#
-#  frontend:
-#    build: ./frontend
-#    depends_on:
-#      - api
-#    ports:
-#      - "5173:5173"
+    name: alfakurs_pgdata
