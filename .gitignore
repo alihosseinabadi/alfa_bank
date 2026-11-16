@@ -50,10 +50,6 @@ Thumbs.db
 
 # Additional local environments and model weights
 pyvenv.cfg
-Include/
-Lib/
-Scripts/
-share/
 *.safetensors
 *.onnx
 *.pt
