@@ -9,7 +9,7 @@ Run on 2026-11-16 (Moscow time) in `C:\Users\ASUS\Downloads\alfa_bank-integratio
 | OS | Windows 11, timezone UTC+03:00 |
 | Python | 3.12.10 (system), pip 25.0.1 |
 | Node | v26.7.0, npm 11.x (invoked as `npm.cmd` because of the PowerShell execution policy) |
-| Docker | **not installed** (`docker` is not recognised; no Docker Desktop directory) |
+| Docker | **no Docker on Windows**; Docker Engine 29.1.3 + Compose 2.40.3 installed inside the existing WSL2 Ubuntu 26.04 distro (`docker` is still not on the Windows PATH) |
 | LibreOffice | 26.8.3 (installed during this run, used only to export the deck to PDF) |
 | Private organizer data | absent (`data/raw`, `data/processed`, `artifacts/` do not exist) |
 
@@ -154,7 +154,7 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
   compose-spec JSON schema (fetched from the compose-spec repository), and
   declares services `db, migrate, api, worker, frontend` and volume
   `alfakurs_pgdata`.
-- Images were **not built** and the stack was **not started** (no Docker).
+- Images were built and the stack was started (see below).
 - `backend/requirements.lock.txt` (66 pinned lines) is installed by
   `backend/Dockerfile`; the lock was produced by `pip freeze` in a clean
   Python 3.12 virtual environment with `backend/requirements.txt` +
@@ -163,9 +163,55 @@ directory was untracked. The pattern was removed in commit `6d0899c`.
   exit 0) and the app imported there: `fastapi 0.163.1, numpy 2.5.5,
   scikit-learn 1.9.1`, `app.main` imports.
 
-### Local PostgreSQL stack (the same commands the containers run)
+### Docker stack executed
 
-Docker is still unavailable, so the commands from `compose.yaml` were executed
+Docker Desktop is not installed on this machine and `docker` is not on the
+Windows PATH, but the WSL2 Ubuntu 26.04 distro was available. Docker Engine
+29.1.3 and Compose 2.40.3 were installed inside it, and the judge command was
+run unchanged from the repository directory (`/mnt/c/...`):
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+Real result (first build, no cache):
+
+```text
+#13 naming to docker.io/library/alfakurs-api:local  ... DONE
+frontend-1  | nginx/1.27 … start worker processes
+```
+
+```text
+docker compose ps -a
+api       running  0  healthy
+db        running  0  healthy
+frontend  running  0
+migrate   exited   0
+worker    running  0
+
+docker compose exec db psql -U alfakurs -d alfa_events -c '\dt'
+→ 12 tables (event_actors … unattributed_clicks), owner alfa_events
+docker compose exec db psql -U alfakurs -d alfakurs -c '\dt'
+→ 6 tables (users, courses, interactions, recommendation_impressions,
+            bandit_state, alembic_version)
+docker compose logs worker --tail 20
+→ "Standard delayed reward policy"
+
+curl http://localhost:8000/health   → {"status":"ok"}   HTTP 200
+curl http://localhost:5173/health   → {"status":"ok"}   HTTP 200  (nginx → api)
+curl http://localhost:5173/         → HTTP 200
+GET  /feed, /analytics              → HTTP 200  (SPA fallback)
+POST http://localhost:5173/api/v1/users/ → HTTP 201 (nginx /api proxy)
+```
+
+The three-step demo flow was then driven through the **nginx-served** build with
+headless Chrome: «…НДС?» → 3 cards, «…первых клиентов?» → 2 cards, «Как починить
+карбюратор» → empty state, demo banner present, **no console errors**.
+
+### Local PostgreSQL stack (a second, Docker-free run of the same commands)
+
+Before Docker was available, the commands from `compose.yaml` were also executed
 natively against **PostgreSQL 16.9** (EDB Windows binaries, `initdb`, listening
 on `127.0.0.1:55432`, role `alfa_events` / password `local_events_only`,
 databases `alfakurs`, `alfa_events`, `alfa_events_test`, `alfa_product_test`).
@@ -221,17 +267,17 @@ python -m pytest backend/tests -q
 | Frontend tests | **19/21 pass**; 2 fail in a test-side `globalThis.crypto` assignment (same on Node 20 and Node 26) |
 | Deck regenerated to pptx | **verified** |
 | Deck exported to PDF | **verified** — 12 pages, slide 1 inspected |
-| `docker compose up --build` | **unverified** — Docker not installed |
+| `docker compose up --build` | **verified** — images built, `migrate` exit 0, `db`/`api` healthy |
 | `compose.yaml` against the compose-spec JSON schema | **verified** |
 | Committed tree completeness (fresh `git archive` + app import) | **verified** — 318 files, app imports |
 | Demo UI flow: НДС → 3 cards, clients → 2 cards, off-topic → empty state, demo banner shown | **verified** on the local Vite dev server with headless Chrome |
 | `start-demo.cmd` (Docker-free launcher) | **verified** — installs deps, serves on 127.0.0.1:5173, HTTP 200 |
-| Same UI flow through nginx in the Docker image | **unverified** |
+| Same UI flow through nginx in the Docker image | **verified** — same cards, no console errors |
 | `/health` against real PostgreSQL 16.9 | **verified** — HTTP 200 `{"status":"ok"}` |
 | Product + events migrations on real PostgreSQL 16.9 | **verified** — 6 product tables, 12 events tables |
 | Registration endpoint against real PostgreSQL | **verified** — HTTP 201, row in `users` |
 | Reward worker against the real events DB | **verified** — `--once`, exit 0 |
-| The same steps inside the Docker images / fresh volume | **unverified** |
+| The same steps inside the Docker images / fresh volume | **verified** — containerised `\dt`, worker log, nginx `/api` → 201 |
 | Real BM25/prior/LinUCB path on the organizer catalogue | **unverified** — private catalogue and index absent |
 | CTR, conversion, sales, business effect | **not measured** — no live traffic, no payments |
 
@@ -265,9 +311,11 @@ the real API path only.
 
 ## 4. Known gaps left in this submission
 
-1. **Docker stack is authored, not executed.** Configuration was reviewed by
-   reading it, not by running it. First real risk points: image build of the
-   lock file, `migrate` ordering, and the nginx `/api` proxy.
+1. **Docker was run in WSL2, not through Docker Desktop.** The stack itself
+   (images, migrations, health, proxy, worker) is verified, but the exact
+   one-command path on a plain Windows machine with Docker Desktop is still not
+   exercised here: on this box `docker` exists only inside the Ubuntu distro.
+   A Docker Desktop install needs admin rights and a reboot.
 2. **Events database credentials are duplicated** in
    `scripts/sql/init_events.sql` (role `alfa_events`, password
    `local_events_only`). Changing `ALFA_EVENTS_*` in `.env` requires editing the

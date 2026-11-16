@@ -95,10 +95,11 @@ Open **http://localhost:5173**. The API health endpoint is
 
 If port 5173 or 8000 is busy, set `FRONTEND_PORT` / `API_PORT` in `.env`.
 
-> **Status of this snapshot.** The compose stack has not been executed on the
-> author's machine (Docker was unavailable there). Its migration, `/health`,
-> registration and worker commands were executed against a real PostgreSQL 16.9
-> instead; exact results and the list of unverified items are in
+> **Status of this snapshot.** These two commands were executed successfully on
+> 2026-11-16: both images built, `migrate` exited 0, `db` and `api` reported
+> healthy, `worker` and `frontend` stayed up, the UI answered on
+> `http://localhost:5173`, `/health` answered `{"status":"ok"}` and the nginx
+> `/api` proxy created a user (`HTTP 201`). Exact output:
 > [`docs/submission-report.md`](docs/submission-report.md).
 
 ### Option B — UI demo without Docker (no database)
