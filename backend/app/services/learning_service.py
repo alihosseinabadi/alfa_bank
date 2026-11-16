@@ -78,6 +78,8 @@ class LearningService:
                     raise ValueError('incompatible observation provenance')
                 revisions = db.scalars(select(RewardRevision).where(RewardRevision.observation_id == obs.id).order_by(RewardRevision.revision)).all()
                 if not revisions or len(revisions) != obs.revision: raise ValueError('incomplete ledger')
+                if revisions[-1].projection_version != 'verified-free-v2':
+                    raise ValueError('legacy reward projection requires revalidation')
                 prev = None
                 for n, rev in enumerate(revisions, 1):
                     if rev.revision != n or rev.old_reward != prev: raise ValueError('broken revision chain')
@@ -85,7 +87,7 @@ class LearningService:
                     else: model.revise(obs.features, prev, rev.new_reward)
                     prev = rev.new_reward
                 if prev != obs.reward: raise ValueError('ledger projection mismatch')
-                prefix.append([str(obs.impression_id), obs.features, [[r.revision, r.old_reward, r.new_reward] for r in revisions]])
+                prefix.append([str(obs.impression_id), obs.features, [[r.revision, r.old_reward, r.new_reward, r.projection_version, r.reason] for r in revisions]])
         model.state_id = hashlib.sha256(json.dumps([self.identity, prefix], sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()
         model.matrix_digest = model.state_digest()
         return model

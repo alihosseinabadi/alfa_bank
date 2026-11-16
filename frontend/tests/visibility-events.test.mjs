@@ -60,3 +60,73 @@ test('event retries reuse one idempotency key and do not fake opening', async ()
     assert.ok(seen.every((entry) => entry.url.endsWith('/visibility')))
   } finally { globalThis.fetch = original }
 })
+
+test('early click is recorded without inventing an impression', async () => {
+  const original = globalThis.fetch, seen = []
+  try {
+    globalThis.fetch = async (url, options) => {
+      if (url.endsWith('/session')) return new Response(JSON.stringify({ csrf_token: 'a'.repeat(64) }), { status: 200 })
+      seen.push({ url, body: JSON.parse(options.body) })
+      return new Response(JSON.stringify({ id: '123', impression_id: null, replayed: false }), { status: 200 })
+    }
+    await eventApi.recordClick({ itemId: 'item', materialKey: 'material' }, null, 'early-key')
+    assert.equal(seen.length, 1)
+    assert.ok(seen[0].url.endsWith('/unattributed-click'))
+    assert.equal('impression_id' in seen[0].body, false)
+    assert.equal(seen[0].body.event_key, 'early-key')
+  } finally { globalThis.fetch = original }
+})
+
+test('uncertain action is queued and retried unchanged without changing its type', async () => {
+  const originalFetch = globalThis.fetch
+  const originalStorage = globalThis.sessionStorage
+  const values = new Map(), sent = []
+  globalThis.sessionStorage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value), removeItem: key => values.delete(key) }
+  let offline = true
+  try {
+    globalThis.fetch = async (url, options) => {
+      if (url.endsWith('/session')) return new Response(JSON.stringify({ csrf_token: 'a'.repeat(64) }), { status: 200 })
+      sent.push({ url, body: options.body })
+      return offline ? new Response(null, { status: 503 }) : new Response(JSON.stringify({ id: '123', impression_id: 'imp', replayed: true }), { status: 200 })
+    }
+    await assert.rejects(eventApi.recordClick({ itemId: 'item', materialKey: 'material' }, Promise.resolve('imp'), 'stable-action'))
+    assert.equal(sent.length, 3)
+    assert.ok(sent.every(x => x.url.endsWith('/action') && x.body === sent[0].body))
+    assert.equal(JSON.parse(values.get('alfa-event-outbox-v1')).length, 1)
+    offline = false
+    await eventApi.flushEventOutbox()
+    assert.equal(values.has('alfa-event-outbox-v1'), false)
+    assert.equal(sent[3].body, sent[0].body)
+    assert.ok(sent[3].url.endsWith('/action'))
+  } finally {
+    globalThis.fetch = originalFetch
+    if (originalStorage === undefined) delete globalThis.sessionStorage
+    else globalThis.sessionStorage = originalStorage
+  }
+})
+
+
+test('event enters the outbox before a pending network call', async () => {
+  const originalFetch = globalThis.fetch, originalStorage = globalThis.sessionStorage
+  const values = new Map()
+  globalThis.sessionStorage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value), removeItem: key => values.delete(key) }
+  let release
+  const gate = new Promise(resolve => { release = resolve })
+  try {
+    globalThis.fetch = async (url) => {
+      if (url.endsWith('/session')) { await gate; return new Response(JSON.stringify({ csrf_token: 'a'.repeat(64) }), { status: 200 }) }
+      return new Response(JSON.stringify({ id: '123', impression_id: null, replayed: false }), { status: 200 })
+    }
+    const pending = eventApi.recordClick({ itemId: 'item', materialKey: 'material' }, null, 'write-ahead')
+    const queued = JSON.parse(values.get('alfa-event-outbox-v1'))
+    assert.equal(queued[0].key, 'write-ahead')
+    assert.ok(queued[0].path === 'unattributed-click')
+    release()
+    await pending
+    assert.equal(values.has('alfa-event-outbox-v1'), false)
+  } finally {
+    globalThis.fetch = originalFetch
+    if (originalStorage === undefined) delete globalThis.sessionStorage
+    else globalThis.sessionStorage = originalStorage
+  }
+})

@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.api.recommendations import NO_STORE, trusted_actor
-from app.schemas.events import ClientAction, TrustedActor, VisibilityAck
+from app.schemas.events import ClientAction, TrustedActor, UnattributedClickRequest, VisibilityAck
 from app.services.event_service import EventConflict, EventService, InvalidEventTime, ItemNotFound, VisibilityRequired
 
 router = APIRouter(tags=['events'])
@@ -45,6 +45,13 @@ def confirm_visibility(payload: VisibilityAck, response: Response,
                        actor: TrustedActor = Depends(trusted_actor), service: EventService = Depends(event_service)):
     response.headers['Cache-Control'] = 'no-store'
     return handle_event(service, 'acknowledge', actor, payload)
+
+
+@router.post('/events/unattributed-click', response_model=EventResponse)
+def record_unattributed_click(payload: UnattributedClickRequest, response: Response,
+                              actor: TrustedActor = Depends(trusted_actor), service: EventService = Depends(event_service)):
+    response.headers['Cache-Control'] = 'no-store'
+    return handle_event(service, 'unattributed_click', actor, payload)
 
 
 @router.post('/events/action', response_model=EventResponse)

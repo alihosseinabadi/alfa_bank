@@ -42,3 +42,9 @@ class PaymentNotice(EventDTO):
     amount: Decimal=Field(gt=0,max_digits=12,decimal_places=2)
     currency: str=Field(pattern=r"^[A-Z]{3}$")
     occurred_at: AwareDatetime|None=None
+
+class UnattributedClickRequest(EventDTO):
+    event_key: UUID
+    item_id: UUID
+    material_key: str = Field(min_length=1, max_length=160)
+    client_time: AwareDatetime | None = None

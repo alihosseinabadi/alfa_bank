@@ -1,6 +1,6 @@
 # Alfa-Kurs — Adaptive Learning Recommendation Engine
 
-> Интеграционная ветка: подготовка каталога и запуск API описаны в [docs/integration-stage4.md](docs/integration-stage4.md). API рекомендаций подключён к локальному ML; frontend остаётся в деморежиме, показ и действия через HTTP ещё не подключены. Ниже сохранена историческая документация отдельных компонентов.
+> Интеграционная ветка: подготовка каталога и API описаны в [этапе 4](docs/integration-stage4.md), события и worker — в [этапе 5](docs/integration-stage5.md). Frontend поддерживает API и отдельный деморежим; подтверждение внешнего открытия и реальных покупок ещё не интегрировано. Ниже сохранена историческая документация отдельных компонентов.
 > Публичный контракт этапа 3: [docs/recommendation-api-v1.md](docs/recommendation-api-v1.md).
 
 Stage 7: [durable decisions, reported visibility and events](docs/events_stage7.md) are implemented as PostgreSQL services/CLI. Real HTTP/auth/frontend/payment integration and reward learning remain planned.

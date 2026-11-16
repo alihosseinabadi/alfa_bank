@@ -4,7 +4,7 @@ from decimal import Decimal
 from uuid import UUID
 from sqlalchemy import select,func
 from sqlalchemy.dialects.postgresql import insert
-from app.models.events import Actor,Decision,DecisionItem,Impression,Interaction,MessageReceipt
+from app.models.events import Actor,Decision,DecisionItem,Impression,Interaction,MessageReceipt,UnattributedClick
 from app.ml.feature_registry import REGISTRY_HASH,validate_features
 from app.ml.profile_policy import fingerprint
 from urllib.parse import urlsplit
@@ -55,6 +55,9 @@ class EventService:
         return found
 
     def _replay(self,db,actor,event_key,kind,payload_hash):
+        prior = db.scalar(select(UnattributedClick).where(UnattributedClick.actor_id == actor.actor_id,
+                                                           UnattributedClick.event_key == event_key))
+        if prior is not None: raise EventConflict("Event key reused for a different event type")
         row=db.scalar(select(MessageReceipt).where(MessageReceipt.actor_id==actor.actor_id,
                                                    MessageReceipt.event_key==event_key))
         if row is None:return None
@@ -222,6 +225,27 @@ class EventService:
             rows=db.scalars(select(DecisionItem).where(DecisionItem.decision_id==decision.id).order_by(DecisionItem.position)).all()
             return {"decision_id":str(decision.id),"replayed":replayed,"items":[
                 {"item_id":str(i.id),"material_key":i.material_key,"position":i.position} for i in rows]}
+
+    def unattributed_click(self, actor, request):
+        """Persist an early click without inventing an impression or reward."""
+        identity = fingerprint(canonical(request.model_dump()))
+        with self.sessions.begin() as db:
+            self._lock_actor(db, actor)
+            item, decision = self._owned(db, actor, request.item_id, request.material_key)
+            if db.scalar(select(MessageReceipt).where(MessageReceipt.actor_id == actor.actor_id,
+                                                       MessageReceipt.event_key == request.event_key)) is not None:
+                raise EventConflict("Event key reused for a different event type")
+            prior = db.scalar(select(UnattributedClick).where(UnattributedClick.actor_id == actor.actor_id,
+                                                              UnattributedClick.event_key == request.event_key))
+            if prior is not None:
+                if prior.payload_hash != identity: raise EventConflict("Event key reused with different contents")
+                return {"id": str(prior.id), "replayed": True}
+            self._time(request.client_time)
+            row = UnattributedClick(actor_id=actor.actor_id, session_id=actor.session_id,
+                item_id=item.id, event_key=request.event_key, payload_hash=identity,
+                simulated=decision.simulated, client_time=request.client_time)
+            db.add(row); db.flush()
+            return {"id": str(row.id), "replayed": False}
 
     def acknowledge(self,actor:TrustedActor,request:VisibilityAck):
         identity=fingerprint(canonical(request.model_dump()))

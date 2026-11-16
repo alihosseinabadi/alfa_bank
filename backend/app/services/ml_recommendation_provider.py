@@ -85,7 +85,7 @@ class MLRecommendationProvider:
         try:
             with engine.connect() as connection:
                 revision = connection.execute(text('SELECT version_num FROM alembic_version')).scalar_one()
-                if revision != '0006_reward_projection':
+                if revision != '0007_unattributed_clicks':
                     raise ValueError('Events database migrations are incompatible')
             return cls(search, manifest, materials, engine, settings.session_secret, demo=settings.demo_fast_learning)
         except Exception:
@@ -97,6 +97,11 @@ class MLRecommendationProvider:
 
     def _request_hash(self, request):
         data = request.model_dump(mode='json', exclude={'request_key'})
+        # A key issued in normal mode must not replay silently as a simulation,
+        # or vice versa, even when the same test DB and actor are reused.
+        # Keep the existing standard-mode hash unchanged for compatibility.
+        if self.demo:
+            data['learning_mode'] = 'test_fast'
         canonical = json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False)
         return hmac.new(self.secret.encode('utf-8'), canonical.encode('utf-8'), hashlib.sha256).hexdigest()
 

@@ -93,3 +93,18 @@ class MessageReceipt(Base):
     ingested_at:Mapped[datetime]=mapped_column(DateTime(timezone=True),server_default=func.now())
     __table_args__=(UniqueConstraint("actor_id","event_key"),
         CheckConstraint("(message_type='visibility' AND impression_id IS NOT NULL AND interaction_id IS NULL) OR (message_type IN ('click','material_open','purchase_intent','purchase_confirmed') AND impression_id IS NULL AND interaction_id IS NOT NULL)"),)
+
+
+class UnattributedClick(Base):
+    """A client click before a qualifying impression; never used for reward."""
+    __tablename__ = 'unattributed_clicks'
+    id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True, default=uuid4)
+    actor_id: Mapped[UUID] = mapped_column(ForeignKey('event_actors.id'), index=True)
+    session_id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True))
+    item_id: Mapped[UUID] = mapped_column(ForeignKey('recommendation_items.id'))
+    event_key: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True))
+    payload_hash: Mapped[str] = mapped_column(String(64))
+    simulated: Mapped[bool] = mapped_column(Boolean)
+    client_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    ingested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    __table_args__ = (UniqueConstraint('actor_id', 'event_key'),)

@@ -1,28 +1,29 @@
 import { useEffect, useRef } from 'react'
 import type { Material } from '../types/recommendations'
 import { safeMaterialUrl } from '../utils/materialUrl'
-import { confirmVisibility, recordAction } from '../services/eventApi'
+import { confirmVisibility, recordClick } from '../services/eventApi'
 import { createVisibilityTracker } from '../services/visibilityTracker'
 export { safeMaterialUrl } from '../utils/materialUrl'
 
 export default function CourseCard({ title, description, reason, href, type, price, duration, access, linkNote, eventRef }: Material) {
   const safeHref = safeMaterialUrl(href)
   const element = useRef<HTMLElement>(null)
-  const pendingImpression = useRef<Promise<string> | null>(null)
+  const confirmedImpression = useRef<string | null>(null)
   const itemId = eventRef?.itemId
   const materialKey = eventRef?.materialKey
 
   useEffect(() => {
-    pendingImpression.current = null
+    confirmedImpression.current = null
+    let active = true
     if (!itemId || !materialKey || !element.current || typeof IntersectionObserver === 'undefined') return
     const ref = { itemId, materialKey }
     let ratio = 0
     const tracker = createVisibilityTracker((visibleMs, visibleFraction) => {
       const key = crypto.randomUUID()
-      const pending = confirmVisibility(ref, key, visibleMs, visibleFraction).then((receipt) => receipt.id)
-      pendingImpression.current = pending
-      // The card remains usable if telemetry is unavailable.
-      void pending.catch(() => {})
+      // Only a received acknowledgement proves which impression may be linked.
+      void confirmVisibility(ref, key, visibleMs, visibleFraction).then((receipt) => {
+        if (active) confirmedImpression.current = receipt.id
+      }).catch(() => {})
     })
     const update = () => tracker.update(ratio, document.visibilityState === 'visible')
     const observer = new IntersectionObserver((entries) => {
@@ -31,15 +32,15 @@ export default function CourseCard({ title, description, reason, href, type, pri
     }, { threshold: [0, 0.5, 1] })
     observer.observe(element.current)
     document.addEventListener('visibilitychange', update)
-    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); tracker.dispose() }
+    return () => { active = false; observer.disconnect(); document.removeEventListener('visibilitychange', update); tracker.dispose() }
   }, [itemId, materialKey])
 
   function onOpen() {
-    const impression = pendingImpression.current
-    if (!itemId || !materialKey || !impression) return
+    const impression = confirmedImpression.current ? Promise.resolve(confirmedImpression.current) : null
+    if (!itemId || !materialKey) return
     const ref = { itemId, materialKey }
     const clickKey = crypto.randomUUID()
-    void impression.then((id) => recordAction(ref, id, 'click', clickKey)).catch(() => {})
+    void recordClick(ref, impression, clickKey).catch(() => {})
   }
 
   return (
