@@ -136,7 +136,7 @@ export default function Onboarding() {
               Пропустить анкету
             </button>
           </div>
-          <p className="goal-help">Анкета хранится только до обновления страницы.</p>
+          <p className="goal-help">Анкета хранится в текущей вкладке до её закрытия, если браузер разрешает хранение.</p>
         </form>
       </section>
       <aside className="profile-card panel">
@@ -148,7 +148,7 @@ export default function Onboarding() {
         <p>Выберите тему, которая сейчас важна для вашего бизнеса.</p>
         <ol className="journey-list" aria-label="Как это работает">
           <li><span>01</span><div><strong>Расскажите о задаче</strong><small>Выберите вариант или напишите свой</small></div></li>
-          <li><span>02</span><div><strong>Посмотрите материалы</strong><small>Пока доступны примеры</small></div></li>
+          <li><span>02</span><div><strong>Посмотрите материалы</strong><small>{recommendationMode === 'demo' ? 'Показаны примеры' : 'Подборка по вашей задаче'}</small></div></li>
         </ol>
       </aside>
     </div>

@@ -1,4 +1,5 @@
 import { after, before, test } from 'node:test'
+import { readFile } from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import { createServer } from 'vite'
 
@@ -31,7 +32,7 @@ test('демо возвращает примеры для задачи и пус
 })
 
 test('ошибка API и неизвестная настройка не подменяются демоданными', async () => {
-  assert.equal(recommendations.resolveRecommendationMode(undefined), 'demo')
+  assert.equal(recommendations.resolveRecommendationMode(undefined), 'api')
   assert.equal(recommendations.resolveRecommendationMode('api'), 'api')
   assert.equal(recommendations.resolveRecommendationMode('apі'), 'invalid')
   await assert.rejects(recommendations.getRecommendations({ goal: 'Найти клиентов' }, 'invalid'), recommendations.RecommendationConfigurationError)
@@ -144,4 +145,18 @@ test('регистрация сообщает о конфликте и откл�
     globalThis.fetch = async () => new Response('not json', { status: 201 })
     await assert.rejects(registerUser('owner@example.org', profile), /неожиданный ответ/)
   } finally { globalThis.fetch = originalFetch }
+})
+
+
+test('цена не называется бесплатной, когда доступ требует проверки', async () => {
+  const original = globalThis.fetch
+  const fixture = JSON.parse(await readFile(new URL('../../tests/fixtures/recommendation-api-response.json', import.meta.url), 'utf8'))
+  try {
+    globalThis.fetch = async (url) => url.endsWith('/session')
+      ? new Response(JSON.stringify({ csrf_token: 'a'.repeat(64) }), { status: 200 })
+      : new Response(JSON.stringify({ ...fixture, items: [{ ...fixture.items[0], access_type: 'Открытый', requires_access_check: true, listed_price: '0' }] }), { status: 200 })
+    const result = await recommendations.getRecommendations({ goal: 'Найти клиентов', requestKey: 'b177117e-96cb-4ba8-9f3f-455d537e90d0' }, 'api')
+    assert.equal(result.materials[0].price, undefined)
+    assert.match(result.materials[0].access, /требует проверки/)
+  } finally { globalThis.fetch = original }
 })

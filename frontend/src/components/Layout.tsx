@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import alfaSign from '../assets/alfa-sign-red.svg'
+import { loadProfile, saveProfile } from '../services/profileSession'
 
 export type Profile = {
   goal: string
@@ -25,7 +26,8 @@ export type RegisteredUser = {
 
 export default function Layout() {
   const { pathname } = useLocation()
-  const [profile, setProfile] = useState<Profile | null>(null)
+  const [profile, setProfileState] = useState<Profile | null>(loadProfile)
+  const setProfile = (value: Profile | null) => { saveProfile(value); setProfileState(value) }
   const [user, setUser] = useState<RegisteredUser | null>(null)
   const [registrationEmail, setRegistrationEmail] = useState('')
 

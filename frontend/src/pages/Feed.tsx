@@ -6,6 +6,7 @@ import type { PageContext } from '../components/Layout'
 import { getRecommendations, recommendationMode } from '../services/recommendations'
 import { createRecommendationController } from '../services/recommendationController'
 import type { RecommendationState } from '../services/recommendationController'
+import { requestKeyForProfile } from '../services/profileSession'
 
 function materialCount(count: number) {
   const remainder = count % 100
@@ -29,7 +30,7 @@ export default function Feed() {
     const controller = createRecommendationController(getRecommendations, setState)
     const input = JSON.stringify(profile)
     if (recommendationMode === 'api' && requestIdentity.current?.input !== input) {
-      requestIdentity.current = { input, key: crypto.randomUUID() }
+      requestIdentity.current = { input, key: requestKeyForProfile(input) }
     }
     void controller.request(profile.goal, recommendationMode === 'api' ? {
       requestKey: requestIdentity.current?.key,
@@ -96,7 +97,7 @@ export default function Feed() {
           <span className="cabinet-label">Ваша задача</span>
           {profile ? <ReasonPill>{profile.goal}</ReasonPill> : <p>Выберите задачу, чтобы уточнить подборку.</p>}
           {details.length > 0 && <p>{details.join(' · ')}</p>}
-          <p>Анкета хранится до обновления страницы.</p>
+          <p>Анкета хранится в текущей вкладке до её закрытия, если браузер разрешает хранение.</p>
           {profile && <Link className="cabinet-text-link" to="/onboarding">Изменить задачу <span aria-hidden="true">↗</span></Link>}
         </div>
       </aside>

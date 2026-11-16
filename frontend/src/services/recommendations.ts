@@ -5,8 +5,8 @@ import { requestRecommendations } from './recommendationApi'
 export type RecommendationMode = 'demo' | 'api' | 'invalid'
 
 export function resolveRecommendationMode(value: string | undefined): RecommendationMode {
-  if (!value || value === 'demo') return 'demo'
-  if (value === 'api') return 'api'
+  if (!value || value === 'api') return 'api'
+  if (value === 'demo') return 'demo'
   return 'invalid'
 }
 
@@ -30,9 +30,9 @@ export async function getRecommendations(
       learningMode: response.learning_mode,
       materials: response.items.map((card) => ({
         id: card.material_key, title: card.title, type: formats[card.format], reason: card.reason,
-        href: card.url, access: card.access_type ? `Доступ: ${card.access_type}` : 'Доступ не указан',
+        href: card.url, access: card.access_type ? `Доступ по каталогу: ${card.access_type}${card.requires_access_check ? ' (требует проверки)' : ''}` : 'Доступ не указан',
         price: card.listed_price === null ? undefined : Number(card.listed_price) === 0
-          ? (card.access_type === 'Открытый' ? 'Бесплатно' : undefined)
+          ? (card.access_type === 'Открытый' && !card.requires_access_check ? 'Бесплатно' : undefined)
           : `Стоимость по каталогу: ${new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(Number(card.listed_price))}`,
         duration: card.duration_minutes === null ? undefined : `${new Intl.NumberFormat('ru-RU').format(card.duration_minutes)} мин`,
         linkNote: card.link_status === 'unknown' ? 'Доступность ссылки не проверена.' : undefined,
