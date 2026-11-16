@@ -10,6 +10,7 @@ Run on 2026-11-16 (Moscow time) in `C:\Users\ASUS\Downloads\alfa_bank-integratio
 | Python | 3.12.10 (system), pip 25.0.1 |
 | Node | v26.7.0, npm 11.x (invoked as `npm.cmd` because of the PowerShell execution policy) |
 | Docker | **not installed** (`docker` is not recognised; no Docker Desktop directory) |
+| LibreOffice | 26.8.3 (installed during this run, used only to export the deck to PDF) |
 | Private organizer data | absent (`data/raw`, `data/processed`, `artifacts/` do not exist) |
 
 Everything below is what actually ran. Anything not listed as run is listed as
@@ -53,17 +54,26 @@ Frontend tests (real tail):
 ```
 
 The two failures are in `frontend/tests/profile-session.test.mjs` and come from
-the runtime, not from the application code:
+the test file, not from the application code:
 
 ```
 TypeError: Cannot set property crypto of #<Object> which has only a getter
 ```
 
-The test does `globalThis.crypto = webcrypto` in a `before` hook. On Node 26
-`globalThis.crypto` is a read-only getter. The Docker images use Node 20
-(`frontend/Dockerfile`), where that assignment is allowed, but this was **not**
-re-run on Node 20 here, so the claim "passes on Node 20" is not verified.
-Per the task rules the test was **not modified** to make it pass.
+The test does `globalThis.crypto = webcrypto` in a `before` hook, but
+`globalThis.crypto` is a read-only getter. This was re-checked with Node
+v20.20.2 (the version used by `frontend/Dockerfile`) and it **fails the same
+way**:
+
+```
+# tests 2
+# pass 0
+# fail 2
+```
+
+So the suite is 19/21 on both Node 20 and Node 26. Per the task rules the test
+was **not modified** to make it pass; fixing it means changing the test to use
+`Object.defineProperty` or a local stub.
 
 Build output (real tail):
 
@@ -84,8 +94,20 @@ Result: `Alfa-Kurs-business.pptx` regenerated (364 KB, 12 slides). The
 hard-coded absolute `require` path was replaced with `require('pptxgenjs')`, so
 the deck now builds on any machine with the package installed.
 
-PDF export: **not run**. This machine has no LibreOffice and no Microsoft
-Office, so a pptx→pdf conversion is unavailable (details in section 4).
+PDF export:
+
+```bash
+soffice --headless --convert-to pdf:impress_pdf_Export \
+  --outdir <tmp> presentation/business_2026_11_15/Alfa-Kurs-business.pptx
+```
+
+Result: a 12-page PDF, copied to the repository root as
+`Alfa-Kurs-presentation.pdf` and over the deck folder's
+`Alfa-Kurs-business.pdf`. Verified by extracting page 1 text (`pypdf`) and by
+rendering page 1 to PNG (`pypdfium2`) and inspecting it: Cyrillic, the GitHub
+link, `cp .env.example .env && docker compose up --build`,
+`http://localhost:5173`, the three steps and the synthetic-demo note are all
+present and not clipped.
 
 ### Compose file and Dockerfiles
 
@@ -106,9 +128,9 @@ Office, so a pptx→pdf conversion is unavailable (details in section 4).
 | Backend test suite (no DB) | **verified** — 211 passed, 0 failed |
 | Backend DB-marked tests | **unverified** — skipped, no PostgreSQL test DB |
 | Frontend `npm ci` / build | **verified** |
-| Frontend tests | **19/21 pass**; 2 fail on Node 26 due to the `crypto` global |
+| Frontend tests | **19/21 pass**; 2 fail in a test-side `globalThis.crypto` assignment (same on Node 20 and Node 26) |
 | Deck regenerated to pptx | **verified** |
-| Deck exported to PDF | **unverified** — no converter on this machine |
+| Deck exported to PDF | **verified** — 12 pages, slide 1 inspected |
 | `docker compose up --build` | **unverified** — Docker not installed |
 | `/health`, nginx proxy, SPA routing in containers | **unverified** |
 | Product + events migrations on a fresh volume | **unverified** |
@@ -149,22 +171,22 @@ the real API path only.
 1. **Docker stack is authored, not executed.** Configuration was reviewed by
    reading it, not by running it. First real risk points: image build of the
    lock file, `migrate` ordering, and the nginx `/api` proxy.
-2. **PDF is not regenerated.** The source deck was updated and rebuilt to pptx.
-   The previous PDF (`presentation/business_2026_11_15/Alfa-Kurs-business.pdf`)
-   still has the old slide 1. Exact new slide 1 text is in section 5 so it can
-   be pasted into the deck if a converter becomes available.
+2. **Docker stack is authored, not executed.** Configuration was reviewed by
+   reading it, not by running it. First real risk points: image build of the
+   lock file, `migrate` ordering, and the nginx `/api` proxy.
 3. **Events database credentials are duplicated** in
    `scripts/sql/init_events.sql` (role `alfa_events`, password
    `local_events_only`). Changing `ALFA_EVENTS_*` in `.env` requires editing the
    SQL file too.
 4. **No real catalogue** means the ML path cannot be demonstrated end to end;
    the UI runs in explicitly labelled demo mode.
-5. **Frontend tests** fail on Node 26 because of a test-side `globalThis.crypto`
-   assignment; the suite target is Node 20 and was not re-run there.
+5. **Frontend tests** are 19/21: two tests assign the read-only
+   `globalThis.crypto`, so they fail on Node 20 and Node 26 alike. Fixing that
+   requires editing the test file, which was out of scope here.
 
 ---
 
-## 5. New slide 1 text (for a manual PDF export)
+## 5. Slide 1 text in the generated PDF (for reference)
 
 Title: `Рекомендации для Альфа-Курса`
 
@@ -210,8 +232,8 @@ Docker-стек в этом окружении не запускался (Docker
    (НДС task → clients task → off-topic empty state).
 3. Check `curl http://localhost:8000/health` and
    `docker compose exec db psql -U alfakurs -d alfa_events -c '\dt'`.
-4. Regenerate the PDF from `presentation/business_2026_11_15/Alfa-Kurs-business.pptx`
-   (LibreOffice or PowerPoint → Export as PDF) and save it to the repository
-   root as `Alfa-Kurs-presentation.pdf`.
-5. Optionally re-run the frontend tests on Node 20 (`nvm use 20 && npm --prefix
-   frontend test`) to confirm 21/21.
+4. Open `Alfa-Kurs-presentation.pdf` and check that slide 1 renders as expected
+   in your PDF viewer (the deck was exported with LibreOffice 26.8).
+5. Optional: fix the two failing frontend tests by replacing the test-side
+   `globalThis.crypto = webcrypto` assignment (they fail on Node 20 and 26;
+   the application code is not involved).

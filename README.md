@@ -13,6 +13,10 @@ recommender for the Alfa-Kurs catalogue: a user describes a business task, gets
 ranked learning materials with explanations, and the system records impressions,
 visibility and clicks that feed a reward worker.
 
+**Presentation:** [`Alfa-Kurs-presentation.pdf`](Alfa-Kurs-presentation.pdf) — 12
+slides in Russian, slide 1 contains the run command and three test steps.
+**Verification record:** [`docs/submission-report.md`](docs/submission-report.md).
+
 ---
 
 ## 1. What it is
@@ -200,8 +204,10 @@ npm --prefix frontend run build
 
 The backend test suite contains database-marked tests that need
 `ALFA_EVENTS_TEST_DATABASE_URL`; they are skipped when no PostgreSQL test
-database is configured. The exact pass/skip counts from the submission run are
-recorded in the final verification report (`docs/submission-report.md`).
+database is configured. In the submission run the backend suite reported
+**211 passed, 66 skipped, 0 failed**, and the frontend suite **19 passed,
+2 failed** (both failures are a test-side `globalThis.crypto` assignment; see
+`docs/submission-report.md`).
 
 ---
 
