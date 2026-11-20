@@ -18,6 +18,8 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
 
 COPY backend /app/backend
 COPY scripts /app/scripts
+# Tracked synthetic catalogue: builds the ML bundle and seeds the courses table.
+COPY data/courses /app/data/courses
 
 # Mount point for the synthetic demo catalogue built at container start; the
 # directory must exist before the named volume is attached so it inherits the

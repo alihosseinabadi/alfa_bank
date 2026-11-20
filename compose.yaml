@@ -40,7 +40,7 @@ services:
     command:
       - sh
       - -c
-      - python -m alembic -c backend/product-alembic.ini upgrade head && python scripts/migrate_events.py && if [ "$$ALFA_DEMO_CATALOG_BUILD" = "true" ]; then python scripts/build_demo_catalog.py --catalog-dir "$$ALFA_CATALOG_DIR" --index-dir "$$ALFA_RETRIEVAL_INDEX_DIR"; fi
+      - python -m alembic -c backend/product-alembic.ini upgrade head && python scripts/migrate_events.py && if [ "$$ALFA_DEMO_CATALOG_BUILD" = "true" ]; then python scripts/build_demo_catalog.py --catalog-dir "$$ALFA_CATALOG_DIR" --index-dir "$$ALFA_RETRIEVAL_INDEX_DIR" --embedding-dir "$$ALFA_EMBEDDING_DIR" && python scripts/seed_courses.py --csv data/courses/courses.csv; fi
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfakurs}:${POSTGRES_PASSWORD:-change_me}@db:5432/${POSTGRES_DB:-alfakurs}
       ALFA_EVENTS_DATABASE_URL: postgresql+psycopg://${ALFA_EVENTS_USER:-alfa_events}:${ALFA_EVENTS_PASSWORD:-local_events_only}@db:5432/${ALFA_EVENTS_DB:-alfa_events}
@@ -48,6 +48,7 @@ services:
       ALFA_DEMO_CATALOG_BUILD: ${ALFA_DEMO_CATALOG_BUILD:-true}
       ALFA_CATALOG_DIR: ${ALFA_CATALOG_DIR:-/app/demo-bundles/catalog}
       ALFA_RETRIEVAL_INDEX_DIR: ${ALFA_RETRIEVAL_INDEX_DIR:-/app/demo-bundles/retrieval}
+      ALFA_EMBEDDING_DIR: ${ALFA_EMBEDDING_DIR:-/app/demo-bundles/embedding}
     volumes:
       - alfakurs_demo_bundles:/app/demo-bundles
     depends_on:
@@ -71,6 +72,7 @@ services:
       ALFA_DEMO_FAST_LEARNING: ${ALFA_DEMO_FAST_LEARNING:-false}
       ALFA_CATALOG_DIR: ${ALFA_CATALOG_DIR:-/app/demo-bundles/catalog}
       ALFA_RETRIEVAL_INDEX_DIR: ${ALFA_RETRIEVAL_INDEX_DIR:-/app/demo-bundles/retrieval}
+      ALFA_EMBEDDING_DIR: ${ALFA_EMBEDDING_DIR:-/app/demo-bundles/embedding}
       API_CORS_ORIGINS: ${API_CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
     volumes:
       # Built by the migrate step; the API only reads it.
