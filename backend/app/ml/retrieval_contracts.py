@@ -11,6 +11,7 @@ class SearchMaterial(ProfileRecord):
     title:str
     item_type:MaterialFormat
     url:str
+    descriptions:list[str]=Field(default_factory=list)
     topics:list[str]=Field(default_factory=list)
     tags:list[str]=Field(default_factory=list)
     access_type:str

@@ -231,10 +231,10 @@ def test_feature_schema_and_saved_artifact_are_deterministic(tmp_path):
     first = save_ranking(result, policy, tmp_path, ROOT)
     second = save_ranking(result, policy, tmp_path, ROOT)
     assert first == second == resolve_bundle(tmp_path)
-    manifest = json.loads((first/"manifest.json").read_text())
+    manifest = json.loads((first/"manifest.json").read_text(encoding="utf-8"))
     verify_files(first, manifest)
-    assert json.loads((first/"feature_registry.json").read_text())["dimension"] == 45
-    assert json.loads((first/"ranking.json").read_text()) == result.model_dump()
+    assert json.loads((first/"feature_registry.json").read_text(encoding="utf-8"))["dimension"] == 45
+    assert json.loads((first/"ranking.json").read_text(encoding="utf-8")) == result.model_dump()
 
 def test_channel_distinguishes_no_eligible_from_weak_match():
     from app.ml.ranking_inputs import from_channel

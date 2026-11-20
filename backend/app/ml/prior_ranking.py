@@ -112,7 +112,7 @@ def rank_candidates(batch, materials, context, *, profile=None, progress=None, p
             flags.append("card_metadata_only")
         citations = [Citation(channel=e.channel, chunk_id=e.chunk.chunk_id,
             source_block_ids=list(e.chunk.source_block_ids),
-            excerpt=lexical_excerpt(e.chunk.text, tokenize_text(context.query_text)) if e.channel != "e5" else e.chunk.text[:360],
+            excerpt=lexical_excerpt(e.chunk.text, tokenize_text(context.query_text)) if e.channel not in {"e5", "dense"} else e.chunk.text[:360],
             raw_score=e.raw_score, channel_rank=e.channel_rank) for e in hit.evidence]
         candidates.append(RankedMaterial(material_key=material.material_key, title=material.title,
             item_type=material.item_type, url=material.url, access_type=material.access_type,

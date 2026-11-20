@@ -7,7 +7,7 @@ from .retrieval_contracts import SearchMaterial, PublicSearchChunk, NextStep
 RANKING_INPUT_VERSION = "ranking-input-v1"
 FEATURE_VERSION = "pair-features-v1"
 RANKING_VERSION = "prior-ranking-v1"
-Channel = Literal["tfidf", "topic_baseline", "bm25", "e5"]
+Channel = Literal["tfidf", "topic_baseline", "bm25", "e5", "dense"]
 
 class RankingMaterial(SearchMaterial):
     industry_labels: list[str] = Field(default_factory=list)

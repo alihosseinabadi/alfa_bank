@@ -168,7 +168,7 @@ def test_weights_and_invalid_input_validation(profile_case,policy):
 
 def test_ml_modules_have_no_forbidden_imports():
     for path in (ROOT/"backend/app/ml").glob("*.py"):
-        tree=ast.parse(path.read_text())
+        tree=ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
             modules=[a.name for a in node.names] if isinstance(node,ast.Import) else [node.module or ""] if isinstance(node,ast.ImportFrom) else []
             assert not any(any(bad in module for bad in ("fastapi","sqlalchemy","experiments","app.services","app.data_preparation")) for module in modules)
@@ -198,10 +198,10 @@ def test_historical_cohort_contains_only_users_known_before_cutoff(profile_artif
 def test_corrupt_profiles_and_mismatched_history_are_detected(profile_artifacts):
     source,catalog,history,output,policy=profile_artifacts
     bundle,_=build_profiles(history,catalog,source,output,ROOT,policy=policy)
-    file=bundle/"profiles.jsonl";original=file.read_text();file.write_text("broken")
+    file=bundle/"profiles.jsonl";original=file.read_text(encoding="utf-8");file.write_text("broken",encoding="utf-8")
     with pytest.raises(ValueError,match="Checksum"):verify_profiles(output,history,catalog,source)
-    file.write_text(original)
-    path=bundle/"manifest.json";manifest=json.loads(path.read_text());manifest["history_bundle_id"]="wrong";write_json(path,manifest)
+    file.write_text(original,encoding="utf-8")
+    path=bundle/"manifest.json";manifest=json.loads(path.read_text(encoding="utf-8"));manifest["history_bundle_id"]="wrong";write_json(path,manifest)
     with pytest.raises(ValueError,match="Incompatible profile"):verify_profiles(output,history,catalog,source)
 
 def test_rating_dictionary_policy_mismatch_fails(profile_case,policy):

@@ -19,15 +19,19 @@ from app.data_preparation.history_io import resolve_bundle
 from app.database.connection import events_engine, events_sessions
 from app.ml.bm25_retriever import BM25Retriever
 from app.ml.feature_registry import REGISTRY_HASH
+from app.ml.hybrid_retrieval import DenseHybridRetriever
+from app.ml.lsa_retriever import EMBEDDING_VERSION, LsaRetriever
 from app.ml.profile_contracts import ExplicitConstraints, ExplicitPreferences
 from app.ml.profile_policy import fingerprint
 from app.ml.prior_ranking import rank_candidates
-from app.ml.ranking_inputs import from_channel
+from app.ml.ranking_inputs import from_hybrid
 from app.ml.request_context import build_request_context
 from app.ml.user_profile import build_user_profile
 from app.models.learning import RewardObservation, RewardRevision
 from app.models.serving import ServingRequest
-from app.schemas.recommendation import RecommendationCard, RecommendationResponse
+from app.schemas.recommendation import (
+    CatalogueRankItem, CatalogueRankRequest, CatalogueRankResponse, RecommendationCard, RecommendationResponse,
+)
 from app.services.event_service import EventConflict, EventService
 from app.services.learning_configuration import DEMO_MODEL_KEY, learning_service
 from app.services.recommendation_orchestrator import issue_recommendations
@@ -47,7 +51,7 @@ class _TransactionSessions:
 
 
 class MLRecommendationProvider:
-    def __init__(self, index, manifest, materials, engine, secret, *, demo=False):
+    def __init__(self, index, manifest, materials, engine, secret, *, demo=False, dense=None):
         self.index, self.manifest, self.materials = index, manifest, materials
         self.engine, self.sessions, self.secret = engine, events_sessions(engine), secret
         self.demo = demo
@@ -56,10 +60,26 @@ class MLRecommendationProvider:
             raise ValueError('Fast demo requires isolated alfa_events_test')
         # Build the existing BM25 channel once from the verified public corpus.
         self.search = BM25Retriever().fit(list(index.materials.values()), index.rows)
-        self.retrieval_policy_id = fingerprint({'method': 'bm25', 'k1': self.search.k1,
-                                                'b': self.search.b, 'coverage': self.search.min_query_coverage})
+        # Dense channel: verified vector dataset when the stack built one, or a
+        # deterministic in-process fit for tests.  E5 can replace this encoder
+        # without changing the fusion or ranking code.
+        self.dense = dense or LsaRetriever(min_similarity=0.10).fit(
+            list(index.materials.values()), index.rows)
+        if self.dense.rows != index.rows:
+            raise ValueError('Dense rows do not match the retrieval corpus')
+        self.hybrid = DenseHybridRetriever(self.dense, self.search, dense_weight=0.4)
+        self.retrieval_policy_id = fingerprint({
+            'method': 'hybrid-bm25-dense', 'k1': self.search.k1, 'b': self.search.b,
+            'coverage': self.search.min_query_coverage, 'analyzer': self.search.analyzer_version,
+            'dense': EMBEDDING_VERSION, 'dense_dim': int(self.dense.vectors.shape[1]),
+            'dense_weight': self.hybrid.dense_weight, 'dense_ratio': self.hybrid.dense_ratio,
+        })
         self.retrieval_parameters = {'k1': self.search.k1, 'b': self.search.b,
-                                     'coverage': self.search.min_query_coverage}
+                                     'coverage': self.search.min_query_coverage,
+                                     'analyzer': self.search.analyzer_version,
+                                     'dense': EMBEDDING_VERSION,
+                                     'dense_dim': int(self.dense.vectors.shape[1]),
+                                     'dense_weight': self.hybrid.dense_weight}
         self._model_cache = None
         self._ledger_version = None
 
@@ -81,13 +101,24 @@ class MLRecommendationProvider:
             raise ValueError('Catalog/index checksums are incompatible')
         if manifest['catalog_bundle_id'] == '' or not REGISTRY_HASH:
             raise ValueError('Invalid catalog or feature registry')
+        dense = None
+        embedding_dir = getattr(settings, 'embedding_dir', None)
+        if embedding_dir:
+            path = Path(embedding_dir)
+            if not path.is_absolute(): path = ROOT / path
+            if (path / 'CURRENT').exists():
+                dense = LsaRetriever.load(path)
+                dense.attach_materials(materials)
+                if dense.rows != search.rows:
+                    raise ValueError('Dense dataset does not match the retrieval index')
         engine = events_engine()
         try:
             with engine.connect() as connection:
                 revision = connection.execute(text('SELECT version_num FROM alembic_version')).scalar_one()
                 if revision != '0007_unattributed_clicks':
                     raise ValueError('Events database migrations are incompatible')
-            return cls(search, manifest, materials, engine, settings.session_secret, demo=settings.demo_fast_learning)
+            return cls(search, manifest, materials, engine, settings.session_secret,
+                       demo=settings.demo_fast_learning, dense=dense)
         except Exception:
             engine.dispose()
             raise
@@ -122,6 +153,127 @@ class MLRecommendationProvider:
             self._model_cache, self._ledger_version = model, version
         return self._model_cache
 
+    def _bandit_preview(self, prior):
+        """Return UCB scores for prior candidates without logging an impression.
+
+        A cold LinUCB model has ``b == 0`` and cannot rank anything yet; in that
+        state the preview keeps the prior order.  Once the shared demo model has
+        observed rewards, its UCB values are blended inside a relevance guard.
+        """
+        if not prior.candidates:
+            return {}, 'cold', 0
+        try:
+            with self.sessions.begin() as db:
+                model = self._model(db)
+                observations = int(self._ledger_version or 0)
+                warm = observations > 0 and any(abs(value) > 1e-12 for value in model.b)
+                scores = {
+                    card.material_key: float(model.score(card.features.vector).total)
+                    for card in prior.candidates
+                }
+            return scores, 'warm' if warm else 'cold', observations
+        except Exception:
+            return {}, 'unavailable', 0
+
+    def rank_preview(self, request: CatalogueRankRequest) -> CatalogueRankResponse:
+        """Rank the whole pinned catalogue for a profile without writing a decision.
+
+        The retrieval batch is a weighted BM25 + dense-vector fusion.  Prior
+        ranking is the same deterministic policy used for serving.  LinUCB is
+        evaluated read-only and blended only when the shared model is warm; no
+        impression, click or reward row is written here.
+        """
+        prefs = ExplicitPreferences(
+            business_stage=request.profile.business_stage,
+            industry=request.profile.industry,
+            experience=request.profile.experience,
+        )
+        profile = build_user_profile(
+            'anon:catalogue-preview', [], self.materials, prefs,
+            catalog_bundle_id=self.manifest['catalog_bundle_id'],
+        )
+        constraints = ExplicitConstraints(
+            formats=request.constraints.formats,
+            budget_preference=request.constraints.budget_preference,
+            available_time_minutes=request.constraints.available_time_minutes,
+        )
+        context = build_request_context(profile, request.task, constraints)
+        progress = project_progress(profile, [])
+        found = self.hybrid.query(context, 50)
+        batch = from_hybrid(found, context,
+            index_bundle_id=self.manifest['bundle_id'],
+            catalog_bundle_id=self.manifest['catalog_bundle_id'],
+            retrieval_policy_id=self.retrieval_policy_id,
+            retrieval_parameters=self.retrieval_parameters)
+        dense_scores = {
+            key: channels['dense']['score']
+            for key, _, channels in found if 'dense' in channels
+        }
+        blocked = {m.material_key for m in self.materials
+                   if request.constraints.budget_preference == 'free_only'
+                   and m.listed_price is not None and m.listed_price > 0}
+        prior = rank_candidates(batch, self.materials, context, profile=profile,
+                                progress=progress, blocked_material_keys=blocked, k=50)
+        bandit_scores, bandit_state, observations = self._bandit_preview(prior)
+        top_prior = max((card.prior_score for card in prior.candidates), default=0.0) or 1.0
+        final_scores = {}
+        for card in prior.candidates:
+            final = card.prior_score / top_prior
+            if bandit_state == 'warm' and bandit_scores:
+                ordered = sorted(bandit_scores.values())
+                low, high = ordered[0], ordered[-1]
+                spread = high - low
+                # Only candidates close to the best prior can be promoted.
+                if spread > 1e-12 and card.prior_score >= 0.7 * top_prior:
+                    ucb = (bandit_scores.get(card.material_key, low) - low) / spread
+                    final = 0.85 * final + 0.15 * max(0.0, min(1.0, ucb))
+            final_scores[card.material_key] = final
+        ordered_cards = sorted(
+            prior.candidates,
+            key=lambda card: (-final_scores[card.material_key], card.rank, card.material_key),
+        )
+        ml_rank = {card.material_key: index for index, card in enumerate(ordered_cards, 1)}
+        top_final = max(final_scores.values(), default=0.0) or 1.0
+        ranked = {card.material_key: card for card in prior.candidates}
+        items = []
+        for material in self.materials:
+            card = ranked.get(material.material_key)
+            if card is None:
+                fit_score = 0
+                reason = 'ML-поиск не нашёл совпадений с этой формулировкой; материал остаётся в каталоге.'
+                item_rank = None
+            else:
+                fit_score = max(0, min(100, round(100 * final_scores[material.material_key] / top_final)))
+                texts = [part.text for part in card.reasons if part.text.strip()]
+                if material.material_key in dense_scores:
+                    texts.append(
+                        'Векторная близость к запросу: '
+                        f'{dense_scores[material.material_key]:.2f} (LSA-косинус; диагностика, не вероятность).'
+                    )
+                reason = ' '.join(texts[:3]) or 'Материал попал в выдачу по вашему профилю и задаче.'
+                item_rank = ml_rank[material.material_key]
+            items.append(CatalogueRankItem(
+                material_key=material.material_key, title=material.title,
+                format=material.item_type, duration_minutes=material.duration_minutes,
+                listed_price=(Decimal(str(material.listed_price))
+                              if material.listed_price is not None else None),
+                fit_score=fit_score, ml_rank=item_rank, retrieved=card is not None,
+                reason=reason[:1000],
+                dense_score=dense_scores.get(material.material_key),
+                bandit_score=bandit_scores.get(material.material_key),
+            ))
+        items.sort(key=lambda item: (-item.fit_score, item.ml_rank or 10_000, item.title))
+        return CatalogueRankResponse(
+            status=prior.status, items=items[:request.limit],
+            message=prior.clarification if prior.status != 'matched' else None,
+            algorithm='hybrid-bm25-dense-prior-linucb-v1',
+            retrieval_method='hybrid-bm25-dense',
+            dense_model=EMBEDDING_VERSION,
+            dense_dimensions=int(self.dense.vectors.shape[1]),
+            bandit_state=bandit_state,
+            bandit_observations=observations,
+        )
+
     def recommend(self, actor, request):
         request_hash = self._request_hash(request)
         try:
@@ -148,8 +300,8 @@ class MLRecommendationProvider:
                 )
                 context = build_request_context(profile, request.task, constraints)
                 progress = project_progress(profile, [])
-                found = self.search.query(context, 50)
-                batch = from_channel(found, context, method='bm25', materials=self.index.materials.values(),
+                found = self.hybrid.query(context, 50)
+                batch = from_hybrid(found, context,
                     index_bundle_id=self.manifest['bundle_id'],
                     catalog_bundle_id=self.manifest['catalog_bundle_id'],
                     retrieval_policy_id=self.retrieval_policy_id,

@@ -113,7 +113,7 @@ def build_profiles(history_dir,catalog_dir,source_dir,output_dir,root,*,cutoff_m
 
 def verify_profiles(profiles_dir,history_dir,catalog_dir,source_dir):
     bundle=resolve_bundle(profiles_dir)
-    manifest=json.loads((bundle/"manifest.json").read_text())
+    manifest=json.loads((bundle/"manifest.json").read_text(encoding="utf-8"))
     if manifest["config"]["schema_version"]!=PROFILE_SCHEMA_VERSION:raise ValueError("Incompatible profile schema")
     verify_files(bundle,manifest)
     path,history,catalog,materials,tables,source=load_profile_inputs(history_dir,catalog_dir,source_dir)
@@ -129,5 +129,5 @@ def verify_profiles(profiles_dir,history_dir,catalog_dir,source_dir):
     if [p.model_dump() for p in profiles]!=[p.model_dump() for p in expected]:
         raise ValueError("Profile/source reconstruction mismatch")
     audit=audit_profiles(profiles,materials,history,catalog,policy)
-    if audit!=json.loads((bundle/"audit.json").read_text()):raise ValueError("Profile audit mismatch")
+    if audit!=json.loads((bundle/"audit.json").read_text(encoding="utf-8")):raise ValueError("Profile audit mismatch")
     return manifest,audit

@@ -8,7 +8,9 @@ from app.core.anonymous_session import (
 )
 from app.core.config import get_settings
 from app.schemas.events import TrustedActor
-from app.schemas.recommendation import RecommendationRequest, RecommendationResponse, SessionResponse
+from app.schemas.recommendation import (
+    CatalogueRankRequest, CatalogueRankResponse, RecommendationRequest, RecommendationResponse, SessionResponse,
+)
 from app.services.recommendation_provider import ProviderUnavailable, RequestConflict
 
 router = APIRouter(tags=['recommendations'])
@@ -56,6 +58,28 @@ def create_session(
                             secure=get_settings().session_cookie_secure, samesite='lax', path='/')
     response.headers['Cache-Control'] = 'no-store'
     return SessionResponse(csrf_token=csrf_token(secret, cookie))
+
+
+@router.post('/catalogue/rank', response_model=CatalogueRankResponse,
+             summary='Preview ML match scores for the whole catalogue',
+             responses={401: {'description': 'Session required'},
+                        403: {'description': 'Missing or invalid CSRF token'},
+                        503: {'description': 'Recommendation provider unavailable'}})
+def catalogue_rank(
+    payload: CatalogueRankRequest,
+    request: Request,
+    actor: TrustedActor = Depends(trusted_actor),
+):
+    """Read-only ranking preview: same BM25 + prior path, no decision or event."""
+    del actor  # Authenticated session is required, but no actor id is persisted.
+    provider = getattr(request.app.state, 'recommendation_provider', None)
+    if provider is None:
+        raise HTTPException(status_code=503, detail='Recommendation service is not configured', headers=NO_STORE)
+    try:
+        result = provider.rank_preview(payload)
+    except (ValueError, KeyError, TypeError, ArithmeticError, OSError) as exc:
+        raise HTTPException(status_code=503, detail='Ranking preview unavailable', headers=NO_STORE) from exc
+    return result
 
 
 @router.post('/recommendations', response_model=RecommendationResponse,

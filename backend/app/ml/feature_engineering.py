@@ -94,6 +94,10 @@ def build_pair_features(hit, material, batch, context, profile=None, progress=No
             if not -1 - 1e-6 <= score <= 1 + 1e-6:
                 raise ValueError("Invalid E5 cosine")
             values["e5_similarity"] = max(0.0, min((score + 1) / 2, 1.0))
+        elif witness.channel == "dense":
+            if not -1 - 1e-6 <= score <= 1 + 1e-6:
+                raise ValueError("Invalid dense cosine")
+            values["e5_similarity"] = max(0.0, min((score + 1) / 2, 1.0))
         elif witness.channel == "bm25":
             if score < 0:
                 raise ValueError("Invalid BM25 score")

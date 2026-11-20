@@ -51,12 +51,12 @@ def refresh_manifest(directory):
     files={}
     for name,columns in EXPORT_COLUMNS.items():
         path=directory/(name+".csv")
-        with path.open() as stream:
+        with path.open(encoding="utf-8", newline="") as stream:
             count=sum(1 for _ in csv.DictReader(stream))
         files[name]={"filename":path.name,"rows":count,"sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"columns":list(columns)}
     manifest={"snapshot_id":hashlib.sha256(json.dumps(files,sort_keys=True).encode()).hexdigest(),
               "files":files,"extracted_at":"2026-01-01T00:00:00+00:00","source":"artificial_test"}
-    (directory/"source_manifest.json").write_text(json.dumps(manifest))
+    (directory/"source_manifest.json").write_text(json.dumps(manifest),encoding="utf-8")
 
 class CharacterTokenizer:
     # A deliberately different budget model catches accidental hard-coded word counts.

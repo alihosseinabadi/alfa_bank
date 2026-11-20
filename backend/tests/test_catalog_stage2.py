@@ -63,7 +63,7 @@ def test_long_paragraph_fits_without_losing_text(tokenizer):
 
 def test_checksum_and_ambiguous_aliases_fail(source_dir):
     path=source_dir/"Courses.csv"
-    path.write_text(path.read_text()+"\n")
+    path.write_text(path.read_text(encoding="utf-8")+"\n",encoding="utf-8")
     with pytest.raises(ValueError,match="checksum"):
         load_manifest(source_dir)
     with pytest.raises(ValueError,match="conflict"):
@@ -71,7 +71,7 @@ def test_checksum_and_ambiguous_aliases_fail(source_dir):
 
 def test_orphan_block_fails(source_dir):
     path=source_dir/"ArticleEmbedItems.csv"
-    path.write_text(path.read_text().replace("article1","unknown"))
+    path.write_text(path.read_text(encoding="utf-8").replace("article1","unknown"),encoding="utf-8")
     refresh_manifest(source_dir)
     with pytest.raises(ValueError,match="Orphan"):
         build_catalog(source_dir)
@@ -111,12 +111,12 @@ def test_pinned_e5_tokenizer_if_prepared(source_dir):
 def test_reused_lesson_requires_separate_entitlements(source_dir,tokenizer):
     def append_copy(name,changes):
         path=source_dir/(name+".csv")
-        with path.open() as f:
+        with path.open(encoding="utf-8",newline="") as f:
             reader=csv.DictReader(f)
             fields=reader.fieldnames
             rows=list(reader)
         row=dict(rows[0]); row.update(changes); rows.append(row)
-        with path.open("w",newline="") as f:
+        with path.open("w",encoding="utf-8",newline="") as f:
             writer=csv.DictWriter(f,fieldnames=fields); writer.writeheader(); writer.writerows(rows)
     append_copy("Courses",{"Id":"course2","Url":"course-2"})
     append_copy("ContentSettings",{"Id":"second-settings","EntityId":"course2"})

@@ -29,7 +29,7 @@ def integer(value, default=0) -> int:
     return int(value) if text(value) else default
 
 def load_manifest(input_dir: Path) -> dict:
-    manifest = json.loads((input_dir / "source_manifest.json").read_text())
+    manifest = json.loads((input_dir / "source_manifest.json").read_text(encoding="utf-8"))
     for entry in manifest["files"].values():
         path = input_dir / entry["filename"]
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:

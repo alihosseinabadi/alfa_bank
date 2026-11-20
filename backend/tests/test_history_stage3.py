@@ -224,7 +224,7 @@ def history_artifacts(history_case,tmp_path):
     files={}
     for name,columns in HISTORY_EXPORT_COLUMNS.items():
         path=source/(name+".csv")
-        with path.open("w",newline="") as stream:
+        with path.open("w",encoding="utf-8",newline="") as stream:
             writer=csv.DictWriter(stream,fieldnames=columns); writer.writeheader(); writer.writerows(tables[name])
         files[name]={"filename":path.name,"columns":list(columns),"rows":len(tables[name]),"sha256":file_hash(path)}
     write_json(source/"manifest.json",{"snapshot_id":digest(files),"files":files,"extracted_at":"2026-01-01T12:00:00+00:00"})
@@ -240,24 +240,24 @@ def test_bundle_repeatability_verification_and_month_split(history_artifacts):
     assert first==second
     manifest,checked=verify_history(output,source,catalog)
     assert checked==audit and checked["passed"]
-    assert (first/"evaluation_before_cutoff.jsonl").read_text()==""
-    assert len((first/"evaluation_from_cutoff.jsonl").read_text().splitlines())==3
+    assert (first/"evaluation_before_cutoff.jsonl").read_text(encoding="utf-8")==""
+    assert len((first/"evaluation_from_cutoff.jsonl").read_text(encoding="utf-8").splitlines())==3
 
 def test_corrupt_artifact_detected(history_artifacts):
     source,catalog,output=history_artifacts
     bundle,_=build_history(source,catalog,output,ROOT)
-    (bundle/"observations.jsonl").write_text("corrupt")
+    (bundle/"observations.jsonl").write_text("corrupt",encoding="utf-8")
     with pytest.raises(ValueError,match="Checksum"): verify_history(output,source,catalog)
 
 def test_incompatible_catalog_and_failed_build_preserve_current(history_artifacts):
     source,catalog,output=history_artifacts
     bundle,_=build_history(source,catalog,output,ROOT)
-    current=(output/"CURRENT").read_text()
+    current=(output/"CURRENT").read_text(encoding="utf-8")
     manifest_path=catalog/("a"*64)/"manifest.json"
-    manifest=json.loads(manifest_path.read_text()); manifest["config"]["catalog_version"]="wrong"
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8")); manifest["config"]["catalog_version"]="wrong"
     write_json(manifest_path,manifest)
     with pytest.raises(ValueError,match="Incompatible catalog"): build_history(source,catalog,output,ROOT)
-    assert (output/"CURRENT").read_text()==current
+    assert (output/"CURRENT").read_text(encoding="utf-8")==current
 
 def test_catalog_link_mismatch_rejected(history_case):
     history_case[4][0].lesson_id="different"

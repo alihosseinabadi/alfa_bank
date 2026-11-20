@@ -28,7 +28,7 @@ def read_jsonl(path: Path, model=None):
 def resolve_bundle(path: Path) -> Path:
     if (path/"manifest.json").is_file():
         return path
-    identity=(path/"CURRENT").read_text().strip()
+    identity=(path/"CURRENT").read_text(encoding="utf-8").strip()
     if not re.fullmatch("[a-f0-9]{64}",identity):
         raise ValueError("Invalid CURRENT pointer")
     return path/identity
@@ -44,7 +44,7 @@ def verify_files(directory: Path, manifest: dict) -> None:
 
 def load_source(path: Path):
     path=resolve_bundle(path)
-    manifest=json.loads((path/"manifest.json").read_text())
+    manifest=json.loads((path/"manifest.json").read_text(encoding="utf-8"))
     verify_files(path,manifest)
     if digest(manifest["files"])!=manifest["snapshot_id"]:
         raise ValueError("History snapshot identity mismatch")
@@ -58,7 +58,7 @@ def load_source(path: Path):
 
 def load_catalog(path: Path):
     path=resolve_bundle(path)
-    manifest=json.loads((path/"manifest.json").read_text())
+    manifest=json.loads((path/"manifest.json").read_text(encoding="utf-8"))
     if manifest["config"]["catalog_version"]!="catalog-v2":
         raise ValueError("Incompatible catalog version")
     verify_files(path,manifest)
@@ -81,7 +81,7 @@ def publish_bundle(output: Path, bundle_id: str, outputs: dict, metadata: dict) 
         write_json(stage/"manifest.json",manifest)
         final=output/bundle_id
         if final.exists():
-            existing=json.loads((final/"manifest.json").read_text())
+            existing=json.loads((final/"manifest.json").read_text(encoding="utf-8"))
             verify_files(final,existing)
             if existing["files"]!=hashes:
                 raise ValueError("Immutable history bundle collision")

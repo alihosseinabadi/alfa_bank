@@ -50,17 +50,17 @@ def save_index(index,output_dir,metadata):
         write_json(stage/"manifest.json",dict(payload,bundle_id=identity))
         final=output/identity
         if final.exists():
-            existing=json.loads((final/"manifest.json").read_text())
+            existing=json.loads((final/"manifest.json").read_text(encoding="utf-8"))
             verify_files(final,existing)
             if existing!=dict(payload,bundle_id=identity):raise ValueError("Immutable retrieval snapshot collision")
         else:os.replace(stage,final)
-        (output/"CURRENT.tmp").write_text(identity+"\n")
+        (output/"CURRENT.tmp").write_text(identity+"\n",encoding="utf-8")
         os.replace(output/"CURRENT.tmp",output/"CURRENT")
     return final
 
 def load_index(index_dir,*,catalog_bundle_id=None,profiles_catalog_bundle_id=None):
     path=resolve_bundle(Path(index_dir))
-    manifest=json.loads((path/"manifest.json").read_text())
+    manifest=json.loads((path/"manifest.json").read_text(encoding="utf-8"))
     payload={key:value for key,value in manifest.items() if key!="bundle_id"}
     if fingerprint(payload)!=manifest["bundle_id"]:raise ValueError("Retrieval manifest identity mismatch")
     expected={"retrieval_version":RETRIEVAL_VERSION,"tokenizer_version":TOKENIZER_VERSION,
@@ -76,7 +76,7 @@ def load_index(index_dir,*,catalog_bundle_id=None,profiles_catalog_bundle_id=Non
     index.materials={m.material_key:m for m in materials}
     if len(index.materials)!=len(materials):raise ValueError("Duplicate saved material")
     index.rows=read_jsonl(path/"rows.jsonl",PublicSearchChunk)
-    vocabulary=json.loads((path/"vocabulary.json").read_text())
+    vocabulary=json.loads((path/"vocabulary.json").read_text(encoding="utf-8"))
     idf=np.load(path/"idf.npy",allow_pickle=False)
     index.matrix=load_npz(path/"matrix.npz").tocsr()
     if index.matrix.shape!=(len(index.rows),len(vocabulary)) or len(idf)!=len(vocabulary):

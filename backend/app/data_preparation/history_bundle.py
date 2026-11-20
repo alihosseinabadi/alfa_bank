@@ -41,7 +41,7 @@ def build_history(source_dir:Path,catalog_dir:Path,output_dir:Path,root:Path,cut
 
 def verify_history(history_dir:Path,source_dir:Path,catalog_dir:Path):
     bundle=resolve_bundle(history_dir)
-    manifest=json.loads((bundle/"manifest.json").read_text())
+    manifest=json.loads((bundle/"manifest.json").read_text(encoding="utf-8"))
     if manifest["config"]["history_version"]!=HISTORY_VERSION:
         raise ValueError("Incompatible history version")
     verify_files(bundle,manifest)
@@ -51,7 +51,7 @@ def verify_history(history_dir:Path,source_dir:Path,catalog_dir:Path):
         raise ValueError("Incompatible pinned source/catalog bundle")
     validate_tables(tables); validate_catalog_support(tables,materials,aliases,links)
     data={name:read_jsonl(bundle/(name+".jsonl"),model) for name,model in OUTPUT_MODELS.items()}
-    stored_audit=json.loads((bundle/"audit.json").read_text())
+    stored_audit=json.loads((bundle/"audit.json").read_text(encoding="utf-8"))
     data["supporting_audit"]=stored_audit["supporting"]
     audit=audit_history(data,tables,source,catalog,materials,aliases,links)
     if audit!=stored_audit:

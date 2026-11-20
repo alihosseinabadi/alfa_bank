@@ -47,7 +47,7 @@ def load_ranking_context(materials, index_manifest, task, constraints, *, user_k
         if explicit_preferences is not None:
             raise ValueError("Persist onboarding through the profile pipeline before loading a saved user")
         path = resolve_bundle(Path(profiles_dir))
-        manifest = json.loads((path / "manifest.json").read_text())
+        manifest = json.loads((path / "manifest.json").read_text(encoding="utf-8"))
         verify_files(path, manifest)
         if (manifest["config"]["schema_version"] != PROFILE_SCHEMA_VERSION
                 or manifest["catalog_bundle_id"] != index_manifest["catalog_bundle_id"]):
@@ -59,7 +59,7 @@ def load_ranking_context(materials, index_manifest, task, constraints, *, user_k
                 or profile.history_bundle_id != manifest["history_bundle_id"]):
             raise ValueError("Profile/manifest mismatch")
         history_path = resolve_bundle(Path(history_dir))
-        history = json.loads((history_path / "manifest.json").read_text())
+        history = json.loads((history_path / "manifest.json").read_text(encoding="utf-8"))
         verify_files(history_path, history)
         if history["bundle_id"] != profile.history_bundle_id:
             raise ValueError("Profile/history mismatch")

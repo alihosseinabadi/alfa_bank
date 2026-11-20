@@ -60,3 +60,75 @@ def test_stem_bm25_rejects_unknown_and_preserves_numeric_tokens():
     model=RussianStemBM25Retriever().fit([material()],[chunk(text='НДС и 1С для магазина')])
     assert '1с' in stem_tokens('1C')
     assert not model.query(context('выращивание марсианских пальм'))
+
+
+# --- Natural customer wording -------------------------------------------------
+# These are the phrasings the demo receives from people who have never seen the
+# catalogue.  They must resolve through morphology, synonyms and the business
+# thesaurus instead of exact keyword overlap.
+
+CATALOGUE = {
+    "clients": "Первые клиенты: как найти покупателей, каналы привлечения и стабильный поток заявок.",
+    "hiring": "Наём первых сотрудников: как нанять, адаптировать и распределить роли в команде.",
+    "unit": "Юнит-экономика: CAC, LTV, маржа и окупаемость привлечения клиента.",
+    "cash": "Управление денежным потоком: кассовый разрыв, ликвидность и платёжный календарь.",
+    "tax": "Налоги бизнеса: НДС, НДФЛ и налоговые режимы для ИП и ООО.",
+    "sales": "Личные продажи в розничном магазине: воронка, работа с возражениями и закрытие сделки.",
+    "retail": "Продажи в магазине одежды: трафик, конверсия и поток покупателей.",
+    "product": "Запуск продукта: гипотезы, MVP, проверка спроса и первые продажи.",
+}
+
+
+def catalogue_index():
+    materials = [material(key) for key in CATALOGUE]
+    rows = [chunk(key, key, text) for key, text in CATALOGUE.items()]
+    return BM25Retriever(min_query_coverage=0.3).fit(materials, rows)
+
+
+@pytest.mark.parametrize("question,expected", [
+    ("Хочу стабильный поток клиентов", "clients"),
+    ("Как нанять первого сотрудника?", "hiring"),
+    ("Нужен сотрудник, не понимаю, с чего начать", "hiring"),
+    ("Как посчитать юнит-экономику?", "unit"),
+    ("Хочу посчитать CAC и LTV", "unit"),
+    ("У меня магазин одежды, падают продажи", "retail"),
+    ("Нужны деньги на развитие", "cash"),
+    ("Помогите с налогами и НДС", "tax"),
+    ("С чего начать запуск продукта?", "product"),
+])
+def test_bm25_understands_natural_business_questions(question, expected):
+    found = catalogue_index().query(context(question))
+    assert found, question
+    assert found[0][0] == expected, (question, [item[0] for item in found])
+
+
+def test_bm25_uses_synonyms_when_wording_differs():
+    index = catalogue_index()
+    # "нанять" is a synonym of the catalogue's "наём"; no exact token overlap.
+    found = index.query(context("хочу кого-то нанять"))
+    assert found and found[0][0] == "hiring"
+    # "заявки" maps to the client concept even though the document says "клиенты".
+    found = index.query(context("получать больше заявок"))
+    assert found and found[0][0] == "clients"
+
+
+def test_bm25_still_rejects_a_question_without_business_terms():
+    assert catalogue_index().query(context("абракадабра про марсианские корабли")) == []
+
+
+def test_analyzer_expands_inflections_and_synonyms():
+    from app.ml.ru_text import analyze_text
+    assert "найм" in analyze_text("наём")
+    assert "клиент" in analyze_text("заявки")
+    assert "финанс" in analyze_text("деньги")
+
+
+def test_bm25_reads_client_flow_as_a_phrase_not_cash_flow():
+    clients, cash = material("clients"), material("cash")
+    rows = [
+        chunk("clients", "c1", "Первые клиенты и стабильный поток заявок: каналы привлечения."),
+        chunk("cash", "c2", "Управление денежным потоком: кассовый разрыв и ликвидность."),
+    ]
+    index = BM25Retriever().fit([clients, cash], rows)
+    found = index.query(context("Хочу стабильный поток клиентов"))
+    assert found and found[0][0] == "clients", [item[0] for item in found]

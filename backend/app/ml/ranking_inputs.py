@@ -39,7 +39,7 @@ def from_hybrid(rows, context, **provenance):
     for rank, (key, score, channels) in enumerate(rows, 1):
         evidence = []
         for name in sorted(channels):
-            canonical = {"semantic": "e5", "lexical": "bm25"}.get(name)
+            canonical = {"semantic": "e5", "lexical": "bm25", "bm25": "bm25", "dense": "dense"}.get(name)
             if canonical is None:
                 raise ValueError("Unknown hybrid channel")
             item = channels[name]

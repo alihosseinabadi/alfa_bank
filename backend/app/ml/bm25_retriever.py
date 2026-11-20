@@ -3,10 +3,13 @@ import math
 from collections import Counter, defaultdict
 
 from .profile_contracts import CONTEXT_VERSION
-from .tfidf_retriever import prepare_corpus, tokenize_text, eligible_for_context
+from .ru_text import ANALYZER_VERSION, analyze_text
+from .tfidf_retriever import prepare_corpus, eligible_for_context
 
 
 class BM25Retriever:
+    analyzer_version = ANALYZER_VERSION
+
     def __init__(self, k1=1.2, b=0.75, min_query_coverage=0.3):
         if not math.isfinite(k1) or not math.isfinite(b) or k1 <= 0 or not 0 <= b <= 1:
             raise ValueError("Invalid BM25 parameters")
@@ -23,7 +26,7 @@ class BM25Retriever:
         self.lengths = []
         postings = defaultdict(list)
         for i, row in enumerate(self.rows):
-            words = tokenize_text(row.text)
+            words = analyze_text(row.text)
             self.lengths.append(len(words))
             for word, count in Counter(words).items():
                 postings[word].append((i, count))
@@ -39,13 +42,27 @@ class BM25Retriever:
             raise ValueError("k must be a positive integer")
         if not self.rows or not context.query_text.strip():
             return []
-        terms = set(tokenize_text(context.query_text))
-        if not terms or sum(term in self.postings for term in terms) / len(terms) < self.min_query_coverage:
+        content_terms = set(analyze_text(context.query_text, with_concepts=False))
+        concepts = set(analyze_text(context.query_text)) - content_terms
+        if not content_terms and not concepts:
             return []
+        known_content = [term for term in content_terms if term in self.postings]
+        known_concepts = [term for term in concepts if term in self.postings]
+        if not known_content and not known_concepts:
+            return []
+        # A question made only of unknown words still gets a clarification.
+        if not known_content and len(known_concepts) / max(1, len(concepts)) < self.min_query_coverage:
+            return []
+        # Up to four query content terms define the per-document requirement, so
+        # long conversational queries are not punished for their tail.  A
+        # concept-only match is allowed when the user's wording and the catalogue
+        # use different synonyms (e.g. "сотрудник" vs "нанять").
+        denominator = min(len(content_terms) or 1, 4)
         scores = defaultdict(float)
-        matched_terms = Counter()
+        raw_matches = Counter()
+        concept_matches = Counter()
         count = len(self.rows)
-        for term in sorted(terms):
+        for term in sorted(content_terms | concepts):
             posting = self.postings.get(term, ())
             if not posting:
                 continue
@@ -53,11 +70,15 @@ class BM25Retriever:
             for i, frequency in posting:
                 norm = self.k1 * (1 - self.b + self.b * self.lengths[i] / self.avg_length)
                 scores[i] += idf * frequency * (self.k1 + 1) / (frequency + norm)
-                matched_terms[i] += 1
+                if term in content_terms:
+                    raw_matches[i] += 1
+                else:
+                    concept_matches[i] += 1
         best = {}
         for i, score in scores.items():
             row = self.rows[i]
-            if matched_terms[i] / len(terms) < self.min_query_coverage:
+            raw_coverage = raw_matches[i] / denominator
+            if raw_coverage < self.min_query_coverage and not (raw_matches[i] == 0 and concept_matches[i] > 0):
                 continue
             if not eligible_for_context(self.materials[row.material_key], context):
                 continue

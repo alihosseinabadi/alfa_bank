@@ -11,7 +11,7 @@ def digest(value) -> str:
 class E5Tokenizer:
     def __init__(self, directory: Path):
         from tokenizers import Tokenizer
-        manifest = json.loads((directory / "catalog_tokenizer.json").read_text())
+        manifest = json.loads((directory / "catalog_tokenizer.json").read_text(encoding="utf-8"))
         if manifest["revision"] != ENCODER_REVISION:
             raise ValueError("Tokenizer revision mismatch")
         expected = manifest["files"]["tokenizer.json"]

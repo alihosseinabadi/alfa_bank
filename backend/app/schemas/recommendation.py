@@ -86,5 +86,38 @@ class RecommendationResponse(PublicModel):
         return self
 
 
+class CatalogueRankRequest(PublicModel):
+    task: str = Field(min_length=1, max_length=300)
+    profile: RecommendationProfile = Field(default_factory=RecommendationProfile)
+    constraints: RecommendationConstraints = Field(default_factory=RecommendationConstraints)
+    limit: int = Field(default=50, ge=1, le=50, strict=True)
+
+
+class CatalogueRankItem(PublicModel):
+    material_key: str = Field(min_length=1, max_length=160)
+    title: str = Field(min_length=1, max_length=500)
+    format: MaterialFormat
+    duration_minutes: float | None = Field(default=None, gt=0)
+    listed_price: Decimal | None = Field(default=None, ge=0, max_digits=12, decimal_places=2)
+    fit_score: int = Field(ge=0, le=100, strict=True)
+    ml_rank: int | None = Field(default=None, ge=1, le=50, strict=True)
+    retrieved: bool
+    reason: str = Field(min_length=1, max_length=1000)
+    dense_score: float | None = Field(default=None, ge=-1.0, le=1.0)
+    bandit_score: float | None = None
+
+
+class CatalogueRankResponse(PublicModel):
+    algorithm: Literal['hybrid-bm25-dense-prior-linucb-v1'] = 'hybrid-bm25-dense-prior-linucb-v1'
+    status: Literal['matched', 'starter', 'needs_clarification', 'no_eligible']
+    items: list[CatalogueRankItem] = Field(max_length=50)
+    message: str | None = Field(default=None, min_length=1, max_length=1000)
+    retrieval_method: Literal['hybrid-bm25-dense'] = 'hybrid-bm25-dense'
+    dense_model: str = 'lsa-tfidf-svd-v2'
+    dense_dimensions: int | None = Field(default=None, ge=1)
+    bandit_state: Literal['cold', 'warm', 'unavailable'] = 'cold'
+    bandit_observations: int = Field(default=0, ge=0)
+
+
 class SessionResponse(PublicModel):
     csrf_token: str
