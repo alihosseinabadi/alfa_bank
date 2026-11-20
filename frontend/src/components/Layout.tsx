@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import alfaSign from '../assets/alfa-sign-red.svg'
-import { initials, loadAccount, loadAnswers, saveAccount, saveAnswers } from '../services/account'
+import { initials, loadAccount, loadAnswers, saveAccount, saveAnswers, resetLocalProfile } from '../services/account'
 import type { Account, Answers } from '../services/account'
 
 export type Profile = {
@@ -11,6 +11,10 @@ export type Profile = {
   experience: string
   difficulty?: string
   note?: string
+  position?: string
+  interests?: string[]
+  hoursPerWeek?: number
+  format?: string
 }
 
 export type PageContext = {
@@ -18,15 +22,7 @@ export type PageContext = {
   setAccount: (account: Account | null) => void
   profile: Profile | null
   setProfile: (profile: Profile | null) => void
-  user: RegisteredUser | null
-  setUser: (user: RegisteredUser | null) => void
-  registrationEmail: string
-  setRegistrationEmail: (email: string) => void
-}
-
-export type RegisteredUser = {
-  id: number
-  email: string
+  resetProfile: () => void
 }
 
 function profileFromAnswers(answers: Answers): Profile | null {
@@ -37,6 +33,10 @@ function profileFromAnswers(answers: Answers): Profile | null {
     experience: answers.experience,
     difficulty: answers.difficulty,
     note: answers.note,
+    position: answers.position,
+    interests: answers.interests,
+    hoursPerWeek: answers.hoursPerWeek,
+    format: answers.format,
   } : null
 }
 
@@ -45,8 +45,6 @@ export default function Layout() {
   const navigate = useNavigate()
   const [account, setAccountState] = useState<Account | null>(loadAccount)
   const [profile, setProfileState] = useState<Profile | null>(() => profileFromAnswers(loadAnswers()))
-  const [user, setUser] = useState<RegisteredUser | null>(null)
-  const [registrationEmail, setRegistrationEmail] = useState('')
 
   const setAccount = (value: Account | null) => { saveAccount(value); setAccountState(value) }
 
@@ -60,15 +58,23 @@ export default function Layout() {
       experience: value.experience,
       difficulty: value.difficulty ?? current.difficulty,
       note: value.note ?? current.note,
+      position: value.position ?? current.position,
+      interests: value.interests ?? current.interests,
+      hoursPerWeek: value.hoursPerWeek ?? current.hoursPerWeek,
+      format: value.format ?? current.format,
     })
     setProfileState(value)
+  }
+
+  function resetProfile() {
+    resetLocalProfile()
+    setProfileState(null)
   }
 
   function signOut() {
     setAccount(null)
     saveAnswers(null)
     setProfileState(null)
-    setUser(null)
     navigate('/auth', { replace: true })
   }
 
@@ -84,12 +90,13 @@ export default function Layout() {
         {account ? (
           <nav className="navigation" aria-label="Главная навигация">
             <NavLink to="/dashboard">Главная</NavLink>
-            <NavLink to="/start">Анкета</NavLink>
-            <NavLink to="/feed">Рекомендации</NavLink>
+            <NavLink to="/feed">Подборка</NavLink>
+            <NavLink to="/coach">Наставник</NavLink>
             <NavLink to="/analytics">Аналитика</NavLink>
+            <NavLink to="/start">Анкета</NavLink>
           </nav>
         ) : (
-          <span className="topbar-mode">Демо для хакатона</span>
+          <span className="topbar-mode">Персональный учебный план</span>
         )}
 
         {account ? (
@@ -105,7 +112,7 @@ export default function Layout() {
       </header>
 
       <main key={pathname} id="main-content" className="main-content" tabIndex={-1}>
-        <Outlet context={{ account, setAccount, profile, setProfile, user, setUser, registrationEmail, setRegistrationEmail }} />
+        <Outlet context={{ account, setAccount, profile, setProfile, resetProfile }} />
       </main>
     </div>
   )

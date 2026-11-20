@@ -6,6 +6,7 @@ import './theme.css'
 import './brand.css'
 import './motion.css'
 import './flow.css'
+import './premium.css'
 
 const rootElement = document.getElementById('root')
 if (!rootElement){

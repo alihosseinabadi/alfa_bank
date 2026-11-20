@@ -17,12 +17,17 @@ export type Answers = {
   experience: string
   difficulty: string
   note: string
+  position?: string
+  interests?: string[]
+  hoursPerWeek?: number
+  format?: string
 }
 
 export type StoredProfile = Answers & { savedAt: string }
 
 const accountKey = 'alfa.account.v1'
 const answersKey = 'alfa.answers.v1'
+const learningKey = 'alfa.learning.v1'
 
 const emptyAnswers: Answers = {
   goal: '',
@@ -31,6 +36,10 @@ const emptyAnswers: Answers = {
   experience: '',
   difficulty: '',
   note: '',
+  position: '',
+  interests: [],
+  hoursPerWeek: 0,
+  format: '',
 }
 
 function readJson(key: string): unknown {
@@ -62,12 +71,18 @@ export function saveAccount(account: Account | null): void {
 
 export function loadAnswers(): Answers {
   const value = readJson(answersKey)
-  if (!value || typeof value !== 'object') return { ...emptyAnswers }
+  if (!value || typeof value !== 'object') return { ...emptyAnswers, interests: [] }
   const v = value as Record<string, unknown>
   const pick = (field: string) => (typeof v[field] === 'string' ? (v[field] as string) : '')
+  const interests = Array.isArray(v.interests)
+    ? v.interests.filter((item): item is string => typeof item === 'string' && !!item.trim()).slice(0, 12)
+    : []
+  const hours = typeof v.hoursPerWeek === 'number' && Number.isFinite(v.hoursPerWeek) && v.hoursPerWeek >= 0
+    ? v.hoursPerWeek : 0
   return {
     goal: pick('goal'), industry: pick('industry'), stage: pick('stage'),
     experience: pick('experience'), difficulty: pick('difficulty'), note: pick('note'),
+    position: pick('position'), interests, hoursPerWeek: hours, format: pick('format'),
   }
 }
 
@@ -75,11 +90,22 @@ export function saveAnswers(answers: Answers | null): void {
   writeJson(answersKey, answers ? { ...answers, savedAt: new Date().toISOString() } : null)
 }
 
-/** Share of the six answers that are filled in, 0–100. */
+/** Start a new profile: clears answers and the local learning state. */
+export function resetLocalProfile(): void {
+  writeJson(answersKey, null)
+  writeJson(learningKey, null)
+}
+
+/** Share of the profile fields that are filled in, 0–100. */
 export function profileReadiness(answers: Answers): number {
-  const fields = [answers.goal, answers.industry, answers.stage, answers.experience, answers.difficulty, answers.note]
-  const filled = fields.filter((value) => value.trim().length > 0).length
-  return Math.round((filled / fields.length) * 100)
+  const fields = [
+    answers.goal, answers.position, answers.industry, answers.stage,
+    answers.experience, answers.difficulty, answers.note, answers.format,
+  ]
+  const filled = fields.filter((value) => (value ?? '').trim().length > 0).length
+    + (answers.interests?.length ? 1 : 0)
+    + ((answers.hoursPerWeek ?? 0) > 0 ? 1 : 0)
+  return Math.round((filled / 10) * 100)
 }
 
 export function initials(name: string): string {

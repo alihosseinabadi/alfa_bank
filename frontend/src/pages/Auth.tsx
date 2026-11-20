@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
+import alfaSign from '../assets/alfa-sign-red.svg'
 import type { PageContext } from '../components/Layout'
-import { demoAccount, loadAccount, saveAccount } from '../services/account'
+import { demoAccount, loadAccount, loadAnswers, resetLocalProfile, saveAccount } from '../services/account'
 import type { Account } from '../services/account'
 import { recommendationMode } from '../services/recommendations'
 
@@ -20,10 +21,12 @@ export default function Auth() {
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
 
-  function enter(account: Account) {
+  function enter(account: Account, fresh: boolean) {
+    if (fresh) resetLocalProfile()
     saveAccount(account)
     setAccount(account)
-    navigate('/start', { replace: true })
+    const hasProfile = !fresh && !!loadAnswers().goal.trim()
+    navigate(hasProfile ? '/dashboard' : '/start', { replace: true })
   }
 
   async function persistToBackend(account: Account) {
@@ -62,78 +65,116 @@ export default function Auth() {
     }
     await persistToBackend(account)
     setPending(false)
-    enter(account)
+    enter(account, mode === 'signup')
   }
 
   return (
-    <div className="auth-shell">
-      <aside className="auth-hero">
-        <div className="auth-hero-top">
-          <span className="auth-mark" aria-hidden="true">А</span>
-          <span>Альфа-Курс</span>
+    <div className="pr-auth">
+      <aside className="pr-auth-art">
+        <div>
+          <div className="pr-auth-brand">
+            <img src={alfaSign} alt="" aria-hidden="true" />
+            <span>
+              Альфа-Курс
+              <small>персональный учебный план</small>
+            </span>
+          </div>
+
+          <h1 className="pr-auth-title">
+            Меньше догадок.<br />
+            <em>Больше роста.</em>
+          </h1>
+          <p className="pr-auth-lede">
+            Ответьте на восемь коротких вопросов — и ML-подборка соберёт личный план:
+            что изучать сегодня, какой курс даст быстрый результат и чего не хватает
+            вашему профилю.
+          </p>
+
+          <ul className="pr-auth-points">
+            <li>
+              <span aria-hidden="true">1</span>
+              <div><strong>Анализ профиля, а не тест</strong><small>Роль, стадия, интересы и свободное время формируют стартовый профиль</small></div>
+            </li>
+            <li>
+              <span aria-hidden="true">2</span>
+              <div><strong>Настоящее ML-ранжирование</strong><small>Гибрид BM25 + dense-векторы и prior-модель ранжируют весь каталог под вашу задачу</small></div>
+            </li>
+            <li>
+              <span aria-hidden="true">3</span>
+              <div><strong>Ежедневный цикл обучения</strong><small>Один вопрос в день уточняет профиль и меняет следующие рекомендации</small></div>
+            </li>
+          </ul>
         </div>
-        <h1>Меньше догадок.<br />Больше роста.</h1>
-        <p className="auth-lede">
-          Шесть коротких вопросов о вашем бизнесе — и «Альфа-Курс» собирает
-          персональный план: что делать сейчас, какие материалы открыть и где
-          вы отстаёте.
-        </p>
-        <ul className="auth-points">
-          <li><span aria-hidden="true">✓</span><div><strong>Профиль за 2 минуты</strong><small>Выбор вариантов или свой ответ — как удобнее</small></div></li>
-          <li><span aria-hidden="true">✓</span><div><strong>Подборка под задачу</strong><small>Карточки с причиной, почему они здесь</small></div></li>
-          <li><span aria-hidden="true">✓</span><div><strong>Понятный следующий шаг</strong><small>Статус профиля и короткий чек-лист</small></div></li>
-        </ul>
-        <div className="auth-stats" aria-hidden="true">
-          <div><strong>6</strong><small>вопросов</small></div>
-          <div><strong>~2</strong><small>минуты</small></div>
-          <div><strong>0</strong><small>документов</small></div>
+
+        <div>
+          <div className="pr-auth-foot">
+            <div className="pr-auth-metrics">
+              <div><strong>12</strong><small>курсов в каталоге</small></div>
+              <div><strong>8</strong><small>вопросов профиля</small></div>
+              <div><strong>1</strong><small>шаг в день</small></div>
+            </div>
+          </div>
+          <p className="pr-auth-note" style={{ textAlign: 'left', color: '#8f8b92', marginTop: 16 }}>
+            Демонстрационный продукт. Каталог синтетический, пароль не отправляется
+            и не проверяется, данные профиля остаются в этом браузере.
+          </p>
         </div>
-        <p className="auth-demo-note">
-          Демонстрация для хакатона: рекомендации вымышлены и подписаны как демо.
-          Пароль никуда не отправляется и не проверяется.
-        </p>
       </aside>
 
-      <section className="auth-card" aria-labelledby="auth-title">
-        <div className="auth-tabs" role="tablist" aria-label="Вход или регистрация">
+      <section className="pr-auth-panel" aria-labelledby="auth-title">
+        <div className="pr-tabs" role="tablist" aria-label="Вход или регистрация">
           <button type="button" role="tab" aria-selected={mode === 'signup'} className={mode === 'signup' ? 'is-active' : ''} onClick={() => { setMode('signup'); setError('') }}>Регистрация</button>
           <button type="button" role="tab" aria-selected={mode === 'signin'} className={mode === 'signin' ? 'is-active' : ''} onClick={() => { setMode('signin'); setError('') }}>Вход</button>
         </div>
 
-        <h2 id="auth-title">{mode === 'signup' ? 'Создайте профиль' : 'С возвращением'}</h2>
-        <p className="auth-subtitle">
-          {mode === 'signup' ? 'Это локальная демо-учётная запись — без подтверждений и SMS.' : 'Введите e-mail, который указали при регистрации в этом браузере.'}
+        <h2 id="auth-title" style={{ margin: '24px 0 0', fontSize: 26, fontWeight: 800, letterSpacing: '-.04em' }}>
+          {mode === 'signup' ? 'Создайте профиль' : 'С возвращением'}
+        </h2>
+        <p style={{ margin: '8px 0 0', color: 'var(--pr-muted)', fontSize: 12.5, lineHeight: 1.55 }}>
+          {mode === 'signup'
+            ? 'Новый профиль начинается с чистого листа: сразу после входа — короткая анкета.'
+            : 'Введите e-mail, который указали при регистрации в этом браузере.'}
         </p>
 
-        <form className="auth-form" onSubmit={handleSubmit} noValidate>
+        <form className="pr-form" onSubmit={handleSubmit} noValidate>
           {mode === 'signup' && (
-            <label className="auth-field">
+            <label className="pr-field">
               <span>Как вас зовут</span>
               <input value={name} onChange={(event) => { setName(event.target.value); setError('') }} autoComplete="name" placeholder="Анна Петрова" maxLength={60} />
             </label>
           )}
-          <label className="auth-field">
+          <label className="pr-field">
             <span>E-mail</span>
             <input type="email" value={email} onChange={(event) => { setEmail(event.target.value); setError('') }} autoComplete="email" placeholder="name@example.com" maxLength={120} />
           </label>
-          <label className="auth-field">
+          <label className="pr-field">
             <span>Пароль</span>
             <input type="password" value={password} onChange={(event) => { setPassword(event.target.value); setError('') }} autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} placeholder="Не короче 6 символов" maxLength={64} />
+            <small>Демо: пароль не сохраняется и не проверяется.</small>
           </label>
 
-          {error && <p className="auth-error" role="alert">{error}</p>}
+          {error && <p className="pr-error" role="alert">{error}</p>}
 
-          <button className="auth-submit" type="submit" disabled={pending}>
+          <button className="pr-btn is-red is-wide" type="submit" disabled={pending} style={{ minHeight: 50 }}>
             {pending ? 'Сохраняем…' : mode === 'signup' ? 'Создать профиль →' : 'Войти →'}
           </button>
         </form>
 
-        <div className="auth-divider"><span>или</span></div>
+        <div className="pr-divider"><span>или</span></div>
 
-        <button className="auth-demo" type="button" onClick={() => enter(demoAccount)}>
+        <button className="pr-demo" type="button" onClick={() => enter(demoAccount, false)}>
           Войти в демо без регистрации
         </button>
-        <p className="auth-footnote">Данные хранятся только в этом браузере и очищаются кнопкой «Выйти».</p>
+
+        <div className="pr-auth-trust">
+          <span>◆ Локальный профиль</span>
+          <span>◆ Без SMS</span>
+          <span>◆ Синтетические данные</span>
+        </div>
+        <p className="pr-auth-note">
+          Данные хранятся только в этом браузере и очищаются кнопкой «Выйти».
+          Подборка — демонстрация рекомендательной системы, не консультация.
+        </p>
       </section>
     </div>
   )

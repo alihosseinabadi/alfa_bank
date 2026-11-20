@@ -32,7 +32,8 @@ Application source. Small, typed, and organized by responsibility.
 ## Data flow
 
 ```
-page -> hook -> services/api.ts -> backend
+page -> services/rankingApi.ts -> /api/v1/catalogue/rank
+page -> services/learning.ts + account.ts -> localStorage
 ```
 
 No component fetches directly, so the base URL and error handling live in one place.

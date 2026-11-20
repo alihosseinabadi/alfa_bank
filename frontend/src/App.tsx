@@ -5,8 +5,8 @@ import Auth from './pages/Auth'
 import Start from './pages/Start'
 import Dashboard from './pages/Dashboard'
 import Feed from './pages/Feed'
+import Coach from './pages/Coach'
 import Analytics from './pages/Analytics'
-import Registration from './pages/Registration'
 import ProfilePage from './pages/Profile'
 import { loadAccount } from './services/account'
 
@@ -23,8 +23,8 @@ export default function App(){
                 <Route path="start" element={<RequireAccount><Start /></RequireAccount>} />
                 <Route path="dashboard" element={<RequireAccount><Dashboard /></RequireAccount>} />
                 <Route path="feed" element={<RequireAccount><Feed /></RequireAccount>} />
+                <Route path="coach" element={<RequireAccount><Coach /></RequireAccount>} />
                 <Route path="analytics" element={<RequireAccount><Analytics /></RequireAccount>} />
-                <Route path="register" element={<RequireAccount><Registration /></RequireAccount>} />
                 <Route path="profile" element={<RequireAccount><ProfilePage /></RequireAccount>} />
                 <Route path="onboarding" element={<Navigate to="/start" replace />} />
                 <Route path="*" element={<Navigate to={loadAccount() ? '/dashboard' : '/auth'} replace />} />

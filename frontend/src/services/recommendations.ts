@@ -20,6 +20,11 @@ const formats: Record<string, string> = {
   podcast: 'Подкаст', glossary: 'Глоссарий', calculator: 'Калькулятор',
 }
 
+const profileText = (value?: string | null) => {
+  const text = value?.trim()
+  return text ? text : null
+}
+
 export async function getRecommendations(
   { goal, requestKey, profile }: RecommendationRequest,
   mode: RecommendationMode = recommendationMode,
@@ -30,10 +35,11 @@ export async function getRecommendations(
       request_key: requestKey ?? crypto.randomUUID(),
       task: goal,
       // The API forbids unknown profile fields; forward only the three it accepts.
+      // Empty onboarding answers must become null, not "" (min_length=1 -> 422).
       profile: {
-        business_stage: profile?.business_stage ?? profile?.stage ?? null,
-        industry: profile?.industry ?? null,
-        experience: profile?.experience ?? null,
+        business_stage: profileText(profile?.business_stage ?? profile?.stage),
+        industry: profileText(profile?.industry),
+        experience: profileText(profile?.experience),
       },
     })
     return {

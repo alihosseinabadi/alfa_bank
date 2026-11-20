@@ -365,3 +365,77 @@
 .personal-best { border-left: 3px solid #ef3124; }
 .personal-best .course-card { margin: 14px 0 10px; background: #fbf6f3; }
 .personal-best .personal-card-heading h2 { margin-bottom: 2px; }
+
+/* --- catalogue: every seeded course ---------------------------------------- */
+.catalogue-panel { margin-top: 18px; }
+.catalogue-panel .panel-heading { align-items: flex-start; }
+.catalogue-panel h2 { margin: 2px 0 0; }
+.catalogue-panel .muted-note { max-width: 760px; }
+.catalogue-panel code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px; background: #f5efec; border-radius: 5px; padding: 1px 5px;
+}
+
+.catalogue-bars {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 26px; margin: 22px 0 4px; width: 100%;
+}
+.catalogue-bar {
+  display: grid; grid-template-columns: 152px minmax(0, 1fr) 20px;
+  align-items: center; gap: 10px; min-width: 0;
+}
+.catalogue-bar-label {
+  font-size: 11.5px; color: #4a4442; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.catalogue-bar-track { height: 10px; border-radius: 999px; background: #f2edea; overflow: hidden; }
+.catalogue-bar-track > span {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #ff938a, #ef3124);
+  animation: ana-grow .8s cubic-bezier(.2, .7, .2, 1) both;
+}
+.catalogue-bar-value { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+
+.catalogue-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px; margin-top: 20px;
+}
+.catalogue-card {
+  display: flex; flex-direction: column; gap: 7px;
+  border: 1px solid #ece5e1; border-radius: 16px; padding: 15px 16px 13px;
+  background: linear-gradient(160deg, #fff 0%, #fdfaf8 100%);
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.catalogue-card:hover {
+  border-color: #f0c9c3; transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(23, 23, 23, .07);
+}
+.catalogue-cat {
+  align-self: flex-start; font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: #b32219; background: #ffe9e6;
+  border-radius: 999px; padding: 3px 9px;
+}
+.catalogue-card h3 { margin: 0; font-size: 15px; line-height: 1.3; letter-spacing: -.01em; }
+.catalogue-card p { margin: 0; font-size: 12.5px; line-height: 1.5; color: #6b6462; }
+.catalogue-meta {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 8px;
+  font-size: 11.5px; color: #8d8683; font-variant-numeric: tabular-nums;
+}
+.catalogue-meta span {
+  border: 1px solid #eee7e3; border-radius: 999px; padding: 2px 8px; background: #fff;
+}
+.catalogue-grid.is-compact .catalogue-card { padding: 12px 13px; }
+.catalogue-grid.is-compact .catalogue-card h3 { font-size: 14px; }
+
+@media (max-width: 860px) {
+  .catalogue-bars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .catalogue-bar { grid-template-columns: 108px minmax(0, 1fr) 18px; }
+  .catalogue-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+@media (max-width: 620px) {
+  .catalogue-bars { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalogue-bar-track > span { animation: none; }
+  .catalogue-card:hover { transform: none; }
+}
